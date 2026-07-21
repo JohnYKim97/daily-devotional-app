@@ -1,0 +1,2 @@
+# daily-devotional-app
+Daily Devotionals following the WestSide Presbyterian Church (LightHouse) schedule.
