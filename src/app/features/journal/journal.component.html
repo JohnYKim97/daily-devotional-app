@@ -1,0 +1,51 @@
+<div class="journal-container">
+  <div class="journal-header">
+    <h2>Today's Devotional</h2>
+    <p>{{ journal().date }}</p>
+  </div>
+
+  <section class="passage-reference">
+    <span class="label">Reading</span>
+
+    <strong>{{ journal().passageReference }}</strong>
+  </section>
+
+  <section class="favorite-verse">
+    <label for="favoriteVerse"> Favorite Verse </label>
+    <select id="favoriteVerse" [(ngModel)]="selectedVerseNumber">
+      <option [ngValue]="undefined">Select a verse</option>
+      @for (verse of passage().verses; track verse.number) {
+        <option [ngValue]="verse.number">Verse {{ verse.number }}</option>
+      }
+    </select>
+    @if (selectedVerse) {
+      <div class="selected-verse">
+        <strong>
+          {{ passage().book }}
+          {{ passage().chapter }}:{{ selectedVerse.number }}
+        </strong>
+
+        <p>
+          {{ selectedVerse.text }}
+        </p>
+      </div>
+    }
+  </section>
+
+  <section class="notes-section">
+    <label for="notes">My Notes</label>
+    <textarea
+      id="notes"
+      [(ngModel)]="notes"
+      maxlength="2000"
+      placeholder="Write your thoughts about today's reading..."
+    ></textarea>
+  </section>
+
+  <div class="character-count">{{ notes.length }} / 2000</div>
+
+  <button type="button" (click)="saveJournal()">Save Journal</button>
+  @if (saved) {
+    <p class="save-message">Journal saved!</p>
+  }
+</div>

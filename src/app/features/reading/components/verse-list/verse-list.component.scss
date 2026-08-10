@@ -1,0 +1,18 @@
+.verse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.verse {
+  line-height: 1.2;
+}
+
+.verse-number {
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.verse-text {
+  display: inline;
+}

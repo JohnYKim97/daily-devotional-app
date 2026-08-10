@@ -1,0 +1,85 @@
+.journal-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 24px;
+}
+
+.journal-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 16px;
+}
+
+.journal-header h2 {
+  margin: 0 0 6px;
+}
+
+.journal-header p {
+  margin: 0;
+  color: #667;
+}
+
+.passage-reference {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: #777;
+  text-transform: uppercase;
+}
+
+.favorite-verse {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.favorite-verse select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.notes-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.notes-section textarea {
+  flex: 1;
+  resize: none;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.character-count {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+button {
+  align-self: flex-end;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-message {
+  text-align: right;
+  margin-top: 12px;
+  font-size: 14px;
+}

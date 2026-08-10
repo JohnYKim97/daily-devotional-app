@@ -1,0 +1,20 @@
+nav {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding: 1rem 2rem;
+
+    background: #2c3e50;
+    color:white;
+}
+
+nav div {
+    display:flex;
+    gap:20px;
+}
+
+a {
+    color:white;
+    text-decoration:none;
+}
