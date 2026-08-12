@@ -1,0 +1,9 @@
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.csproj.AssemblyReference.cache
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.AssemblyInfoInputs.cache
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.AssemblyInfo.cs
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.csproj.CoreCompileInputs.cache
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\johnk\Codes\daily-devotional-app\backend\obj\Debug\net8.0\backend.sourcelink.json

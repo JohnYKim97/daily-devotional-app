@@ -32,14 +32,21 @@ export class JournalComponent {
   }
 
   saveJournal(): void {
-    this.journalService.saveJournal({
+    const journal: Journal = {
       ...this.journal(),
       favoriteVerse: this.selectedVerseNumber,
       notes: this.notes,
+    };
+
+    this.journalService.saveJournal(journal).subscribe({
+      next: (savedJournal) => {
+        this.journalService.setJournal(savedJournal);
+        this.saved = true;
+        console.log('Journal Saved:', savedJournal);
+      },
+      error: (error) => {
+        console.error('Error saving journal:', error);
+      },
     });
-
-    this.saved = true;
-
-    console.log('Saving journal: ', this.journal());
   }
 }

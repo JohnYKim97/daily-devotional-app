@@ -1,0 +1,54 @@
+[
+  {
+    "ContainingType": "DailyDevotional.Api.Controllers.JournalController",
+    "Method": "CreateJournal",
+    "RelativePath": "api/Journal",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DailyDevotional.Api.DTOs.CreateJournalRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DailyDevotional.Api.DTOs.JournalResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DailyDevotional.Api.Controllers.JournalController",
+    "Method": "GetJournal",
+    "RelativePath": "api/Journal/{date}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "date",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DailyDevotional.Api.DTOs.JournalResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
