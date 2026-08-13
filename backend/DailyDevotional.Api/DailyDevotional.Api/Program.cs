@@ -26,6 +26,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient<IBibleService, BibleService>(client =>
+{
+  client.BaseAddress = new Uri("https://dailybible.ca");
+});
 
 var app = builder.Build();
 

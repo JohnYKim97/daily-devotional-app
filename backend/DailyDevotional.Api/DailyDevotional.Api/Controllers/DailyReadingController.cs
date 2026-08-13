@@ -26,4 +26,17 @@ public class DailyReadingController : ControllerBase
 
     return Ok(reading);
   }
+
+  [HttpPost("{id}/import-verses")]
+  public async Task<IActionResult> ImportVerses(int id)
+  {
+    var success = await _readingService.ImportVersesAsync(id);
+
+    if (!success)
+    {
+      return NotFound();
+    }
+
+    return Ok();
+  }
 }

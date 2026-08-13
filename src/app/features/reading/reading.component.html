@@ -5,14 +5,13 @@
     <h2>No reading available</h2>
     <p>There is no devotional reading available for this date.</p>
   </div>
-
-} @else if (passage(); as currentPassage) {
+} @else if (reading(); as currentReading) {
   <div class="reading-container">
-    <app-passage-header [passage]="currentPassage"> </app-passage-header>
+    <app-passage-header [reading]="currentReading"> </app-passage-header>
 
-    <app-verse-list [verses]="currentPassage.verses"> </app-verse-list>
+    <app-verse-list [verses]="currentReading.verses"> </app-verse-list>
 
-    <app-commentary [commentary]="reading()?.commentary ?? ''"> </app-commentary>
+    <app-commentary [commentary]="currentReading.commentary"> </app-commentary>
   </div>
 } @else {
   <div class="reading-loading">Loading today's reading...</div>

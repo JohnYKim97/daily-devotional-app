@@ -1,5 +1,6 @@
-import { Component, Input, input } from '@angular/core';
-import { Passage } from '../../../../core/models/passage.model';
+import { Component, input } from '@angular/core';
+
+import { DailyReading } from '../../../../core/models/daily-reading.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -9,5 +10,5 @@ import { DatePipe } from '@angular/common';
   styleUrl: './passage-header.component.scss',
 })
 export class PassageHeaderComponent {
-  passage = input.required<Passage>();
+  reading = input.required<DailyReading>();
 }

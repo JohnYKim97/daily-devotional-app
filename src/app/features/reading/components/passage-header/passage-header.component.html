@@ -1,8 +1,8 @@
 <h2>Today's Reading</h2>
 
-<p>{{ passage().date | date: 'MMMM d, yyyy' }}</p>
+<p>{{ reading().date | date: 'MMMM d, yyyy' }}</p>
 
 <h3>
-  {{ passage().book }}
-  {{ passage().chapter }}: {{ passage().startVerse }}-{{ passage().endVerse }}
+  {{ reading().book }}
+  {{ reading().chapter }}: {{ reading().startVerse }}-{{ reading().endVerse }}
 </h3>

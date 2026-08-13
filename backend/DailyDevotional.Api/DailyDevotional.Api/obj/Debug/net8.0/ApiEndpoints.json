@@ -26,6 +26,22 @@
     ]
   },
   {
+    "ContainingType": "DailyDevotional.Api.Controllers.DailyReadingController",
+    "Method": "ImportVerses",
+    "RelativePath": "api/DailyReading/{id}/import-verses",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DailyDevotional.Api.Controllers.JournalController",
     "Method": "CreateJournal",
     "RelativePath": "api/Journal",
