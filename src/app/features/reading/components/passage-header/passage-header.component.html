@@ -1,6 +1,6 @@
 <h2>Today's Reading</h2>
 
-<p>{{ passage().date }}</p>
+<p>{{ passage().date | date: 'MMMM d, yyyy' }}</p>
 
 <h3>
   {{ passage().book }}

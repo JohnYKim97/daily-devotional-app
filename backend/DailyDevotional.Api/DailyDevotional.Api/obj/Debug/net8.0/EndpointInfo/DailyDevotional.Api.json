@@ -5,6 +5,46 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/DailyReading/{date}": {
+      "get": {
+        "tags": [
+          "DailyReading"
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyReadingResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyReadingResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyReadingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Journal": {
       "post": {
         "tags": [
@@ -65,10 +105,67 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date"
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Journal"
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateJournalRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateJournalRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateJournalRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -101,7 +198,7 @@
         "properties": {
           "date": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "passageReference": {
             "type": "string",
@@ -119,6 +216,61 @@
         },
         "additionalProperties": false
       },
+      "DailyReadingResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "book": {
+            "type": "string",
+            "nullable": true
+          },
+          "chapter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startVerse": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endVerse": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "verses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DailyReadingVerseResponse"
+            },
+            "nullable": true
+          },
+          "commentary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DailyReadingVerseResponse": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "JournalResponse": {
         "type": "object",
         "properties": {
@@ -128,8 +280,27 @@
           },
           "date": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
+          "passageReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "favoriteVerse": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateJournalRequest": {
+        "type": "object",
+        "properties": {
           "passageReference": {
             "type": "string",
             "nullable": true

@@ -6,5 +6,6 @@ public interface IJournalService
 {
   Task<JournalResponse> CreateJournalAsync(CreateJournalRequest request);
 
-  Task<JournalResponse> GetJournalByDateAsync(DateTime date);
+  Task<JournalResponse> GetJournalByDateAsync(DateOnly date);
+  Task<JournalResponse> UpdateJournalAsync(DateOnly date, UpdateJournalRequest request);
 }

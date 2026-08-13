@@ -1,9 +1,15 @@
+<div class="date-navigation">
+  <button type="button" (click)="dateService.previousDay()">←</button>
+  <h1>{{ selectedDate() | date: 'MMMM d, yyyy' }}</h1>
+  <button type="button" (click)="dateService.nextDay()">→</button>
+</div>
+
 <div class="dashboard">
   <section class="left-panel">
-    <app-reading [passage]="passage"></app-reading>
+    <app-reading></app-reading>
   </section>
 
   <section class="right-panel">
-    <app-journal [passage]="passage"></app-journal>
+    <app-journal></app-journal>
   </section>
 </div>

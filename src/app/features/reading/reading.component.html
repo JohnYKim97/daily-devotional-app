@@ -1,7 +1,19 @@
-<div class="reading-container">
-  <app-passage-header [passage]="passage()"> </app-passage-header>
+@if (loading()) {
+  <div class="reading-loading">Loading reading...</div>
+} @else if (error()) {
+  <div class="reading-error">
+    <h2>No reading available</h2>
+    <p>There is no devotional reading available for this date.</p>
+  </div>
 
-  <app-verse-list [verses]="passage().verses"> </app-verse-list>
+} @else if (passage(); as currentPassage) {
+  <div class="reading-container">
+    <app-passage-header [passage]="currentPassage"> </app-passage-header>
 
-  <app-commentary></app-commentary>
-</div>
+    <app-verse-list [verses]="currentPassage.verses"> </app-verse-list>
+
+    <app-commentary [commentary]="reading()?.commentary ?? ''"> </app-commentary>
+  </div>
+} @else {
+  <div class="reading-loading">Loading today's reading...</div>
+}

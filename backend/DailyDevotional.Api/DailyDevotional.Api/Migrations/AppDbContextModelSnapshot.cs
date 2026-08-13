@@ -22,6 +22,136 @@ namespace DailyDevotional.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("DailyDevotional.Api.Models.DailyReading", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Book")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Chapter")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Commentary")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("EndVerse")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StartVerse")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Date")
+                        .IsUnique();
+
+                    b.ToTable("DailyReadings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Book = "Genesis",
+                            Chapter = 1,
+                            Commentary = "God begins the creation story by bringing order and light into darkness.",
+                            Date = new DateOnly(2026, 8, 11),
+                            EndVerse = 5,
+                            StartVerse = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Book = "Genesis",
+                            Chapter = 1,
+                            Commentary = "God continues bringing structure and distinction to creation.",
+                            Date = new DateOnly(2026, 8, 12),
+                            EndVerse = 10,
+                            StartVerse = 6
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Book = "Genesis",
+                            Chapter = 1,
+                            Commentary = "Creation continues as God brings forth life and establishes the rhythms of the world.",
+                            Date = new DateOnly(2026, 8, 13),
+                            EndVerse = 15,
+                            StartVerse = 11
+                        });
+                });
+
+            modelBuilder.Entity("DailyDevotional.Api.Models.DailyReadingVerse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DailyReadingId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("VerseNumber")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DailyReadingId");
+
+                    b.ToTable("DailyReadingVerses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DailyReadingId = 1,
+                            Text = "Placeholder text for Genesis 1:1.",
+                            VerseNumber = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DailyReadingId = 1,
+                            Text = "Placeholder text for Genesis 1:2.",
+                            VerseNumber = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DailyReadingId = 1,
+                            Text = "Placeholder text for Genesis 1:3.",
+                            VerseNumber = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DailyReadingId = 1,
+                            Text = "Placeholder text for Genesis 1:4.",
+                            VerseNumber = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DailyReadingId = 1,
+                            Text = "Placeholder text for Genesis 1:5.",
+                            VerseNumber = 5
+                        });
+                });
+
             modelBuilder.Entity("DailyDevotional.Api.Models.Journal", b =>
                 {
                     b.Property<int>("Id")
@@ -30,8 +160,8 @@ namespace DailyDevotional.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<int?>("FavoriteVerse")
                         .HasColumnType("integer");
@@ -46,7 +176,26 @@ namespace DailyDevotional.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Date")
+                        .IsUnique();
+
                     b.ToTable("Journals");
+                });
+
+            modelBuilder.Entity("DailyDevotional.Api.Models.DailyReadingVerse", b =>
+                {
+                    b.HasOne("DailyDevotional.Api.Models.DailyReading", "DailyReading")
+                        .WithMany("Verses")
+                        .HasForeignKey("DailyReadingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DailyReading");
+                });
+
+            modelBuilder.Entity("DailyDevotional.Api.Models.DailyReading", b =>
+                {
+                    b.Navigation("Verses");
                 });
 #pragma warning restore 612, 618
         }

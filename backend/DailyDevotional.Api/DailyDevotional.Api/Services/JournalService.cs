@@ -38,9 +38,9 @@ public class JournalService : IJournalService
     };
   }
 
-  public async Task<JournalResponse?> GetJournalByDateAsync(DateTime date)
+  public async Task<JournalResponse?> GetJournalByDateAsync(DateOnly date)
   {
-    var journal = await _context.Journals.FirstOrDefaultAsync(j => j.Date.Date == date.Date);
+    var journal = await _context.Journals.FirstOrDefaultAsync(j => j.Date == date);
 
     if (journal == null)
     {
@@ -53,6 +53,30 @@ public class JournalService : IJournalService
       Date = journal.Date,
       PassageReference = journal.PassageReference,
       FavoriteVerse = journal?.FavoriteVerse,
+      Notes = journal.Notes
+    };
+  }
+
+  public async Task<JournalResponse> UpdateJournalAsync(DateOnly date, UpdateJournalRequest request)
+  {
+    var journal = await _context.Journals.FirstOrDefaultAsync(j => j.Date == date);
+
+    if (journal == null) {
+      return null;
+    }
+
+    journal.PassageReference = request.PassageReference;
+    journal.FavoriteVerse = request.FavoriteVerse;
+    journal.Notes = request.Notes;
+
+    await _context.SaveChangesAsync();
+
+    return new JournalResponse
+    {
+      Id = journal.Id,
+      Date = journal.Date,
+      PassageReference = journal.PassageReference,
+      FavoriteVerse = journal.FavoriteVerse,
       Notes = journal.Notes
     };
   }

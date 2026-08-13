@@ -1,5 +1,31 @@
 [
   {
+    "ContainingType": "DailyDevotional.Api.Controllers.DailyReadingController",
+    "Method": "GetReading",
+    "RelativePath": "api/DailyReading/{date}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "date",
+        "Type": "System.DateOnly",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DailyDevotional.Api.DTOs.DailyReadingResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "DailyDevotional.Api.Controllers.JournalController",
     "Method": "CreateJournal",
     "RelativePath": "api/Journal",
@@ -35,7 +61,38 @@
     "Parameters": [
       {
         "Name": "date",
-        "Type": "System.DateTime",
+        "Type": "System.DateOnly",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DailyDevotional.Api.DTOs.JournalResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DailyDevotional.Api.Controllers.JournalController",
+    "Method": "UpdateJournal",
+    "RelativePath": "api/Journal/{date}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "date",
+        "Type": "System.DateOnly",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "DailyDevotional.Api.DTOs.UpdateJournalRequest",
         "IsRequired": true
       }
     ],

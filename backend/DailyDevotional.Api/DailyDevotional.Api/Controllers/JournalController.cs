@@ -24,11 +24,26 @@ public class JournalController : ControllerBase
   }
 
   [HttpGet("{date}")]
-  public async Task<ActionResult<JournalResponse>> GetJournal(DateTime date)
+  public async Task<ActionResult<JournalResponse>> GetJournal(
+    DateOnly date)
   {
-    var journal = _journalService.GetJournalByDateAsync(date);
+    var journal = await _journalService.GetJournalByDateAsync(date);
 
-    if(journal == null)
+    if (journal == null)
+    {
+      return NotFound();
+    }
+
+    return Ok(journal);
+  }
+
+  [HttpPut("{date}")]
+  public async Task<ActionResult<JournalResponse>> UpdateJournal(DateOnly
+     date, UpdateJournalRequest request)
+  {
+    var journal = await _journalService.UpdateJournalAsync(date, request);
+
+    if (journal == null)
     {
       return NotFound();
     }

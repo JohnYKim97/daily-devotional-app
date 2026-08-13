@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class JournalService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:5432/api/journal';
+  private apiUrl = 'http://localhost:5184/api/journal';
 
   private _journal = signal<Journal>({
     ...TODAY_JOURNAL,
@@ -27,6 +27,34 @@ export class JournalService {
   setJournal(journal: Journal): void {
     this._journal.set({
       ...journal,
+    });
+  }
+
+  updateJournal(date: string, journal: Journal): Observable<Journal> {
+    return this.http.put<Journal>(`${this.apiUrl}/${date}`, journal);
+  }
+
+  loadJournalForDate(date: string): void {
+    this.getJournalByDate(date).subscribe({
+      next: (journal) => {
+        this.setJournal(journal);
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          const emptyJournal: Journal = {
+            id: 0,
+            date: date,
+            passageReference: '',
+            favoriteVerse: null,
+            notes: '',
+          };
+
+          this.setJournal(emptyJournal);
+
+          return;
+        }
+        console.error('Error loading journal: ', err);
+      },
     });
   }
 }

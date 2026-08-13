@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
-
-import { Passage } from '../../core/models/passage.model';
-import { TODAY_READING } from '../reading/reading.mock';
+import { Component, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { ReadingComponent } from '../reading/reading.component';
 import { JournalComponent } from '../journal/journal.component';
 
+import { DateService } from '../../core/services/date.service';
+
 @Component({
   selector: 'app-dashboard',
-  imports: [ReadingComponent, JournalComponent],
+  imports: [ReadingComponent, JournalComponent, DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  passage: Passage = TODAY_READING;
+  readonly dateService = inject(DateService);
+  readonly selectedDate = this.dateService.selectedDate;
 }

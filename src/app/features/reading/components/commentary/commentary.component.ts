@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-commentary',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './commentary.component.html',
   styleUrl: './commentary.component.scss',
 })
-export class CommentaryComponent {}
+export class CommentaryComponent {
+  commentary = input<string>('');
+}
