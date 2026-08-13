@@ -2,7 +2,6 @@ import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Journal } from '../models/journal.model';
-import { TODAY_JOURNAL } from '../../features/journal/journal.mock';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,9 +10,11 @@ export class JournalService {
   private apiUrl = 'http://localhost:5184/api/journal';
 
   private _journal = signal<Journal>({
-    ...TODAY_JOURNAL,
+    id: 0,
+    date: '',
+    favoriteVerse: null,
+    notes: '',
   });
-
   readonly journal = this._journal.asReadonly();
 
   getJournalByDate(date: string): Observable<Journal> {
@@ -44,7 +45,6 @@ export class JournalService {
           const emptyJournal: Journal = {
             id: 0,
             date: date,
-            passageReference: '',
             favoriteVerse: null,
             notes: '',
           };

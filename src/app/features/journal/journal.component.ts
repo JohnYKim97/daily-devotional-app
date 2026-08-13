@@ -26,12 +26,6 @@ export class JournalComponent {
   private _reading = signal<DailyReading | null>(null);
   readonly reading = this._reading.asReadonly();
 
-  private _loading = signal(false);
-  readonly loading = this._loading.asReadonly();
-
-  private _error = signal(false);
-  readonly error = this._error.asReadonly();
-
   journal = this.journalService.journal;
   selectedVerseNumber: number | null = null;
   saved = false;
@@ -82,19 +76,14 @@ export class JournalComponent {
   }
 
   private loadReading(date: string): void {
-    this._loading.set(true);
-    this._error.set(false);
     this._reading.set(null);
 
     this.dailyReadingService.getReadingByDate(date).subscribe({
       next: (reading) => {
         this._reading.set(reading);
-        this._loading.set(false);
       },
       error: (error) => {
         console.error('Error loading daily readings: ', error);
-        this._loading.set(false);
-        this._error.set(true);
       },
     });
   }

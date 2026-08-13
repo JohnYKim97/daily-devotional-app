@@ -10,7 +10,7 @@ export class DateService {
   private getTodayDate(): string {
     const today = new Date();
 
-    return today.toISOString().split('T')[0];
+    return this.formatDate(today);
   }
 
   setDate(date: string): void {

@@ -1,6 +1,4 @@
-import { Component, input, inject, OnInit, signal, effect } from '@angular/core';
-
-import { Passage } from '../../core/models/passage.model';
+import { Component, inject, signal, effect } from '@angular/core';
 
 import { PassageHeaderComponent } from './components/passage-header/passage-header.component';
 import { CommentaryComponent } from './components/commentary/commentary.component';
@@ -24,9 +22,6 @@ export class ReadingComponent {
   private _reading = signal<DailyReading | null>(null);
   readonly reading = this._reading.asReadonly();
 
-  private _passage = signal<Passage | null>(null);
-  readonly passage = this._passage.asReadonly();
-
   private _loading = signal(false);
   readonly loading = this._loading.asReadonly();
 
@@ -40,26 +35,15 @@ export class ReadingComponent {
     });
   }
 
-  loadReading(date: string): void {
+  private loadReading(date: string): void {
     this._loading.set(true);
     this._error.set(false);
-    this._passage.set(null);
     this._reading.set(null);
 
     this.readingService.getReadingByDate(date).subscribe({
       next: (reading) => {
         this._reading.set(reading);
 
-        const passage: Passage = {
-          book: reading.book,
-          chapter: reading.chapter,
-          startVerse: reading.startVerse,
-          endVerse: reading.endVerse,
-          date: reading.date,
-          verses: reading.verses,
-        };
-
-        this._passage.set(passage);
         this._loading.set(false);
       },
       error: (err) => {
