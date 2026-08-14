@@ -1,13 +1,14 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, effect } from '@angular/core';
 
 import { PassageHeaderComponent } from './components/passage-header/passage-header.component';
 import { CommentaryComponent } from './components/commentary/commentary.component';
 import { VerseListComponent } from './components/verse-list/verse-list.component';
 
-import { DailyReadingService } from '../../core/services/daily-reading.service';
 import { DailyReading } from '../../core/models/daily-reading.model';
 
+import { DailyReadingService } from '../../core/services/daily-reading.service';
 import { DateService } from '../../core/services/date.service';
+import { DailyReadingStateService } from '../../core/services/daily-reading-state.service';
 
 @Component({
   selector: 'app-reading',
@@ -18,40 +19,16 @@ import { DateService } from '../../core/services/date.service';
 export class ReadingComponent {
   private readingService = inject(DailyReadingService);
   private dateService = inject(DateService);
+  private readingStateService = inject(DailyReadingStateService);
 
-  private _reading = signal<DailyReading | null>(null);
-  readonly reading = this._reading.asReadonly();
-
-  private _loading = signal(false);
-  readonly loading = this._loading.asReadonly();
-
-  private _error = signal(false);
-  readonly error = this._error.asReadonly();
+  readonly reading = this.readingStateService.reading;
+  readonly loading = this.readingStateService.loading;
+  readonly error = this.readingStateService.error;
 
   constructor() {
     effect(() => {
       const date = this.dateService.selectedDate();
-      this.loadReading(date);
-    });
-  }
-
-  private loadReading(date: string): void {
-    this._loading.set(true);
-    this._error.set(false);
-    this._reading.set(null);
-
-    this.readingService.getReadingByDate(date).subscribe({
-      next: (reading) => {
-        this._reading.set(reading);
-
-        this._loading.set(false);
-      },
-      error: (err) => {
-        console.error('Failed to load reading: ', err);
-
-        this._loading.set(false);
-        this._error.set(true);
-      },
+      this.readingStateService.loadReading(date);
     });
   }
 }

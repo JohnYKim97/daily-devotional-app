@@ -6,10 +6,8 @@ import { Verse } from '../../core/models/verse.model';
 import { Journal } from './../../core/models/journal.model';
 
 import { JournalService } from '../../core/services/journal.service';
-import { DailyReadingService } from '../../core/services/daily-reading.service';
-import { DailyReading } from '../../core/models/daily-reading.model';
-
 import { DateService } from '../../core/services/date.service';
+import { DailyReadingStateService } from '../../core/services/daily-reading-state.service';
 
 @Component({
   selector: 'app-journal',
@@ -20,11 +18,10 @@ import { DateService } from '../../core/services/date.service';
 })
 export class JournalComponent {
   private journalService = inject(JournalService);
-  private dailyReadingService = inject(DailyReadingService);
   private dateService = inject(DateService);
+  private readingStateService = inject(DailyReadingStateService);
 
-  private _reading = signal<DailyReading | null>(null);
-  readonly reading = this._reading.asReadonly();
+  readonly reading = this.readingStateService.reading;
 
   journal = this.journalService.journal;
   selectedVerseNumber: number | null = null;
@@ -40,7 +37,6 @@ export class JournalComponent {
       const date = this.dateService.selectedDate();
 
       this.journalService.loadJournalForDate(date);
-      this.loadReading(date);
     });
 
     effect(() => {
@@ -71,19 +67,6 @@ export class JournalComponent {
       },
       error: (error) => {
         console.error('Error saving journal ', error);
-      },
-    });
-  }
-
-  private loadReading(date: string): void {
-    this._reading.set(null);
-
-    this.dailyReadingService.getReadingByDate(date).subscribe({
-      next: (reading) => {
-        this._reading.set(reading);
-      },
-      error: (error) => {
-        console.error('Error loading daily readings: ', error);
       },
     });
   }

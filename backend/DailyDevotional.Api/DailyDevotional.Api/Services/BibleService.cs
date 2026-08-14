@@ -1,7 +1,7 @@
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using DailyDevotional.Api.DTOs.ESV;
 using DailyDevotional.Api.Models;
-using DailyDevotional.Api.DTOs;
-
 
 namespace DailyDevotional.Api.Services;
 
@@ -9,9 +9,17 @@ public class BibleService : IBibleService
 {
   private readonly HttpClient _httpClient;
 
-  public BibleService(HttpClient httpClient)
+  public BibleService(HttpClient httpClient, IConfiguration configuration)
   {
     _httpClient = httpClient;
+
+    var apiKey = configuration["ESV:ApiKey"];
+
+    Console.WriteLine(
+    $"ESV API key loaded: {!string.IsNullOrWhiteSpace(apiKey)}"
+);
+
+    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", apiKey);
   }
 
   public async Task<List<DailyReadingVerse>> GetVersesAsync(
@@ -21,22 +29,21 @@ public class BibleService : IBibleService
     int endVerse)
   {
     var reference = $"{book} {chapter}:{startVerse}-{endVerse}";
-    var url = $"/api/{Uri.EscapeDataString(reference)}?translation=kjv";
-    var response = await _httpClient.GetFromJsonAsync<BibleApiResponse>(url);
-
-    if (response == null)
+    var url = $"passage/text/?q={Uri.EscapeDataString(reference)}" +
+            "&include-verse-numbers=true" +
+            "&include-passage-references=false" +
+            "&include-footnotes=false" +
+            "&include-headings=false" +
+            "&include-short-copyright=true";
+    var response = await _httpClient.GetFromJsonAsync<ESVPassageResponse>(url);
+    if (response == null || response.Passages.Count == 0)
     {
-      return new List<DailyReadingVerse>();
+      return [];
     }
 
-    return response.Verses
-      .Select(v => new DailyReadingVerse
-      {
-        VerseNumber = v.Verse,
-        Text = v.Text
-      })
-      .ToList();
-      
-  }
+    Console.WriteLine("ESV Response");
+    Console.WriteLine(response.Passages[0]);
 
+    return [];
+  }
 }

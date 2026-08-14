@@ -28,7 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient<IBibleService, BibleService>(client =>
 {
-  client.BaseAddress = new Uri("https://dailybible.ca");
+  client.BaseAddress = new Uri("https://api.esv.org/v3/");
 });
 
 var app = builder.Build();
