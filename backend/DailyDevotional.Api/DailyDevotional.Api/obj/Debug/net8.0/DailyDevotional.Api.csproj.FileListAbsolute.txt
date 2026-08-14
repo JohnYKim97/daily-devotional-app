@@ -27,7 +27,6 @@ C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevot
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\DailyDev.E5AD04B1.Up2Date
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\DailyDevotional.Api.dll
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\refint\DailyDevotional.Api.dll
@@ -112,3 +111,18 @@ C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevot
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\johnk\Codes\daily-devotional-app\backend\DailyDevotional.Api\DailyDevotional.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

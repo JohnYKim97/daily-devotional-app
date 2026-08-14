@@ -1,5 +1,35 @@
 [
   {
+    "ContainingType": "DailyDevotional.Api.Controllers.AuthController",
+    "Method": "GoogleLogin",
+    "RelativePath": "api/Auth/google",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DailyDevotional.Api.Controllers.AuthController",
+    "Method": "GoogleSuccess",
+    "RelativePath": "api/Auth/google-success",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DailyDevotional.Api.Controllers.AuthController",
+    "Method": "GetCurrentUser",
+    "RelativePath": "api/Auth/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DailyDevotional.Api.Controllers.DailyReadingController",
     "Method": "GetReading",
     "RelativePath": "api/DailyReading/{date}",

@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("0d3bc4fe-083f-4529-a019-4722957a789b")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("DailyDevotional.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac04926ce4d80f646bbaaf5eb5969a24d21e4dd9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+65fd82802f2709155d4cf3a2a4a382de83c5d289")]
 [assembly: System.Reflection.AssemblyProductAttribute("DailyDevotional.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DailyDevotional.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

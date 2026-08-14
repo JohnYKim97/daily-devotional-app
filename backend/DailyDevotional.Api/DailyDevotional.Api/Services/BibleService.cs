@@ -1,7 +1,9 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.RegularExpressions;
 using DailyDevotional.Api.DTOs.ESV;
 using DailyDevotional.Api.Models;
+using System.Text.RegularExpressions;
 
 namespace DailyDevotional.Api.Services;
 
@@ -41,9 +43,35 @@ public class BibleService : IBibleService
       return [];
     }
 
-    Console.WriteLine("ESV Response");
-    Console.WriteLine(response.Passages[0]);
+    var passage = response.Passages[0];
 
-    return [];
+    Console.WriteLine("ESV Response");
+    Console.WriteLine(passage);
+
+    return ParseVerses(passage);
+  }
+
+  private List<DailyReadingVerse> ParseVerses(string passage)
+  {
+    var verses = new List<DailyReadingVerse>();
+    var matches = Regex.Matches(
+       passage,
+       @"\[(\d+)\]\s*(.*?)(?=\[\d+\]|$)",
+       RegexOptions.Singleline
+   );
+
+    foreach (Match match in matches)
+    {
+      var verseNumber = int.Parse(match.Groups[1].Value);
+      var text = match.Groups[2].Value.Trim();
+
+      verses.Add(new DailyReadingVerse
+      {
+        VerseNumber = verseNumber,
+        Text = text
+      });
+    }
+
+    return verses;
   }
 }

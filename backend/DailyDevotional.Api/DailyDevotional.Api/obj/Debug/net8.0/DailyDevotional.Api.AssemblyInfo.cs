@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DailyDevotional.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+075ffc237aee005a75958ae458838f2375e8ea2d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+65fd82802f2709155d4cf3a2a4a382de83c5d289")]
 [assembly: System.Reflection.AssemblyProductAttribute("DailyDevotional.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DailyDevotional.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

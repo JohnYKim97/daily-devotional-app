@@ -1,11 +1,11 @@
 using DailyDevotional.Api.Models;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 namespace DailyDevotional.Api.Data;
 
-
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
   public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
   {
@@ -17,6 +17,8 @@ public class AppDbContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    base.OnModelCreating(modelBuilder);
+
     modelBuilder.Entity<DailyReadingVerse>()
       .HasOne(v => v.DailyReading)
       .WithMany(r => r.Verses)
