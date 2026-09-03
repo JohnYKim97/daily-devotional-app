@@ -10,5 +10,5 @@ public interface IBibleService
     int startVerse,
     int endVerse);
 
-
+  Task<int> GetChapterVerseCountAsync(string book, int chapter);
 }

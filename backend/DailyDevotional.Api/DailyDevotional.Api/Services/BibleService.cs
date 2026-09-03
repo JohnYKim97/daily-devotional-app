@@ -74,4 +74,44 @@ public class BibleService : IBibleService
 
     return verses;
   }
+
+  public async Task<int> GetChapterVerseCountAsync(string book, int chapter)
+  {
+    var reference = $"{book} {chapter}";
+
+    var url =
+        $"passage/text/?q={Uri.EscapeDataString(reference)}" +
+        "&include-verse-numbers=true" +
+        "&include-passage-references=false" +
+        "&include-footnotes=false" +
+        "&include-headings=false" +
+        "&include-short-copyright=true";
+
+    var response = await _httpClient.GetFromJsonAsync<ESVPassageResponse>(url);
+
+    if (response == null || response.Passages.Count == 0)
+    {
+      throw new InvalidOperationException($"Could not retrieve {book} {chapter} from the ESV API.");
+    }
+
+    var passage = response.Passages[0];
+
+    // We'll parse the final verse number from the ESV response.
+    return ExtractLastVerseNumber(passage);
+  }
+
+  private static int ExtractLastVerseNumber(string passage)
+  {
+    var matches = Regex.Matches(
+       passage,
+       @"(?m)^\s*(\d+)\s+");
+
+    if (matches.Count == 0)
+    {
+      throw new InvalidOperationException("Could not determine the final verse number.");
+    }
+
+    return int.Parse(
+        matches[^1].Groups[1].Value);
+  }
 }

@@ -80,6 +80,7 @@ builder.Services
 builder.Services.AddScoped<IJournalService, JournalService>();
 builder.Services.AddScoped<IDailyReadingService, DailyReadingService>();
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<IDailyReadingImportService, DailyReadingImportService>();
 
 // Add services to the container.
 
