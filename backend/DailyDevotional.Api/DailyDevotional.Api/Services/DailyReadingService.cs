@@ -84,4 +84,61 @@ public class DailyReadingService : IDailyReadingService
 
     return true;
   }
+
+  public async Task<ImportReadingsResponse> SaveImportedReadingsAsync(
+      List<DailyReading> readings,
+      bool overwrite)
+  {
+    var dates = readings
+      .Select(r => r.Date)
+      .ToList();
+
+    var existingReadings = await _context.DailyReadings
+      .Include(r => r.Verses)
+      .Where(r => dates.Contains(r.Date))
+      .ToListAsync();
+
+    var existingDates = existingReadings
+      .Select(r => r.Date)
+      .ToHashSet();
+
+    var response = new ImportReadingsResponse
+    {
+      StartDate = readings.Min(r => r.Date),
+      EndDate = readings.Max(r => r.Date)
+    };
+
+    if (overwrite && existingReadings.Count > 0)
+    {
+      _context.DailyReadingVerses.RemoveRange(
+          existingReadings.SelectMany(r => r.Verses));
+
+      _context.DailyReadings.RemoveRange(existingReadings);
+
+      // Persist the deletes first so the unique index on Date
+      // doesn't collide with the inserts below.
+      await _context.SaveChangesAsync();
+
+      existingDates.Clear();
+    }
+    else
+    {
+      response.SkippedDates = readings
+        .Where(r => existingDates.Contains(r.Date))
+        .Select(r => r.Date)
+        .ToList();
+    }
+
+    var readingsToInsert = readings
+      .Where(r => !existingDates.Contains(r.Date))
+      .ToList();
+
+    await _context.DailyReadings.AddRangeAsync(readingsToInsert);
+
+    await _context.SaveChangesAsync();
+
+    response.ImportedCount = readingsToInsert.Count;
+
+    return response;
+  }
 }
