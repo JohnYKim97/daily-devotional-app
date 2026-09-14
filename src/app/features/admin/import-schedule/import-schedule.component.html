@@ -1,0 +1,54 @@
+<section class="import-schedule">
+  <h1>Import Reading Schedule</h1>
+  <p>Upload the church's reading schedule word document to generate daily readings.</p>
+
+  <form (submit)="onSubmit(); $event.preventDefault()">
+    <div class="field">
+      <label for="file">Schedule document (.docx)</label>
+      <input id="file" type="file" accept=".docx" (change)="onFileSelected($event)" />
+
+      @if (attemptedSubmit() && !selectedFile()) {
+        <p class="error" role="alert">Please choose a .docx file.</p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="startDate">Start date</label>
+      <input id="startDate" type="date" [formField]="importForm.startDate" />
+
+      @if (importForm.startDate().touched() && importForm.startDate().errors().length) {
+        <p class="error" role="alert">{{ importForm.startDate().errors()[0].message }}</p>
+      }
+    </div>
+
+    <div class="field checkbox-field">
+      <input id="overwrite" type="checkbox" [formField]="importForm.overwrite" />
+      <label for="overwrite">Overwrite existing readings on matching dates</label>
+    </div>
+
+    <button type="submit">
+      {{ importForm().pending() ? 'Importing...' : 'Import schedule' }}
+    </button>
+  </form>
+
+  @if (result(); as importResult) {
+    <div class="result" role="status">
+      <p>
+        Imported {{ importResult.importedCount }} reading(s) from {{ importResult.startDate }} to
+        {{ importResult.endDate }}.
+      </p>
+
+      @if (importResult.skippedDates.length) {
+        <p>Skipped (already existed): {{ importResult.skippedDates.join(',') }}</p>
+      }
+    </div>
+  }
+
+  @if (errors().length) {
+    <ul class="errors" role="alert">
+      @for (message of errors(); track message) {
+        <li>{{ message }}</li>
+      }
+    </ul>
+  }
+</section>

@@ -1,5 +1,5 @@
 using DailyDevotional.Api.DTOs;
-using DailyDevotional.Api.Services;
+using DailyDevotional.Api.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DailyDevotional.Api.Controllers;

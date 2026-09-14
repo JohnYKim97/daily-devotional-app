@@ -1,6 +1,7 @@
 using DailyDevotional.Api.Data;
 using DailyDevotional.Api.Models;
 using DailyDevotional.Api.Services;
+using DailyDevotional.Api.Services.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,10 +32,24 @@ builder.Services
   .AddIdentityCore<ApplicationUser>()
   .AddEntityFrameworkStores<AppDbContext>();
 
-var jwtKey =
-    builder.Configuration["Authentication:Jwt:Key"];
+var jwtKey = builder.Configuration["Authentication:Jwt:Key"];
+var jwtIssuer = builder.Configuration["Authentication:Jwt:Issuer"];
+var jwtAudience = builder.Configuration["Authentication:Jwt:Audience"];
 
-builder.Services
+if (string.IsNullOrWhiteSpace(jwtKey) ||
+    string.IsNullOrWhiteSpace(jwtIssuer) ||
+    string.IsNullOrWhiteSpace(jwtAudience))
+{
+  throw new InvalidOperationException(
+      "Authentication:Jwt:Key, Authentication:Jwt:Issuer, and Authentication:Jwt:Audience must all be " +
+      "configured. Set them with, e.g., 'dotnet user-secrets set \"Authentication:Jwt:Key\" \"<value>\"' " +
+      "from the DailyDevotional.Api project directory.");
+}
+
+var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+var authenticationBuilder = builder.Services
     .AddAuthentication(options =>
     {
       options.DefaultAuthenticateScheme =
@@ -52,11 +67,9 @@ builder.Services
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
 
-        ValidIssuer =
-              builder.Configuration["Authentication:Jwt:Issuer"],
+        ValidIssuer = jwtIssuer,
 
-        ValidAudience =
-              builder.Configuration["Authentication:Jwt:Audience"],
+        ValidAudience = jwtAudience,
 
         IssuerSigningKey =
               new SymmetricSecurityKey(
@@ -64,18 +77,17 @@ builder.Services
               )
       };
     })
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddGoogle(options =>
-    {
-      options.ClientId =
-          builder.Configuration["Authentication:Google:ClientId"]!;
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-      options.ClientSecret =
-          builder.Configuration["Authentication:Google:ClientSecret"]!;
-
-      options.SignInScheme =
-          CookieAuthenticationDefaults.AuthenticationScheme;
-    });
+if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(googleClientSecret))
+{
+  authenticationBuilder.AddGoogle(options =>
+  {
+    options.ClientId = googleClientId;
+    options.ClientSecret = googleClientSecret;
+    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+  });
+}
 
 builder.Services.AddScoped<IJournalService, JournalService>();
 builder.Services.AddScoped<IDailyReadingService, DailyReadingService>();

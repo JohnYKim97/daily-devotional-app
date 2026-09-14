@@ -72,6 +72,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "DailyDevotional.Api.Controllers.DailyReadingController",
+    "Method": "ImportSchedule",
+    "RelativePath": "api/DailyReading/import",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.DateOnly",
+        "IsRequired": false
+      },
+      {
+        "Name": "overwrite",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DailyDevotional.Api.Controllers.JournalController",
     "Method": "CreateJournal",
     "RelativePath": "api/Journal",

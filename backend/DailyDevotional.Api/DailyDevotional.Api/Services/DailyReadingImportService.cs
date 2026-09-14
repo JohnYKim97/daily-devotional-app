@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DailyDevotional.Api.Models;
+using DailyDevotional.Api.Services.IServices;
 
 namespace DailyDevotional.Api.Services;
 

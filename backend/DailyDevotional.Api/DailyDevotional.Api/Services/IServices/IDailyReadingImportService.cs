@@ -1,6 +1,6 @@
 using DailyDevotional.Api.Models;
 
-namespace DailyDevotional.Api.Services;
+namespace DailyDevotional.Api.Services.IServices;
 
 public interface IDailyReadingImportService
 {

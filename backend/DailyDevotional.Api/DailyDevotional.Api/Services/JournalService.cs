@@ -1,6 +1,7 @@
 using DailyDevotional.Api.Data;
 using DailyDevotional.Api.DTOs;
 using DailyDevotional.Api.Models;
+using DailyDevotional.Api.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace DailyDevotional.Api.Services;
