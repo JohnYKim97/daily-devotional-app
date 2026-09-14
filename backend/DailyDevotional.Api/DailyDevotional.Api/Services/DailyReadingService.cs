@@ -87,8 +87,8 @@ public class DailyReadingService : IDailyReadingService
   }
 
   public async Task<ImportReadingsResponse> SaveImportedReadingsAsync(
-    List<DailyReading> readings,
-    bool overwrite)
+      List<DailyReading> readings,
+      bool overwrite)
   {
     var dates = readings
       .Select(r => r.Date)
@@ -112,10 +112,12 @@ public class DailyReadingService : IDailyReadingService
     if (overwrite && existingReadings.Count > 0)
     {
       _context.DailyReadingVerses.RemoveRange(
-        existingReadings.SelectMany(r => r.Verses));
+          existingReadings.SelectMany(r => r.Verses));
 
       _context.DailyReadings.RemoveRange(existingReadings);
 
+      // Persist the deletes first so the unique index on Date
+      // doesn't collide with the inserts below.
       await _context.SaveChangesAsync();
 
       existingDates.Clear();
