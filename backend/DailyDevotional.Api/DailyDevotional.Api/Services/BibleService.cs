@@ -38,7 +38,7 @@ public class BibleService : IBibleService
             "&include-footnotes=false" +
             "&include-headings=false" +
             "&include-short-copyright=true";
-    var response = await _httpClient.GetFromJsonAsync<ESVPassageResponse>(url);
+    var response = await GetPassageResponseAsync(url);
     if (response == null || response.Passages.Count == 0)
     {
       return [];
@@ -88,7 +88,7 @@ public class BibleService : IBibleService
         "&include-headings=false" +
         "&include-short-copyright=true";
 
-    var response = await _httpClient.GetFromJsonAsync<ESVPassageResponse>(url);
+    var response = await GetPassageResponseAsync(url);
 
     if (response == null || response.Passages.Count == 0)
     {
@@ -103,16 +103,35 @@ public class BibleService : IBibleService
 
   private static int ExtractLastVerseNumber(string passage)
   {
-    var matches = Regex.Matches(
-       passage,
-       @"(?m)^\s*(\d+)\s+");
+    var matches = Regex.Matches(passage, @"\[(\d+)\]");
 
     if (matches.Count == 0)
     {
       throw new InvalidOperationException("Could not determine the final verse number.");
     }
 
-    return int.Parse(
-        matches[^1].Groups[1].Value);
+    return int.Parse(matches[^1].Groups[1].Value);
+  }
+
+  private const int MaxRetries = 3;
+
+  private async Task<ESVPassageResponse?> GetPassageResponseAsync(string url)
+  {
+    for (var attempt = 0; ; attempt++)
+    {
+      var response = await _httpClient.GetAsync(url);
+
+      if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests && attempt < MaxRetries)
+      {
+        var delay = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(Math.Pow(2, attempt + 1));
+
+        await Task.Delay(delay);
+        continue;
+      }
+
+      response.EnsureSuccessStatusCode();
+
+      return await response.Content.ReadFromJsonAsync<ESVPassageResponse>();
+    }
   }
 }

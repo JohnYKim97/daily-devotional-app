@@ -477,6 +477,8 @@ public class DailyReadingImportService : IDailyReadingImportService
 
   public async Task ResolveVerseRangesAsync(List<ParsedReading> readings)
   {
+    var chapterVerseCounts = new Dictionary<(string Book, int Chapter), int>();
+
     foreach (var reading in readings)
     {
       if (!reading.IsWholeChapter && !reading.ContinuesToEndOfChapter)
@@ -484,7 +486,17 @@ public class DailyReadingImportService : IDailyReadingImportService
         continue;
       }
 
-      var endVerse = await _bibleService.GetChapterVerseCountAsync(reading.Book, reading.Chapter);
+      var key = (reading.Book, reading.Chapter);
+
+      if (!chapterVerseCounts.TryGetValue(key, out var endVerse))
+      {
+        endVerse = await _bibleService.GetChapterVerseCountAsync(reading.Book, reading.Chapter);
+        chapterVerseCounts[key] = endVerse;
+
+        // Avoid tripping the ESV API's rate limit when a schedule has
+        // many whole-chapter readings to resolve in one import.
+        await Task.Delay(200);
+      }
 
       reading.EndVerse = endVerse;
     }
