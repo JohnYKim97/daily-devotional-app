@@ -2,11 +2,13 @@ import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-auth-callback',
-  template: `<p>Signing you in…</p>`,
+  imports: [],
+  templateUrl: './auth-callback.component.html',
+  styleUrl: './auth-callback.component.scss',
 })
 export class AuthCallbackComponent {
   private route = inject(ActivatedRoute);

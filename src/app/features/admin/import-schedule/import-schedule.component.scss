@@ -1,8 +1,13 @@
-.import-schedule {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.import-dialog {
+  border: none;
+  border-radius: 10px;
+  padding: 24px;
   max-width: 480px;
+  width: 90vw;
+}
+
+.import-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 form {
@@ -31,8 +36,13 @@ input[type='date'] {
   border-radius: 6px;
 }
 
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 button {
-  align-self: flex-start;
   padding: 10px 20px;
   border: none;
   border-radius: 6px;
@@ -40,20 +50,22 @@ button {
   font-size: 1rem;
 }
 
+button[type='button'] {
+  background: #eee;
+}
+
+button[type='submit'] {
+  background: #2f5233;
+  color: #fff;
+}
+
+button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .error {
   color: #b3261e;
   font-size: 0.85rem;
   margin: 0;
-}
-
-.result {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 12px;
-}
-
-.errors {
-  color: #b3261e;
-  margin: 0;
-  padding-left: 20px;
 }

@@ -11,6 +11,8 @@
       <a routerLink="/login">Login</a>
     }
 
-    <a routerLink="/admin/import-schedule">Import Schedule</a>
+    <button type="button" (click)="openImportDialog()">Import Schedule</button>
   </div>
 </nav>
+
+<app-import-schedule></app-import-schedule>

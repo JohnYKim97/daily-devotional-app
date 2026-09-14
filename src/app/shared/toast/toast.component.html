@@ -1,0 +1,12 @@
+@if (notification(); as note) {
+  <div
+    class="toast"
+    [class.error]="note.type === 'error'"
+    [attr.role]="note.type === 'error' ? 'alert' : 'status'"
+  >
+    <span>{{ note.message }}</span>
+    <button type="button" (click)="notificationService.dismiss()" aria-label="Dismiss notification">
+      ×
+    </button>
+  </div>
+}
