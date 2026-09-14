@@ -5,7 +5,11 @@
 
     <a routerLink="/history">History</a>
 
-    <a routerLink="/login">Login</a>
+    @if (authService.isAuthenticated()) {
+      <button type="button" (click)="authService.logout()">Log out</button>
+    } @else {
+      <a routerLink="/login">Login</a>
+    }
 
     <a routerLink="/admin/import-schedule">Import Schedule</a>
   </div>

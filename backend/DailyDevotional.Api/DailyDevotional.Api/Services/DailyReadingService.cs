@@ -28,6 +28,21 @@ public class DailyReadingService : IDailyReadingService
       return null;
     }
 
+    if (reading.Verses.Count == 0)
+    {
+      try
+      {
+        await FetchAndAttachVersesAsync(reading);
+      }
+      catch (HttpRequestException)
+      {
+        // Verse text couldn't be fetched right now (e.g. the ESV API is
+        // rate-limited or briefly unavailable). The rest of the reading
+        // still loads; this will simply retry on the next request for
+        // this date.
+      }
+    }
+
     return new DailyReadingResponse
     {
       Id = reading.Id,
@@ -59,6 +74,14 @@ public class DailyReadingService : IDailyReadingService
       return false;
     }
 
+    _context.DailyReadingVerses.RemoveRange(reading.Verses);
+    reading.Verses.Clear();
+
+    return await FetchAndAttachVersesAsync(reading);
+  }
+
+  private async Task<bool> FetchAndAttachVersesAsync(DailyReading reading)
+  {
     var verses = await _bibleService.GetVersesAsync(
       reading.Book,
       reading.Chapter,
@@ -70,18 +93,15 @@ public class DailyReadingService : IDailyReadingService
       return false;
     }
 
-    // Remove existing verses first
-    _context.DailyReadingVerses.RemoveRange(reading.Verses);
-
-    // Attach the newly imported verses
     foreach (var verse in verses)
     {
       verse.DailyReadingId = reading.Id;
     }
 
     await _context.DailyReadingVerses.AddRangeAsync(verses);
-
     await _context.SaveChangesAsync();
+
+    reading.Verses = verses;
 
     return true;
   }

@@ -23,4 +23,11 @@ export const routes: Routes = [
         (m) => m.ImportScheduleComponent,
       ),
   },
+  {
+    path: 'auth/callback',
+    loadComponent: () =>
+      import('./features/auth/callback/auth-callback.component').then(
+        (m) => m.AuthCallbackComponent,
+      ),
+  },
 ];

@@ -91,13 +91,7 @@ public class AuthController : ControllerBase
 
     var token = _jwtService.GenerateToken(user);
 
-    return Ok(new
-    {
-      token,
-      userId = user.Id,
-      email = user.Email,
-      name = principal.Identity?.Name
-    });
+    return Redirect($"http://localhost:4200/auth/callback?token={Uri.EscapeDataString(token)}");
   }
 
   [Authorize]
