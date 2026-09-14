@@ -36,4 +36,8 @@ export class DateService {
 
     return `${year}-${month}-${day}`;
   }
+
+  resetToToday(): void {
+    this._selectedDate.set(this.getTodayDate());
+  }
 }
