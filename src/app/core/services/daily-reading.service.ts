@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { DailyReading } from '../models/daily-reading.model';
-import { ImportReadingsResponse } from '../models/import-readings-response';
+import { ImportReadingsResponse } from '../models/import-readings-response.model';
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import { form, FormField, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 
 import { DailyReadingService } from '../../../core/services/daily-reading.service';
-import { ImportReadingsResponse } from '../../../core/models/import-readings-response';
+import { ImportReadingsResponse } from '../../../core/models/import-readings-response.model';
 import { NotificationService } from '../../../core/services/notification.service';
 import { DailyReadingStateService } from '../../../core/services/daily-reading-state.service';
 import { DateService } from '../../../core/services/date.service';

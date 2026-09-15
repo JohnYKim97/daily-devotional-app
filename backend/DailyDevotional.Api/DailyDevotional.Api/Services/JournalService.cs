@@ -3,6 +3,7 @@ using DailyDevotional.Api.DTOs;
 using DailyDevotional.Api.Models;
 using DailyDevotional.Api.Services.IServices;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace DailyDevotional.Api.Services;
 
@@ -80,5 +81,34 @@ public class JournalService : IJournalService
       FavoriteVerse = journal.FavoriteVerse,
       Notes = journal.Notes
     };
+  }
+
+  public async Task<List<JournalHistoryEntryResponse>> GetAllJournalsAsync()
+  {
+    var journals = await _context.Journals
+      .OrderBy(j => j.Date)
+      .ToListAsync();
+
+    var dates = journals.Select(j => j.Date).ToList();
+
+    var readingsByDate = await _context.DailyReadings
+      .Where(r => dates.Contains(r.Date))
+      .ToDictionaryAsync(r => r.Date);
+
+    return journals.Select(journal =>
+    {
+      readingsByDate.TryGetValue(journal.Date, out var reading);
+
+      return new JournalHistoryEntryResponse
+      {
+        Id = journal.Id,
+        Date = journal.Date,
+        Book = reading?.Book ?? string.Empty,
+        Chapter = reading?.Chapter ?? 0,
+        StartVerse = reading?.StartVerse ?? 0,
+        EndVerse = reading?.EndVerse ?? 0,
+        Notes = journal.Notes,
+      };
+    }).ToList();
   }
 }

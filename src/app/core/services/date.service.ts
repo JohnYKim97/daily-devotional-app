@@ -13,6 +13,10 @@ export class DateService {
     return this.formatDate(today);
   }
 
+  getToday(): string {
+    return this.getTodayDate();
+  }
+
   setDate(date: string): void {
     this._selectedDate.set(date);
   }

@@ -1,0 +1,59 @@
+<div class="history-page">
+  <div class="page-header">
+    <h1>Journal History</h1>
+    <p>Every reflection you've written, gathered by book of the Bible.</p>
+  </div>
+
+  <div class="filters">
+    <select class="filter-control" [value]="bookFilter()" (change)="onBookFilterChange($event)">
+      <option value="">All books</option>
+      @for (book of availableBooks(); track book) {
+        <option [value]="book">{{ book }}</option>
+      }
+    </select>
+
+    <input
+      type="date"
+      class="filter-control"
+      [value]="dateFilter()"
+      (change)="onDateFilterChange($event)"
+    />
+
+    <button type="button" class="clear-button" (click)="clearFilters()">Clear filters</button>
+  </div>
+
+  @if (groupedJournals().length === 0) {
+    <p class="empty-state">No journal entries match these filters yet.</p>
+  }
+
+  @for (group of groupedJournals(); track group.book) {
+    <section class="book-group">
+      <h2>{{ group.book }}</h2>
+
+      <div class="entries">
+        @for (entry of group.entries; track entry.id) {
+          <div
+            class="entry-card"
+            [class.today]="entry.date === today"
+            [id]="entry.date === today ? 'today-entry' : null"
+          >
+            <div class="entry-body">
+              <div class="entry-meta">
+                @if (entry.date === today) {
+                  <span class="today-badge">Today</span>
+                }
+                <span class="entry-date">{{ entry.date }}</span>
+              </div>
+
+              <div class="entry-reference">{{ passageReference(entry) }}</div>
+
+              <p class="entry-notes">{{ entry.notes }}</p>
+            </div>
+
+            <button type="button" class="edit-button" (click)="editEntry(entry.date)">Edit</button>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>

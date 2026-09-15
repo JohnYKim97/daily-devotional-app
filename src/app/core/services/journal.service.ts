@@ -2,6 +2,7 @@ import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Journal } from '../models/journal.model';
+import { JournalHistoryEntry } from '../models/journal-history-entry.model';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -56,5 +57,9 @@ export class JournalService {
         console.error('Error loading journal: ', err);
       },
     });
+  }
+
+  getAllJournals(): Observable<JournalHistoryEntry[]> {
+    return this.http.get<JournalHistoryEntry[]>(this.apiUrl);
   }
 }

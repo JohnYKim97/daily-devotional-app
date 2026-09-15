@@ -50,4 +50,12 @@ public class JournalController : ControllerBase
 
     return Ok(journal);
   }
+
+  [HttpGet]
+  public async Task<ActionResult<List<JournalHistoryEntryResponse>>> GetAllJournals()
+  {
+    var journals = await _journalService.GetAllJournalsAsync();
+
+    return Ok(journals);
+  }
 }
