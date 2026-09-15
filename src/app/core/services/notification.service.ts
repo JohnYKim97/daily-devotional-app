@@ -1,10 +1,7 @@
 import { Service, signal, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-export interface Notification {
-  message: string;
-  type: 'success' | 'error';
-}
+import { Notification } from '../models/notification.model';
 
 const DISPLAY_DURATION_MS = 5000;
 

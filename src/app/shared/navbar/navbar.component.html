@@ -10,8 +10,9 @@
     } @else {
       <a routerLink="/login">Login</a>
     }
-
-    <button type="button" (click)="openImportDialog()">Import Schedule</button>
+    @if (authService.isAdmin()) {
+      <button type="button" (click)="openImportDialog()">Import Schedule</button>
+    }
   </div>
 </nav>
 

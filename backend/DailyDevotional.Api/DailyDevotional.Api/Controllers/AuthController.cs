@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace DailyDevotional.Api.Controllers;
 
@@ -17,11 +16,13 @@ public class AuthController : ControllerBase
 {
   private readonly UserManager<ApplicationUser> _userManager;
   private readonly JwtService _jwtService;
+  private readonly IConfiguration _configuration;
 
-  public AuthController(UserManager<ApplicationUser> userManager, JwtService jwtService)
+  public AuthController(UserManager<ApplicationUser> userManager, JwtService jwtService, IConfiguration configuration)
   {
     _userManager = userManager;
     _jwtService = jwtService;
+    _configuration = configuration;
   }
 
   [HttpGet("google")]
@@ -112,10 +113,14 @@ public class AuthController : ControllerBase
       return Unauthorized();
     }
 
+    var adminEmail = _configuration["Authorization:AdminEmail"];
+    var isAdmin = !string.IsNullOrWhiteSpace(adminEmail) && string.Equals(user.Email, adminEmail, StringComparison.OrdinalIgnoreCase);
+
     return Ok(new
     {
       userId = user.Id,
-      email = user.Email
+      email = user.Email,
+      isAdmin
     });
   }
 }

@@ -86,6 +86,12 @@ if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(goo
     options.ClientId = googleClientId;
     options.ClientSecret = googleClientSecret;
     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+    options.Events.OnRedirectToAuthorizationEndpoint = context =>
+    {
+      context.Response.Redirect(context.RedirectUri + "&prompt=select_account");
+      return Task.CompletedTask;
+    };
   });
 }
 
