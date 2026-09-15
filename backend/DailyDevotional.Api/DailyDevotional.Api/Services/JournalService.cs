@@ -16,10 +16,11 @@ public class JournalService : IJournalService
     _context = context;
   }
 
-  public async Task<JournalResponse> CreateJournalAsync(CreateJournalRequest request)
+  public async Task<JournalResponse> CreateJournalAsync(string userId, CreateJournalRequest request)
   {
     var journal = new Journal
     {
+      UserId = userId,
       Date = request.Date,
       PassageReference = request.PassageReference,
       FavoriteVerse = request.FavoriteVerse,

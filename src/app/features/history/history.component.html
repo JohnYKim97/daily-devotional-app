@@ -42,7 +42,7 @@
                 @if (entry.date === today) {
                   <span class="today-badge">Today</span>
                 }
-                <span class="entry-date">{{ entry.date }}</span>
+                <span class="entry-date">{{ entry.date | date: 'MMMM d, yyyy' }}</span>
               </div>
 
               <div class="entry-reference">{{ passageReference(entry) }}</div>

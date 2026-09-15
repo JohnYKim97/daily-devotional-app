@@ -1,11 +1,14 @@
 using DailyDevotional.Api.DTOs;
 using DailyDevotional.Api.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DailyDevotional.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class JournalController : ControllerBase
 {
   private readonly IJournalService _journalService;
@@ -15,10 +18,15 @@ public class JournalController : ControllerBase
     _journalService = journalService;
   }
 
+  private string GetCurrentUserId()
+  {
+    return User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+  }
+
   [HttpPost]
   public async Task<ActionResult<JournalResponse>> CreateJournal(CreateJournalRequest request)
   {
-    var journal = await _journalService.CreateJournalAsync(request);
+    var journal = await _journalService.CreateJournalAsync(GetCurrentUserId(),request);
 
     return Ok(journal);
   }

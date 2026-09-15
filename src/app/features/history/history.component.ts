@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed, effect, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { JournalService } from '../../core/services/journal.service';
@@ -9,7 +9,7 @@ import { BIBLE_BOOKS } from '../../core/constants/bible-books';
 
 @Component({
   selector: 'app-history',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './history.component.html',
   styleUrl: './history.component.scss',
 })
