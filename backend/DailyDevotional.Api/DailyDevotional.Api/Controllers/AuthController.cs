@@ -113,7 +113,7 @@ public class AuthController : ControllerBase
       return Unauthorized();
     }
 
-    var adminEmail = _configuration["Authorization:AdminEmail"];
+    var adminEmail = _configuration["Authentication:AdminEmail"];
     var isAdmin = !string.IsNullOrWhiteSpace(adminEmail) && string.Equals(user.Email, adminEmail, StringComparison.OrdinalIgnoreCase);
 
     return Ok(new
