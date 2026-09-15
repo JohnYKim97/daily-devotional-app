@@ -32,10 +32,9 @@ public class JournalController : ControllerBase
   }
 
   [HttpGet("{date}")]
-  public async Task<ActionResult<JournalResponse>> GetJournal(
-    DateOnly date)
+  public async Task<ActionResult<JournalResponse>> GetJournal(DateOnly date)
   {
-    var journal = await _journalService.GetJournalByDateAsync(date);
+    var journal = await _journalService.GetJournalByDateAsync(GetCurrentUserId(), date);
 
     if (journal == null)
     {
@@ -46,10 +45,9 @@ public class JournalController : ControllerBase
   }
 
   [HttpPut("{date}")]
-  public async Task<ActionResult<JournalResponse>> UpdateJournal(DateOnly
-     date, UpdateJournalRequest request)
+  public async Task<ActionResult<JournalResponse>> UpdateJournal(DateOnly date, UpdateJournalRequest request)
   {
-    var journal = await _journalService.UpdateJournalAsync(date, request);
+    var journal = await _journalService.UpdateJournalAsync(GetCurrentUserId(), date, request);
 
     if (journal == null)
     {
@@ -62,7 +60,7 @@ public class JournalController : ControllerBase
   [HttpGet]
   public async Task<ActionResult<List<JournalHistoryEntryResponse>>> GetAllJournals()
   {
-    var journals = await _journalService.GetAllJournalsAsync();
+    var journals = await _journalService.GetAllJournalsAsync(GetCurrentUserId());
 
     return Ok(journals);
   }

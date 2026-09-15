@@ -41,9 +41,9 @@ public class JournalService : IJournalService
     };
   }
 
-  public async Task<JournalResponse?> GetJournalByDateAsync(DateOnly date)
+  public async Task<JournalResponse?> GetJournalByDateAsync(string userId, DateOnly date)
   {
-    var journal = await _context.Journals.FirstOrDefaultAsync(j => j.Date == date);
+    var journal = await _context.Journals.FirstOrDefaultAsync(j => j.UserId == userId && j.Date == date);
 
     if (journal == null)
     {
@@ -60,9 +60,9 @@ public class JournalService : IJournalService
     };
   }
 
-  public async Task<JournalResponse> UpdateJournalAsync(DateOnly date, UpdateJournalRequest request)
+  public async Task<JournalResponse?> UpdateJournalAsync(string userId, DateOnly date, UpdateJournalRequest request)
   {
-    var journal = await _context.Journals.FirstOrDefaultAsync(j => j.Date == date);
+    var journal = await _context.Journals.FirstOrDefaultAsync(j => j.UserId == userId && j.Date == date);
 
     if (journal == null) {
       return null;
@@ -84,9 +84,10 @@ public class JournalService : IJournalService
     };
   }
 
-  public async Task<List<JournalHistoryEntryResponse>> GetAllJournalsAsync()
+  public async Task<List<JournalHistoryEntryResponse>> GetAllJournalsAsync(string userId)
   {
     var journals = await _context.Journals
+      .Where(j => j.UserId == userId)
       .OrderBy(j => j.Date)
       .ToListAsync();
 
