@@ -1,8 +1,9 @@
 <nav class="d-flex align-items-center justify-content-between px-4 py-3 navbar-shell">
   <a routerLink="/" class="navbar-brand text-decoration-none">Daily Devotional</a>
 
-  <div class="d-flex align-items-center gap-4">
-    <button type="button" class="navbar-link" (click)="goToToday()">Today</button>
+  <!-- ============ DESKTOP VIEW ============ -->
+  <div class="d-none d-md-flex align-items-center gap-4">
+    <button type="button" class="navbar-link" (click)="goToToday(); closeMenu()">Today</button>
 
     <a
       routerLink="/schedule"
@@ -30,6 +31,67 @@
       <a routerLink="/login" class="navbar-link text-decoration-none">Login</a>
     }
   </div>
+
+  <!-- ============ MOBILE VIEW ============ -->
+  <button
+    type="button"
+    class="d-md-none navbar-hamburger"
+    (click)="toggleMenu()"
+    [attr.aria-expanded]="isMenuOpen()"
+    aria-label="Toggle menu"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
 </nav>
+
+<!-- ============ MOBILE VIEW (Drawer) ============ -->
+@if (isMenuOpen()) {
+  <div class="navbar-backdrop" (click)="closeMenu()"></div>
+
+  <div class="navbar-drawer">
+    <button type="button" class="navbar-link" (click)="goToToday(); closeMenu()">Today</button>
+
+    <a
+      routerLink="/schedule"
+      routerLinkActive="navbar-link-active"
+      class="navbar-link text-decoration-none"
+      (click)="closeMenu()"
+      >Schedule</a
+    >
+
+    <a
+      routerLink="/history"
+      routerLinkActive="navbar-link-active"
+      class="navbar-link text-decoration-none"
+      (click)="closeMenu()"
+      >History</a
+    >
+
+    @if (authService.isAdmin()) {
+      <button type="button" class="btn btn-sm navbar-admin-btn" (click)="openImportDialog()">
+        Import Schedule
+      </button>
+    }
+
+    @if (authService.isAuthenticated()) {
+      <button type="button" class="navbar-link" (click)="authService.logout(); closeMenu()">
+        Log out
+      </button>
+    } @else {
+      <a routerLink="/login" class="navbar-link text-decoration-none" (click)="closeMenu()"
+        >Login</a
+      >
+    }
+  </div>
+}
 
 <app-import-schedule></app-import-schedule>

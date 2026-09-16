@@ -1,13 +1,14 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 import { DateService } from '../../core/services/date.service';
 import { ImportScheduleComponent } from '../../features/admin/import-schedule/import-schedule.component';
+import { FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, ImportScheduleComponent],
+  imports: [RouterLink, RouterLinkActive, ImportScheduleComponent, FormField],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -18,6 +19,8 @@ export class NavbarComponent {
 
   private importDialog = viewChild.required(ImportScheduleComponent);
 
+  protected readonly isMenuOpen = signal(false);
+
   openImportDialog(): void {
     this.importDialog().open();
   }
@@ -25,5 +28,13 @@ export class NavbarComponent {
   goToToday(): void {
     this.dateService.resetToToday();
     this.router.navigateByUrl('/');
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen.update((open) => !open);
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen.set(false);
   }
 }
