@@ -4,11 +4,10 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { DateService } from '../../core/services/date.service';
 import { ImportScheduleComponent } from '../../features/admin/import-schedule/import-schedule.component';
-import { FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, ImportScheduleComponent, FormField],
+  imports: [RouterLink, RouterLinkActive, ImportScheduleComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -22,10 +21,12 @@ export class NavbarComponent {
   protected readonly isMenuOpen = signal(false);
 
   openImportDialog(): void {
+    this.closeMenu();
     this.importDialog().open();
   }
 
   goToToday(): void {
+    this.closeMenu();
     this.dateService.resetToToday();
     this.router.navigateByUrl('/');
   }
