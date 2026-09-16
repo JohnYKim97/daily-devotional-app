@@ -1,5 +1,7 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter, map } from 'rxjs';
 
 import { AuthService } from '../../core/services/auth.service';
 import { DateService } from '../../core/services/date.service';
@@ -19,6 +21,19 @@ export class NavbarComponent {
   private importDialog = viewChild.required(ImportScheduleComponent);
 
   protected readonly isMenuOpen = signal(false);
+
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  protected readonly isOnToday = computed(
+    () =>
+      this.currentUrl() === '/' && this.dateService.selectedDate() === this.dateService.getToday(),
+  );
 
   openImportDialog(): void {
     this.closeMenu();

@@ -49,10 +49,8 @@
     <div class="d-flex align-items-center gap-4 ms-md-auto">
       <button
         type="button"
-        routerLink="/"
-        routerLinkActive="navbar-link-active"
-        [routerLinkActiveOptions]="{ exact: true }"
         class="navbar-link"
+        [class.navbar-link-active]="isOnToday()"
         (click)="goToToday(); closeMenu()"
       >
         Today
@@ -111,10 +109,8 @@
 
     <button
       type="button"
-      routerLink="/"
-      routerLinkActive="drawer-link-active"
-      [routerLinkActiveOptions]="{ exact: true }"
       class="drawer-link"
+      [class.drawer-link-active]="isOnToday()"
       (click)="goToToday(); closeMenu()"
     >
       <svg
