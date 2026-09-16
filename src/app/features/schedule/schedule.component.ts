@@ -78,13 +78,15 @@ export class ScheduleComponent {
   private hasScrolledToToday = false;
 
   constructor() {
-    this.readingService.getSchedule().subscribe({
-      next: (schedule) => this.schedule.set(schedule),
-      error: (error) => {
-        console.error('Error loading schedule: ', error);
-        this.notificationService.show('Could not load the reading schedule.', 'error');
-      },
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.readingService.getSchedule().subscribe({
+        next: (schedule) => this.schedule.set(schedule),
+        error: (error) => {
+          console.error('Error loading schedule: ', error);
+          this.notificationService.show('Could not load the reading schedule.', 'error');
+        },
+      });
+    }
 
     effect(() => {
       const entries = this.schedule();

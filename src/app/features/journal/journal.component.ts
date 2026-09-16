@@ -1,4 +1,5 @@
-import { Component, inject, effect, signal } from '@angular/core';
+import { Component, inject, effect, signal, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { Verse } from '../../core/models/verse.model';
@@ -21,6 +22,7 @@ export class JournalComponent {
   private dateService = inject(DateService);
   private readingStateService = inject(DailyReadingStateService);
   private notificationService = inject(NotificationService);
+  private platformId = inject(PLATFORM_ID);
 
   readonly reading = this.readingStateService.reading;
 
@@ -38,6 +40,10 @@ export class JournalComponent {
   constructor() {
     effect(() => {
       const date = this.dateService.selectedDate();
+
+      if (!isPlatformBrowser(this.platformId)) {
+        return;
+      }
 
       this.journalService.loadJournalForDate(date);
     });

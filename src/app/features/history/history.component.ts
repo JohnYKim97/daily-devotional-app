@@ -63,13 +63,15 @@ export class HistoryComponent {
   private hasScrolledToToday = false;
 
   constructor() {
-    this.journalService.getAllJournals().subscribe({
-      next: (journals) => this.journals.set(journals),
-      error: (error) => {
-        console.error('Error loading journal history: ', error);
-        this.notificationService.show('Could not load the reading schedule.', 'error');
-      },
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.journalService.getAllJournals().subscribe({
+        next: (journals) => this.journals.set(journals),
+        error: (error) => {
+          console.error('Error loading journal history: ', error);
+          this.notificationService.show('Could not load your journal history.', 'error');
+        },
+      });
+    }
 
     effect(() => {
       const groups = this.groupedJournals();
