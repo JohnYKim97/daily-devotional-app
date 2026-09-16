@@ -1,14 +1,31 @@
 .history-page {
   max-width: 880px;
   margin: 0 auto;
-  padding: 40px 24px 96px;
+  padding: 0 24px 96px;
+}
+
+.sticky-header-mobile {
+  padding-top: 40px;
+  padding-bottom: 24px;
+}
+
+@media (max-width: 767px) {
+  .sticky-header-mobile {
+    position: sticky;
+    top: 61px;
+    z-index: 5;
+    background: var(--color-bg);
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-shadow: 0 2px 6px oklch(0% 0 0 / 0.05);
+  }
 }
 
 .page-header {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
 .page-header h1 {
@@ -28,7 +45,6 @@
   background: var(--color-surface);
   border-radius: 10px;
   box-shadow: var(--shadow-card);
-  margin-bottom: 24px;
 }
 
 .search-control {
@@ -80,7 +96,7 @@
 
 .empty-state {
   color: var(--color-text-muted);
-  font-size: 0rem;
+  font-size: 0.9rem;
 }
 
 .book-group {
@@ -158,8 +174,8 @@
   line-height: 1.5;
   overflow: hidden;
   display: -webkit-box;
-  --webkit-line-clamp: 2;
-  --webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .edit-button {
