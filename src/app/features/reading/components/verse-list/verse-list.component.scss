@@ -1,18 +1,19 @@
 .verse-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .verse {
-  line-height: 1.2;
+  margin: 0;
+  line-height: 1.65;
+  font-size: 0.88rem;
 }
 
 .verse-number {
-  font-weight: 600;
-  margin-right: 8px;
-}
-
-.verse-text {
-  display: inline;
+  font-weight: 700;
+  font-size: 0.72rem;
+  vertical-align: super;
+  color: var(--color-accent);
+  margin-right: 2px;
 }

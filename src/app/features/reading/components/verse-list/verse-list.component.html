@@ -1,8 +1,8 @@
 <div class="verse-list">
   @for (verse of verses(); track verse.number) {
-    <div class="verse">
-      <span class="verse-number"> {{ verse.number }} </span>
-      <span class="verse-text"> {{ verse.text }}</span>
-    </div>
+    <p class="verse">
+      <span class="verse-number">{{ verse.number }}</span>
+      {{ verse.text }}
+    </p>
   }
 </div>

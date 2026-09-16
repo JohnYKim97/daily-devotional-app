@@ -1,16 +1,61 @@
-.dashboard {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 80px);
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px); // aproximate navbar height - tweak if it doesn't line up
+  min-height: 0;
 }
 
-.left-panel {
-  padding: 30px;
-  overflow-y: auto;
-  border-right: 1px solid #ddd;
+.date-nav {
+  padding: 16px 0 8px;
 }
 
-.right-panel {
-  padding: 30px;
-  overflow-y: auto;
+.date-nav-arrow {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.date-icon {
+  stroke: var(--color-accent);
+}
+
+.date-display {
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.dashboard-panels {
+  flex: 1;
+  min-height: 0;
+  padding: 8px 24px 24px;
+}
+
+.reading-panel,
+.notes-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+
+  // makes the single <app-reading>/<app-journal> child fill the panel's height
+  > * {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+.reading-panel {
+  flex: 1.4;
+}
+
+.notes-panel {
+  flex: 1;
 }

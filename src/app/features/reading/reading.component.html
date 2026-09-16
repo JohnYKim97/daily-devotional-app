@@ -7,11 +7,19 @@
   </div>
 } @else if (reading(); as currentReading) {
   <div class="reading-container">
-    <app-passage-header [reading]="currentReading"> </app-passage-header>
+    <app-passage-header
+      [reading]="currentReading"
+      [commentaryExpanded]="commentaryExpanded()"
+      (toggleCommentar)="commentaryExpanded.set(!commentaryExpanded())"
+    >
+    </app-passage-header>
 
-    <app-verse-list [verses]="currentReading.verses"> </app-verse-list>
+    <app-commentary [commentary]="currentReading.commentary" [expanded]="commentaryExpanded()">
+    </app-commentary>
 
-    <app-commentary [commentary]="currentReading.commentary"> </app-commentary>
+    <div class="verse-card">
+      <app-verse-list [verses]="currentReading.verses"> </app-verse-list>
+    </div>
   </div>
 } @else {
   <div class="reading-loading">Loading today's reading...</div>

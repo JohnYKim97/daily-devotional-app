@@ -1,7 +1,6 @@
-<div class="commentary">
-  <h2>Commentary</h2>
-
-  <p>
-    {{ commentary() }}
-  </p>
-</div>
+@if (expanded() && commentary()) {
+  <div class="commentary-card">
+    <span class="commentary-label">AI-generated</span>
+    <p class="commentary-text">{{ commentary() }}</p>
+  </div>
+}

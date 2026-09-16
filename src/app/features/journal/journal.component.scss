@@ -1,54 +1,73 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .journal-container {
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  gap: 24px;
+  gap: 12px;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 20px;
 }
 
-.journal-header {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 16px;
-}
-
-.journal-header h2 {
-  margin: 0 0 6px;
-}
-
-.journal-header p {
-  margin: 0;
-  color: #667;
-}
-
-.passage-reference {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.label {
-  font-size: 0.85rem;
-  color: #777;
-  text-transform: uppercase;
+.journal-title {
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .favorite-verse {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
+}
+
+.favorite-verse label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
 }
 
 .favorite-verse select {
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+}
+
+.selected-verse {
+  background: var(--color-bg);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.selected-verse strong {
+  display: block;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.selected-verse p {
+  margin: 0;
 }
 
 .notes-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   flex: 1;
+  min-height: 0;
 }
 
 .notes-section textarea {
@@ -56,30 +75,37 @@
   resize: none;
   padding: 12px;
   font-family: inherit;
-  font-size: 1rem;
-  line-height: 1.5;
-
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
 }
 
 .character-count {
   text-align: right;
-  font-size: 0.85rem;
-  color: #777;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin-top: 4px;
 }
 
-button {
+.save-btn {
   align-self: flex-end;
-  padding: 10px 20px;
+  background: var(--color-accent);
+  color: var(--color-accent-constrast);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-control);
+  padding: 9px 20px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 1rem;
 }
 
 .save-message {
   text-align: right;
-  margin-top: 12px;
-  font-size: 14px;
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-accent);
 }

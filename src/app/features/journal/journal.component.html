@@ -1,21 +1,9 @@
 <div class="journal-container">
-  <div class="journal-header">
-    <h2>Today's Devotional</h2>
-    <p>{{ journal().date | date: 'MMMM d, yyyy' }}</p>
-  </div>
-
-  <section class="passage-reference">
-    <span class="label">Reading</span>
-
-    <strong>
-      {{ reading()?.book }}
-      {{ reading()?.chapter }}: {{ reading()?.startVerse }}-{{ reading()?.endVerse }}
-    </strong>
-  </section>
+  <span class="journal-title">Notes</span>
 
   <section class="favorite-verse">
-    <label for="favoriteVerse"> Favorite Verse </label>
-    <select id="favoriteVerse" [(ngModel)]="selectedVerseNumber">
+    <label for="favoriteVerse">Favorite verse</label>
+    <select id="favoriteVerse [(ngModel)]=selectedVerseNumber">
       <option [ngValue]="null">Select a verse</option>
       @for (verse of reading()?.verses ?? []; track verse.number) {
         <option [ngValue]="verse.number">Verse {{ verse.number }}</option>
@@ -23,32 +11,23 @@
     </select>
     @if (selectedVerse) {
       <div class="selected-verse">
-        <strong>
-          {{ reading()?.book }}
-          {{ reading()?.chapter }}:{{ selectedVerse.number }}
-        </strong>
-
-        <p>
-          {{ selectedVerse.text }}
-        </p>
+        <strong>{{ reading()?.book }} {{ reading()?.chapter }}:{{ selectedVerse.number }}</strong>
+        <p>{{ selectedVerse.text }}</p>
       </div>
     }
   </section>
 
   <section class="notes-section">
-    <label for="notes">My Notes</label>
     <textarea
-      id="notes"
       [(ngModel)]="notes"
       maxlength="2000"
       placeholder="Write your thoughts about today's reading..."
     ></textarea>
+    <div class="character-count">{{ notes.length }} / 2000</div>
   </section>
 
-  <div class="character-count">{{ notes.length }} / 2000</div>
-
-  <button type="button" (click)="saveJournal()">Save Journal</button>
+  <button type="button" class="save-btn" (click)="saveJournal()">Save</button>
   @if (saved) {
-    <p class="save-message">Journal saved!</p>
+    <p class="save-message">Saved</p>
   }
 </div>

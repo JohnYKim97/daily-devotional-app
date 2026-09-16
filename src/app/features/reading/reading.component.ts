@@ -1,10 +1,8 @@
-import { Component, inject, effect } from '@angular/core';
+import { Component, inject, effect, signal } from '@angular/core';
 
 import { PassageHeaderComponent } from './components/passage-header/passage-header.component';
 import { CommentaryComponent } from './components/commentary/commentary.component';
 import { VerseListComponent } from './components/verse-list/verse-list.component';
-
-import { DailyReading } from '../../core/models/daily-reading.model';
 
 import { DailyReadingService } from '../../core/services/daily-reading.service';
 import { DateService } from '../../core/services/date.service';
@@ -24,6 +22,8 @@ export class ReadingComponent {
   readonly reading = this.readingStateService.reading;
   readonly loading = this.readingStateService.loading;
   readonly error = this.readingStateService.error;
+
+  readonly commentaryExpanded = signal(false);
 
   constructor() {
     effect(() => {

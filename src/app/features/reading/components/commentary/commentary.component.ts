@@ -8,4 +8,5 @@ import { Component, input } from '@angular/core';
 })
 export class CommentaryComponent {
   commentary = input<string>('');
+  expanded = input<boolean>(false);
 }
