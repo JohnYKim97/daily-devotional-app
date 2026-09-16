@@ -67,6 +67,17 @@
 
               <div class="entry-reference">{{ passageReference(entry) }}</div>
 
+              @if (entry.favoriteVerse) {
+                <span class="favorite-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 2l2.9 6.3 6.9.9-5 4.8 1.2 6.9L12 17.6 5.9 20.9l1.2-6.9-5-4.8 6.9-.9z"
+                    />
+                  </svg>
+                  Verse {{ entry.favoriteVerse }}
+                </span>
+              }
+
               <p class="entry-notes">{{ entry.notes }}</p>
             </div>
 

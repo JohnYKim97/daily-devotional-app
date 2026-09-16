@@ -109,6 +109,7 @@ public class JournalService : IJournalService
         Chapter = reading?.Chapter ?? 0,
         StartVerse = reading?.StartVerse ?? 0,
         EndVerse = reading?.EndVerse ?? 0,
+        FavoriteVerse = journal.FavoriteVerse,
         Notes = journal.Notes,
       };
     }).ToList();

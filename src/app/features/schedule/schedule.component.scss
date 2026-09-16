@@ -1,0 +1,152 @@
+.schedule-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 96px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.page-header p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.jump-button {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: none;
+  border: 1px solid var(--color-accent-wash);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-accent-wash);
+  }
+}
+
+.empty-state {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.month-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  padding: 6px 14px 8px;
+}
+
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.entry-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-bg);
+  }
+
+  &.today {
+    background: var(--color-accent-wash);
+  }
+
+  &.today:hover {
+    background: var(--color-accent-wash);
+  }
+}
+
+.entry-date-block {
+  width: 42px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.entry-date-block.muted {
+  color: var(--color-text-muted);
+}
+
+.day-number {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.day-name {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+.entry-passage {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.entry-passage.muted {
+  color: var(--color-text-muted);
+}
+
+.today-badge {
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+}
+
+.done-icon {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.done-icon-check {
+  stroke: var(--color-accent-contrast);
+}
+
+.upcoming-dot {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+}

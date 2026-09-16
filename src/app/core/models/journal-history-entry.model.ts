@@ -5,5 +5,6 @@ export interface JournalHistoryEntry {
   chapter: number;
   startVerse: number;
   endVerse: number;
+  favoriteVerse: number | null;
   notes: string;
 }

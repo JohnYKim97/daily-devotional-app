@@ -37,6 +37,14 @@ public class DailyReadingController : ControllerBase
     return Ok(reading);
   }
 
+  [HttpGet]
+  public async Task<ActionResult<List<DailyReadingSummaryResponse>>> GetSchedule()
+  {
+    var schedule = await _readingService.GetScheduleAsync();
+
+    return Ok(schedule);
+  }
+
   [HttpPost("{id}/import-verses")]
   public async Task<IActionResult> ImportVerses(int id)
   {

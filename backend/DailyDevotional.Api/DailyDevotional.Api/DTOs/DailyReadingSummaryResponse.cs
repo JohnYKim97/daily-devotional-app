@@ -1,6 +1,6 @@
 namespace DailyDevotional.Api.DTOs;
 
-public class JournalHistoryEntryResponse
+public class DailyReadingSummaryResponse
 {
   public int Id { get; set; }
   public DateOnly Date { get; set; }
@@ -8,6 +8,4 @@ public class JournalHistoryEntryResponse
   public int Chapter { get; set; }
   public int StartVerse { get; set; }
   public int EndVerse { get; set; }
-  public int? FavoriteVerse { get; set; }
-  public string Notes { get; set; } = string.Empty;
 }

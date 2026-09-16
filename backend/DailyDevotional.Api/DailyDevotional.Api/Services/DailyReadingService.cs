@@ -17,7 +17,7 @@ public class DailyReadingService : IDailyReadingService
     _bibleService = bibleService;
   }
 
-  public async Task<DailyReadingResponse> GetReadingByDateAsync(DateOnly date)
+  public async Task<DailyReadingResponse?> GetReadingByDateAsync(DateOnly date)
   {
     var reading = await _context.DailyReadings
       .Include(r => r.Verses)
@@ -61,6 +61,22 @@ public class DailyReadingService : IDailyReadingService
       })
       .ToList()
     };
+  }
+
+  public async Task<List<DailyReadingSummaryResponse>> GetScheduleAsync()
+  {
+    return await _context.DailyReadings
+      .OrderBy(r => r.Date)
+      .Select(r => new DailyReadingSummaryResponse
+      {
+        Id = r.Id,
+        Date = r.Date,
+        Book = r.Book,
+        Chapter = r.Chapter,
+        StartVerse = r.StartVerse,
+        EndVerse = r.EndVerse
+      })
+      .ToListAsync();
   }
 
   public async Task<bool> ImportVersesAsync(int readingId)

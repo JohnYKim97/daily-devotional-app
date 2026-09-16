@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DailyReading } from '../models/daily-reading.model';
 import { ImportReadingsResponse } from '../models/import-readings-response.model';
+import { ScheduleEntry } from '../models/schedule-entry.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,10 @@ export class DailyReadingService {
 
   getReadingByDate(date: string): Observable<DailyReading> {
     return this.http.get<DailyReading>(`${this.apiUrl}/${date}`);
+  }
+
+  getSchedule(): Observable<ScheduleEntry[]> {
+    return this.http.get<ScheduleEntry[]>(this.apiUrl);
   }
 
   importSchedule(
