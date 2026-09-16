@@ -24,6 +24,7 @@ export class HistoryComponent {
   protected readonly journals = signal<JournalHistoryEntry[]>([]);
   protected readonly bookFilter = signal('');
   protected readonly dateFilter = signal('');
+  protected readonly notesFilter = signal('');
 
   protected readonly availableBooks = computed(() => {
     const booksWithEntries = new Set(this.journals().map((entry) => entry.book));
@@ -34,9 +35,13 @@ export class HistoryComponent {
   protected readonly groupedJournals = computed(() => {
     const book = this.bookFilter();
     const date = this.dateFilter();
+    const notesQuery = this.notesFilter().trim().toLowerCase();
 
     const filtered = this.journals().filter(
-      (entry) => (!book || entry.book === book) && (!date || entry.date === date),
+      (entry) =>
+        (!book || entry.book === book) &&
+        (!date || entry.date === date) &&
+        (!notesQuery || entry.notes.toLowerCase().includes(notesQuery)),
     );
 
     const entriesByBook = new Map<string, JournalHistoryEntry[]>();
@@ -96,9 +101,14 @@ export class HistoryComponent {
     this.dateFilter.set((event.target as HTMLInputElement).value);
   }
 
+  onNotesFilterChange(event: Event): void {
+    this.notesFilter.set((event.target as HTMLInputElement).value);
+  }
+
   clearFilters(): void {
     this.bookFilter.set('');
     this.dateFilter.set('');
+    this.notesFilter.set('');
   }
 
   editEntry(date: string): void {
