@@ -1,5 +1,5 @@
 import { Component, inject, viewChild } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 import { DateService } from '../../core/services/date.service';
@@ -7,7 +7,7 @@ import { ImportScheduleComponent } from '../../features/admin/import-schedule/im
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, ImportScheduleComponent],
+  imports: [RouterLink, RouterLinkActive, ImportScheduleComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })

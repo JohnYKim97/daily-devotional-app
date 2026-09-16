@@ -39,9 +39,24 @@
   --shadow-card: 0 1px 3px oklch(0% 0 0 / 0.06);
 }
 
-@media (prefer-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --bs-primary-rgb: 83, 94, 193; // rgb() equivalent of --color-accent in dark
+    --color-bg: oklch(19% 0.012 260);
+    --color-surface: oklch(23% 0.014 260);
+    --color-text: oklch(93% 0.005 255);
+    --color-text-muted: oklch(66% 0.01 255);
+    --color-border: oklch(30% 0.014 260);
+
+    --color-accent: oklch(75% 0.1 195);
+    --color-accent-contrast: oklch(15% 0.01 260);
+    --color-accent-wash: oklch(30% 0.03 195);
+
+    --color-favorite: oklch(72% 0.14 75);
+    --color-favorite-wash: oklch(30% 0.05 80);
+
+    --shadow-card: none;
+
+    --bs-primary-rgb: 83, 194, 193; // rgb() equivalent of --color-accent in dark mode
   }
 }
 

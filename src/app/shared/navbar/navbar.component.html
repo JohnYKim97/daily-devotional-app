@@ -1,17 +1,26 @@
-<nav>
-  <a routerLink="/">Daily Devotional</a>
-  <div>
-    <button type="button" (click)="goToToday()">Today</button>
+<nav class="d-flex align-items-center justify-content-between px-4 py-3 navbar-shell">
+  <a routerLink="/" class="navbar-brand text-decoration-none">Daily Devotional</a>
 
-    <a routerLink="/history">History</a>
+  <div class="d-flex align-items-center gap-4">
+    <button type="button" class="navbar-link" (click)="goToToday()">Today</button>
+
+    <a
+      routerLink="/history"
+      routerLinkActive="navbar-link-active"
+      class="navbar-link text-decoration-none"
+      >History</a
+    >
+
+    @if (authService.isAdmin()) {
+      <button type="button" class="btn btn-sm navbar-admin-btn" (click)="openImportDialog()">
+        Import Schedule
+      </button>
+    }
 
     @if (authService.isAuthenticated()) {
-      <button type="button" (click)="authService.logout()">Log out</button>
+      <button type="button" class="navbar-link" (click)="authService.logout()">Log out</button>
     } @else {
-      <a routerLink="/login">Login</a>
-    }
-    @if (authService.isAdmin()) {
-      <button type="button" (click)="openImportDialog()">Import Schedule</button>
+      <a routerLink="/login" class="navbar-link text-decoration-none">Login</a>
     }
   </div>
 </nav>
