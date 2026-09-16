@@ -25,8 +25,10 @@ export class JournalComponent {
 
   journal = this.journalService.journal;
   selectedVerseNumber: number | null = null;
-  saved = false;
+  saved = signal(false);
   notes = '';
+
+  private savedMessageTimeout?: ReturnType<typeof setTimeout>;
 
   get selectedVerse(): Verse | undefined {
     return this.reading()?.verses.find((verse) => verse.number === this.selectedVerseNumber);
@@ -61,7 +63,7 @@ export class JournalComponent {
     request$.subscribe({
       next: (savedJournal) => {
         this.journalService.setJournal(savedJournal);
-        this.saved = true;
+        this.showSavedMessage();
 
         console.log('Journal saved: ', savedJournal);
       },
@@ -69,5 +71,12 @@ export class JournalComponent {
         console.error('Error saving journal ', error);
       },
     });
+  }
+
+  private showSavedMessage(): void {
+    this.saved.set(true);
+
+    clearTimeout(this.savedMessageTimeout);
+    this.savedMessageTimeout = setTimeout(() => this.saved.set(false), 3000);
   }
 }

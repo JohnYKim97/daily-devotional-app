@@ -26,8 +26,7 @@
     <div class="character-count">{{ notes.length }} / 2000</div>
   </section>
 
-  <button type="button" class="save-btn" (click)="saveJournal()">Save</button>
-  @if (saved) {
-    <p class="save-message">Saved</p>
-  }
+  <button type="button" class="save-btn" (click)="saveJournal()">
+    {{ saved() ? 'Saved!' : 'Save' }}
+  </button>
 </div>

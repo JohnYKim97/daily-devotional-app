@@ -57,6 +57,10 @@
     --shadow-card: none;
 
     --bs-primary-rgb: 83, 194, 193; // rgb() equivalent of --color-accent in dark mode
+
+    .filter-control[type='date']::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
   }
 }
 
