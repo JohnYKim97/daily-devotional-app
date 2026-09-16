@@ -1,1 +1,57 @@
-/* You can add global styles to this file, and also import other style files */
+// Re-point Bootstrap's own CSS variables at our tokens, so Bootstrap's
+// built-in components (btn, card, form-control, etc) pick up our palette
+// automatically instead of Bootstrap's default blue/system-ui look.
+:root {
+  --bs-font-sans-serif: var(--font-sans);
+  --bs-body-font-family: var(--font-sans);
+  --bs-body-bg: var(--color-bg);
+  --bs-body-color: var(--color-text);
+  --bs-border-color: var(--color-border);
+  --bs-border-radius: var(--radius-control);
+  --bs-border-radius-lg: var(--radius-card);
+  --bs-border-radius-pill: var(--radius-pill);
+
+  --bs-primary: var(--color-accent);
+  --bs-primary-rgb:
+    0, 110, 111; // rgb() equivalent of --color-accent, for Bootstrap's rgba()-based hover/focus shading
+  --bs-link-color: var(--color-accent);
+  --bs-link-hover-color: var(--color-accent);
+
+  --font-sans: 'Manrope', system-ui, sans-serif;
+
+  --color-bg: oklch(98% 0.003 250);
+  --color-surface: oklch(100% 0 0);
+  --color-text: oklch(22% 0.01 260);
+  --color-text-muted: oklch(50% 0.01 255);
+  --color-border: oklch(90% 0.005 250);
+
+  --color-accent: oklch(48% 0.1 195);
+  --color-accent-contrast: oklch(99% 0 0);
+  --color-accent-wash: oklch(94% 0.03 195);
+
+  --color-favorite: oklch(58% 0.14 75);
+  --color-favorite-wash: oklch(97% 0.02 90);
+
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 3px oklch(0% 0 0 / 0.06);
+}
+
+@media (prefer-color-scheme: dark) {
+  :root {
+    --bs-primary-rgb: 83, 94, 193; // rgb() equivalent of --color-accent in dark
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
