@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { JournalService } from '../../core/services/journal.service';
 import { DateService } from '../../core/services/date.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { JournalHistoryEntry } from '../../core/models/journal-history-entry.model';
 import { BIBLE_BOOKS } from '../../core/constants/bible-books';
 
@@ -16,6 +17,7 @@ import { BIBLE_BOOKS } from '../../core/constants/bible-books';
 export class HistoryComponent {
   private journalService = inject(JournalService);
   private dateService = inject(DateService);
+  private notificationService = inject(NotificationService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
@@ -63,7 +65,10 @@ export class HistoryComponent {
   constructor() {
     this.journalService.getAllJournals().subscribe({
       next: (journals) => this.journals.set(journals),
-      error: (error) => console.error('Error loading journal history: ', error),
+      error: (error) => {
+        console.error('Error loading journal history: ', error);
+        this.notificationService.show('Could not load the reading schedule.', 'error');
+      },
     });
 
     effect(() => {

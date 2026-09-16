@@ -1,6 +1,5 @@
 import { Component, inject, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 
 import { Verse } from '../../core/models/verse.model';
 import { Journal } from './../../core/models/journal.model';
@@ -8,11 +7,12 @@ import { Journal } from './../../core/models/journal.model';
 import { JournalService } from '../../core/services/journal.service';
 import { DateService } from '../../core/services/date.service';
 import { DailyReadingStateService } from '../../core/services/daily-reading-state.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-journal',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule],
   templateUrl: './journal.component.html',
   styleUrl: './journal.component.scss',
 })
@@ -20,6 +20,7 @@ export class JournalComponent {
   private journalService = inject(JournalService);
   private dateService = inject(DateService);
   private readingStateService = inject(DailyReadingStateService);
+  private notificationService = inject(NotificationService);
 
   readonly reading = this.readingStateService.reading;
 
@@ -69,6 +70,10 @@ export class JournalComponent {
       },
       error: (error) => {
         console.error('Error saving journal ', error);
+        this.notificationService.show(
+          'Could not save your journal entry. Please try again.',
+          'error',
+        );
       },
     });
   }

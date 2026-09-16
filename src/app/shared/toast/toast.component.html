@@ -4,7 +4,34 @@
     [class.error]="note.type === 'error'"
     [attr.role]="note.type === 'error' ? 'alert' : 'status'"
   >
-    <span>{{ note.message }}</span>
+    @if (note.type === 'error') {
+      <svg
+        class="toast-icon"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v5M12 16h.01" />
+      </svg>
+    } @else {
+      <svg
+        class="toast-icon"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M8.5 12.5l2.3 2.3 5-5" />
+      </svg>
+    }
+    <span class="toast-message">{{ note.message }}</span>
     <button type="button" (click)="notificationService.dismiss()" aria-label="Dismiss notification">
       ×
     </button>

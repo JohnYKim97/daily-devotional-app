@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { DailyReadingService } from '../../core/services/daily-reading.service';
 import { DateService } from '../../core/services/date.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { ScheduleEntry } from '../../core/models/schedule-entry.model';
 import { CalendarDay } from '../../core/models/calendar-day.model';
 
@@ -16,6 +17,7 @@ import { CalendarDay } from '../../core/models/calendar-day.model';
 export class ScheduleComponent {
   private readingService = inject(DailyReadingService);
   private dateService = inject(DateService);
+  private notificationService = inject(NotificationService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
@@ -78,7 +80,10 @@ export class ScheduleComponent {
   constructor() {
     this.readingService.getSchedule().subscribe({
       next: (schedule) => this.schedule.set(schedule),
-      error: (error) => console.error('Error loading schedule: ', error),
+      error: (error) => {
+        console.error('Error loading schedule: ', error);
+        this.notificationService.show('Could not load the reading schedule.', 'error');
+      },
     });
 
     effect(() => {
