@@ -5,4 +5,5 @@ export interface ScheduleEntry {
   chapter: string;
   startVerse: number;
   endVerse: number;
+  hasNotes: boolean;
 }

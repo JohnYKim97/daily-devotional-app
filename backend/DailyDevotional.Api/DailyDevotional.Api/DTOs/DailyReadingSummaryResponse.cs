@@ -8,4 +8,5 @@ public class DailyReadingSummaryResponse
   public int Chapter { get; set; }
   public int StartVerse { get; set; }
   public int EndVerse { get; set; }
+  public bool HasNotes { get; set; }
 }

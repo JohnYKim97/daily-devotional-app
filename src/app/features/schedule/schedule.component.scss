@@ -1,15 +1,63 @@
-.schedule-page {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 40px 24px 96px;
+.desktop-schedule {
+  display: none;
 }
+
+.mobile-schedule {
+  display: block;
+}
+
+@media (min-width: 860px) {
+  .desktop-schedule {
+    display: block;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+  }
+
+  .mobile-schedule {
+    display: none;
+  }
+}
+
+/* shared status elements, used by both layouts */
+
+.today-badge {
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+}
+
+.done-icon {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.done-icon-check {
+  stroke: var(--color-accent-contrast);
+}
+
+.upcoming-dot {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+}
+
+/* desktop calendar grid */
 
 .page-header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .page-header h1 {
@@ -40,18 +88,153 @@
   }
 }
 
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.month-arrow {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.month-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.weekday-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 4px;
+
+  span {
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    text-align: center;
+    padding-bottom: 6px;
+  }
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.day-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100px;
+  padding: 8px 9px;
+  border-radius: 10px;
+  background: var(--color-surface);
+  border: none;
+  font: inherit;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--color-bg);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &.empty {
+    background: transparent;
+  }
+
+  &.today {
+    background: var(--color-accent-wash);
+  }
+}
+
+.day-number {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.day-number.muted {
+  color: var(--color-text-muted);
+}
+
+.day-passage {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.day-passage.muted {
+  color: var(--color-text-muted);
+}
+
+/* mobile list */
+
+.mobile-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--color-bg);
+  box-shadow: 0 2px 6px oklch(0% 0 0 / 0.05);
+}
+
+.mobile-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.jump-button-mobile {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: none;
+  border: 1px solid var(--color-accent-wash);
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.mobile-list {
+  padding: 8px 16px 48px;
+}
+
 .empty-state {
   color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
-.month-label {
-  font-size: 0.72rem;
+.month-label-sm {
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-text-muted);
-  padding: 6px 14px 8px;
+  padding: 6px 10px 8px;
 }
 
 .entries {
@@ -64,9 +247,9 @@
 .entry-row {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   width: 100%;
-  padding: 11px 14px;
+  padding: 10px 12px;
   border-radius: 10px;
   background: none;
   border: none;
@@ -76,20 +259,16 @@
   cursor: pointer;
 
   &:hover {
-    background: var(--color-bg);
+    background: var(--color-surface);
   }
 
   &.today {
     background: var(--color-accent-wash);
   }
-
-  &.today:hover {
-    background: var(--color-accent-wash);
-  }
 }
 
 .entry-date-block {
-  width: 42px;
+  width: 36px;
   flex-shrink: 0;
   text-align: center;
 }
@@ -98,14 +277,14 @@
   color: var(--color-text-muted);
 }
 
-.day-number {
-  font-size: 1.05rem;
+.day-number-sm {
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.1;
 }
 
-.day-name {
-  font-size: 0.62rem;
+.day-name-sm {
+  font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   font-weight: 700;
@@ -114,39 +293,10 @@
 .entry-passage {
   flex: 1;
   min-width: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
 }
 
 .entry-passage.muted {
   color: var(--color-text-muted);
-}
-
-.today-badge {
-  flex-shrink: 0;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--color-accent-contrast);
-  background: var(--color-accent);
-  padding: 3px 9px;
-  border-radius: var(--radius-pill);
-}
-
-.done-icon {
-  flex-shrink: 0;
-  color: var(--color-accent);
-}
-
-.done-icon-check {
-  stroke: var(--color-accent-contrast);
-}
-
-.upcoming-dot {
-  flex-shrink: 0;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-border);
 }

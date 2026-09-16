@@ -1,63 +1,145 @@
-<div class="schedule-page">
+<!-- ============ DESKTOP VIEW ============ -->
+<div class="desktop-schedule">
   <div class="page-header">
     <div>
       <h1>Reading Schedule</h1>
-      <p>Your full plan, one day at a time.</p>
+      <p>Your full plan, one month at a time.</p>
     </div>
     <button type="button" class="jump-button" (click)="scrollToToday()">Jump to today</button>
   </div>
 
-  @if (groupedSchedule().length === 0) {
-    <p class="empty-state">No reading schedule has been imported yet.</p>
-  }
+  <div class="month-nav">
+    <button type="button" class="month-arrow" (click)="previousMonth()" aria-label="Previous month">
+      &larr;
+    </button>
+    <span class="month-label">{{ monthLabel() }}</span>
+    <button type="button" class="month-arrow" (click)="nextMonth()" aria-label="Next month">
+      &rarr;
+    </button>
+  </div>
 
-  @for (group of groupedSchedule(); track group.month) {
-    <div class="month-label">{{ group.month }}</div>
+  <div class="weekday-row">
+    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span
+    ><span>Sat</span>
+  </div>
 
-    <div class="entries">
-      @for (entry of group.entries; track entry.id) {
-        <button
-          type="button"
-          class="entry-[ariaRowSpan]="
-          [class.today]="status(entry) === 'today'"
-          [id]="status(entry) === 'today' ? 'today-schedule-entry' : null"
-          (click)="goToDate(entry.date)"
-        >
-          <div class="entry-date-block" [class.muted]="status(entry) !== 'today'">
-            <div class="day-number">{{ entry.date | date: 'd' }}</div>
-            <div class="day-name">{{ entry.date | date: 'EEE' }}</div>
-          </div>
+  @for (week of calendarWeeks(); track $index) {
+    <div class="calendar-row">
+      @for (day of week; track day?.date ?? $index) {
+        @if (day) {
+          <button
+            type="button"
+            class="day-cell"
+            [class.today]="dayStatus(day.date) === 'today'"
+            [id]="dayStatus(day.date) === 'today' ? 'today-schedule-entry-desktop' : null"
+            [disabled]="!day.entry"
+            (click)="goToDate(day.date)"
+          >
+            <span class="day-number" [class.muted]="dayStatus(day.date) !== 'today'">{{
+              day.dayNumber
+            }}</span>
 
-          <div class="entry-passage" [class.muted]="status(entry) === 'future'">
-            {{ passageReference(entry) }}
-          </div>
+            @if (day.entry) {
+              <span class="day-passage" [class.muted]="dayStatus(day.date) === 'future'">
+                {{ passageReference(day.entry) }}
+              </span>
+            }
 
-          @if (status(entry) === 'today') {
-            <span class="today-badge">Today</span>
-          } @else if (status(entry) === 'past') {
-            <svg
-              class="done-icon"
-              width="17"
-              height="17"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path
-                class="done-icon-check"
-                d="M8.5 12.5l2.3 2.3 5-5"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          } @else {
-            <span class="upcoming-dot" aria-hidden="true"></span>
-          }
-        </button>
+            @if (dayStatus(day.date) === 'today') {
+              <span class="today-badge">Today</span>
+            } @else if (dayStatus(day.date) === 'past' && day.entry?.hasNotes) {
+              <svg
+                class="done-icon"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path
+                  class="done-icon-check"
+                  d="M8.5 12.5l2.3 2.3 5-5"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            } @else if (day.entry) {
+              <span class="upcoming-dot" aria-hidden="true"></span>
+            }
+          </button>
+        } @else {
+          <div class="day-cell empty"></div>
+        }
       }
     </div>
   }
+</div>
+
+<!-- ============ MOBILE VIEW ============ -->
+<div class="mobile-schedule">
+  <div class="mobile-sticky-header">
+    <span class="mobile-title">Reading Schedule</span>
+    <button type="button" class="jump-button-mobile" (click)="scrollToToday()">
+      Jump to today
+    </button>
+  </div>
+
+  <div class="mobile-list">
+    @if (groupedSchedule().length === 0) {
+      <p class="empty-state">No reading schedule has been imported yet.</p>
+    }
+
+    @for (group of groupedSchedule(); track group.month) {
+      <div class="month-label-sm">{{ group.month }}</div>
+
+      <div class="entries">
+        @for (entry of group.entries; track entry.id) {
+          <button
+            type="button"
+            class="entry-row"
+            [class.today]="dayStatus(entry.date) === 'today'"
+            [id]="dayStatus(entry.date) === 'today' ? 'today-schedule-entry-mobile' : null"
+            (click)="goToDate(entry.date)"
+          >
+            <div class="entry-date-block" [class.muted]="dayStatus(entry.date) !== 'today'">
+              <div class="day-number-sm">{{ entry.date | date: 'd' }}</div>
+              <div class="day-name-sm">{{ entry.date | date: 'EEE' }}</div>
+            </div>
+
+            <div class="entry-passage" [class.muted]="dayStatus(entry.date) === 'future'">
+              {{ passageReference(entry) }}
+            </div>
+
+            @if (dayStatus(entry.date) === 'today') {
+              <span class="today-badge">Today</span>
+            } @else if (dayStatus(entry.date) === 'past' && entry.hasNotes) {
+              <svg
+                class="done-icon"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path
+                  class="done-icon-check"
+                  d="M8.5 12.5l2.3 2.3 5-5"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            } @else {
+              <span class="upcoming-dot" aria-hidden="true"></span>
+            }
+          </button>
+        }
+      </div>
+    }
+  </div>
 </div>

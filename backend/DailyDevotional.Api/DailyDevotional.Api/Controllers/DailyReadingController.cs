@@ -37,10 +37,12 @@ public class DailyReadingController : ControllerBase
     return Ok(reading);
   }
 
+  [Authorize]
   [HttpGet]
   public async Task<ActionResult<List<DailyReadingSummaryResponse>>> GetSchedule()
   {
-    var schedule = await _readingService.GetScheduleAsync();
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    var schedule = await _readingService.GetScheduleAsync(userId);
 
     return Ok(schedule);
   }

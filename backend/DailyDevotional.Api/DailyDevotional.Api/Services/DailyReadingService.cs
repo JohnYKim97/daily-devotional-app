@@ -63,8 +63,19 @@ public class DailyReadingService : IDailyReadingService
     };
   }
 
-  public async Task<List<DailyReadingSummaryResponse>> GetScheduleAsync()
+  public async Task<List<DailyReadingSummaryResponse>> GetScheduleAsync(string userId)
   {
+    var readings = await _context.DailyReadings
+      .OrderBy(r => r.Date)
+      .ToListAsync();
+
+    var datesWithNotes = await _context.Journals
+      .Where(j => j.UserId == userId && !string.IsNullOrWhiteSpace(j.Notes))
+      .Select(j => j.Date)
+      .ToListAsync();
+
+    var dateswithNotesSet = datesWithNotes.ToHashSet();
+
     return await _context.DailyReadings
       .OrderBy(r => r.Date)
       .Select(r => new DailyReadingSummaryResponse
@@ -74,7 +85,8 @@ public class DailyReadingService : IDailyReadingService
         Book = r.Book,
         Chapter = r.Chapter,
         StartVerse = r.StartVerse,
-        EndVerse = r.EndVerse
+        EndVerse = r.EndVerse,
+        HasNotes = dateswithNotesSet.Contains(r.Date),
       })
       .ToListAsync();
   }
