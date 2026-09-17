@@ -107,6 +107,7 @@ public class JournalService : IJournalService
         Date = journal.Date,
         Book = reading?.Book ?? string.Empty,
         Chapter = reading?.Chapter ?? 0,
+        EndChapter = reading?.EndChapter ?? 0,
         StartVerse = reading?.StartVerse ?? 0,
         EndVerse = reading?.EndVerse ?? 0,
         FavoriteVerse = journal.FavoriteVerse,

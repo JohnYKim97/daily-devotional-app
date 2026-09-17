@@ -3,6 +3,7 @@ export interface JournalHistoryEntry {
   date: string;
   book: string;
   chapter: number;
+  endChapter: number;
   startVerse: number;
   endVerse: number;
   favoriteVerse: number | null;

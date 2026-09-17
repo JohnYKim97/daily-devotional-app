@@ -7,6 +7,7 @@ import { DateService } from '../../core/services/date.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { JournalHistoryEntry } from '../../core/models/journal-history-entry.model';
 import { BIBLE_BOOKS } from '../../core/constants/bible-books';
+import { formatPassageReference } from '../../core/utils/passage-reference';
 
 @Component({
   selector: 'app-history',
@@ -92,12 +93,7 @@ export class HistoryComponent {
   }
 
   passageReference(entry: JournalHistoryEntry): string {
-    const verses =
-      entry.startVerse === entry.endVerse
-        ? `${entry.startVerse}`
-        : `${entry.startVerse}-${entry.endVerse}`;
-
-    return `${entry.book} ${entry.chapter}:${verses}`;
+    return formatPassageReference(entry);
   }
 
   onBookFilterChange(event: Event): void {

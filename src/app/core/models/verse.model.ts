@@ -1,4 +1,5 @@
 export interface Verse {
-    number: number;
-    text: string;
+  chapter: number;
+  number: number;
+  text: string;
 }

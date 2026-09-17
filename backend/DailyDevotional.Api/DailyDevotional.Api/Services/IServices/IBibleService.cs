@@ -6,8 +6,9 @@ public interface IBibleService
 {
   Task<List<DailyReadingVerse>> GetVersesAsync(
     string book,
-    int chapter,
+    int startChapter,
     int startVerse,
+    int endChapter,
     int endVerse);
 
   Task<int> GetChapterVerseCountAsync(string book, int chapter);

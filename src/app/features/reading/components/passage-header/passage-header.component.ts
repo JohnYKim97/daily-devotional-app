@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 
 import { DailyReading } from '../../../../core/models/daily-reading.model';
+import { formatPassageReference } from '../../../../core/utils/passage-reference';
 
 @Component({
   selector: 'app-passage-header',
@@ -12,4 +13,6 @@ export class PassageHeaderComponent {
   reading = input.required<DailyReading>();
   commentaryExpanded = input<boolean>(false);
   toggleCommentary = output<void>();
+
+  protected readonly passageReference = computed(() => formatPassageReference(this.reading()));
 }

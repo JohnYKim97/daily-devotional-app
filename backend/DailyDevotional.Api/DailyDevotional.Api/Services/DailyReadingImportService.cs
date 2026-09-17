@@ -161,6 +161,7 @@ public class DailyReadingImportService : IDailyReadingImportService
         Book = currentBook,
         Chapter = int.Parse(
               chapterAndRange.Groups["chapter"].Value),
+        EndChapter = int.Parse(chapterAndRange.Groups["chapter"].Value),
         StartVerse = int.Parse(
               chapterAndRange.Groups["start"].Value),
         EndVerse = int.Parse(
@@ -187,6 +188,7 @@ public class DailyReadingImportService : IDailyReadingImportService
         Book = currentBook,
         Chapter = int.Parse(
               chapterToEnd.Groups["chapter"].Value),
+        EndChapter = int.Parse(chapterToEnd.Groups["chapter"].Value),
         StartVerse = int.Parse(
               chapterToEnd.Groups["start"].Value),
         EndVerse = 0,
@@ -214,6 +216,7 @@ public class DailyReadingImportService : IDailyReadingImportService
         Book = currentBook,
         Chapter = int.Parse(
               chapterOnlyWithColon.Groups["chapter"].Value),
+        EndChapter = int.Parse(chapterOnlyWithColon.Groups["chapter"].Value),
         StartVerse = 1,
         EndVerse = 0,
         IsWholeChapter = true
@@ -239,10 +242,36 @@ public class DailyReadingImportService : IDailyReadingImportService
       {
         Book = currentBook,
         Chapter = currentChapter,
+        EndChapter = currentChapter,
         StartVerse = int.Parse(
               verseRange.Groups["start"].Value),
         EndVerse = int.Parse(
               verseRange.Groups["end"].Value)
+      };
+    }
+
+    /*
+     * FORMAT 4b
+     *
+     * 23-3:6
+     * 31-9:1
+     *
+     * Starts in the current chapter and continues into
+     * a later chapter, ending at a specific verse there.
+     */
+    var crossChapterRange = Regex.Match(
+        text,
+        @"^(?<start>\d+)-(?<endChapter>\d+):(?<endVerse>\d+)$");
+
+    if (crossChapterRange.Success && currentChapter > 0)
+    {
+      return new ParsedReading
+      {
+        Book = currentBook,
+        Chapter = currentChapter,
+        EndChapter = int.Parse(crossChapterRange.Groups["endChapter"].Value),
+        StartVerse = int.Parse(crossChapterRange.Groups["start"].Value),
+        EndVerse = int.Parse(crossChapterRange.Groups["endVerse"].Value)
       };
     }
 
@@ -269,6 +298,7 @@ public class DailyReadingImportService : IDailyReadingImportService
       {
         Book = currentBook,
         Chapter = chapter,
+        EndChapter = chapter,
         StartVerse = verse,
         EndVerse = verse
       };
@@ -290,6 +320,7 @@ public class DailyReadingImportService : IDailyReadingImportService
       {
         Book = currentBook,
         Chapter = wholeChapter,
+        EndChapter = wholeChapter,
         StartVerse = 1,
         EndVerse = 0,
         IsWholeChapter = true
@@ -418,6 +449,7 @@ public class DailyReadingImportService : IDailyReadingImportService
         Date = currentDate,
         Book = parsed.Book,
         Chapter = parsed.Chapter,
+        EndChapter = parsed.EndChapter,
         StartVerse = parsed.StartVerse,
         EndVerse = parsed.EndVerse,
       });
@@ -466,7 +498,15 @@ public class DailyReadingImportService : IDailyReadingImportService
         errors.Add($"Reading {i + 1}: invalid start verse.");
       }
 
-      if (!reading.IsWholeChapter && !reading.ContinuesToEndOfChapter && reading.EndVerse < reading.StartVerse)
+      if (reading.EndChapter < reading.Chapter)
+      {
+        errors.Add($"Reading {i + 1}: end chapter is before start chapter.");
+      }
+      else if (
+          reading.EndChapter == reading.Chapter &&
+          !reading.IsWholeChapter &&
+          !reading.ContinuesToEndOfChapter &&
+          reading.EndVerse < reading.StartVerse)
       {
         errors.Add($"Reading {i + 1}: end verse is before start verse.");
       }

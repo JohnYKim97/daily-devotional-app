@@ -49,13 +49,16 @@ public class DailyReadingService : IDailyReadingService
       Date = reading.Date,
       Book = reading.Book,
       Chapter = reading.Chapter,
+      EndChapter = reading.EndChapter,
       StartVerse = reading.StartVerse,
       EndVerse = reading.EndVerse,
       Commentary = reading.Commentary,
       Verses = reading.Verses
-      .OrderBy(v => v.VerseNumber)
+      .OrderBy(v => v.Chapter)
+      .ThenBy(v => v.VerseNumber)
       .Select(v => new DailyReadingVerseResponse
       {
+        Chapter = v.Chapter,
         Number = v.VerseNumber,
         Text = v.Text
       })
@@ -84,6 +87,7 @@ public class DailyReadingService : IDailyReadingService
         Date = r.Date,
         Book = r.Book,
         Chapter = r.Chapter,
+        EndChapter = r.EndChapter,
         StartVerse = r.StartVerse,
         EndVerse = r.EndVerse,
         HasNotes = dateswithNotesSet.Contains(r.Date),
@@ -114,6 +118,7 @@ public class DailyReadingService : IDailyReadingService
       reading.Book,
       reading.Chapter,
       reading.StartVerse,
+      reading.EndChapter,
       reading.EndVerse);
 
     if (verses.Count == 0)

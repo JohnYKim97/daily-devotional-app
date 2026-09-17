@@ -7,6 +7,7 @@ import { DateService } from '../../core/services/date.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { ScheduleEntry } from '../../core/models/schedule-entry.model';
 import { CalendarDay } from '../../core/models/calendar-day.model';
+import { formatPassageReference } from '../../core/utils/passage-reference';
 
 @Component({
   selector: 'app-schedule',
@@ -110,12 +111,7 @@ export class ScheduleComponent {
   }
 
   passageReference(entry: ScheduleEntry): string {
-    const verses =
-      entry.startVerse === entry.endVerse
-        ? `${entry.startVerse}`
-        : `${entry.startVerse}-${entry.endVerse}`;
-
-    return `${entry.book} ${entry.chapter}:${verses}`;
+    return formatPassageReference(entry);
   }
 
   goToDate(date: string): void {

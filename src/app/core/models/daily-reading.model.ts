@@ -5,6 +5,7 @@ export interface DailyReading {
   date: string;
   book: string;
   chapter: number;
+  endChapter: number;
   startVerse: number;
   endVerse: number;
   verses: Verse[];

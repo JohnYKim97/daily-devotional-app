@@ -1,5 +1,5 @@
 <div class="verse-list">
-  @for (verse of verses(); track verse.number) {
+  @for (verse of verses(); track verse.chapter + '_' + verse.number) {
     <p class="verse">
       <span class="verse-number">{{ verse.number }}</span>
       {{ verse.text }}

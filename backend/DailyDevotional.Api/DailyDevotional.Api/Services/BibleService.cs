@@ -27,11 +27,15 @@ public class BibleService : IBibleService
 
   public async Task<List<DailyReadingVerse>> GetVersesAsync(
     string book,
-    int chapter,
+    int startChapter,
     int startVerse,
+    int endChapter,
     int endVerse)
   {
-    var reference = $"{book} {chapter}:{startVerse}-{endVerse}";
+    var reference = startChapter == endChapter
+      ? $"{book} {startChapter}:{startVerse}-{endVerse}"
+      : $"{book} {startChapter}:{startVerse}-{endChapter}:{endVerse}";
+
     var url = $"passage/text/?q={Uri.EscapeDataString(reference)}" +
             "&include-verse-numbers=true" +
             "&include-passage-references=false" +
@@ -49,10 +53,10 @@ public class BibleService : IBibleService
     Console.WriteLine("ESV Response");
     Console.WriteLine(passage);
 
-    return ParseVerses(passage);
+    return ParseVerses(passage, startChapter);
   }
 
-  private List<DailyReadingVerse> ParseVerses(string passage)
+  private List<DailyReadingVerse> ParseVerses(string passage, int startChapter)
   {
     var verses = new List<DailyReadingVerse>();
     var matches = Regex.Matches(
@@ -61,13 +65,24 @@ public class BibleService : IBibleService
        RegexOptions.Singleline
    );
 
+    var currentChapter = startChapter;
+    var previousVerseNumber = 0;
+
     foreach (Match match in matches)
     {
       var verseNumber = int.Parse(match.Groups[1].Value);
       var text = match.Groups[2].Value.Trim();
 
+      if(verseNumber < previousVerseNumber)
+      {
+        currentChapter++;
+      }
+
+      previousVerseNumber = verseNumber;
+
       verses.Add(new DailyReadingVerse
       {
+        Chapter = currentChapter,
         VerseNumber = verseNumber,
         Text = text
       });
