@@ -59,3 +59,29 @@
 .notes-panel {
   flex: 1;
 }
+
+@media (max-width: 767px) {
+  .dashboard-panels {
+    position: relative;
+    padding: 0;
+    gap: 0;
+  }
+
+  .reading-panel {
+    flex: 1;
+    width: 100%;
+  }
+
+  .notes-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex: none;
+    z-index: 2;
+
+    > * {
+      flex: none;
+    }
+  }
+}

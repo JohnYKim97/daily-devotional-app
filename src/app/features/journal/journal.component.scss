@@ -109,3 +109,56 @@
   font-size: 0.78rem;
   color: var(--color-accent);
 }
+
+.sheet-drag-area {
+  display: none;
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-border);
+  margin: 0 auto 10px;
+}
+
+.sheet-toggle {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  padding: 4px;
+  cursor: pointer;
+
+  svg {
+    transition: transform 0.2s ease;
+  }
+
+  svg.flipped {
+    transform: rotate(180deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .journal-container {
+    height: var(--sheet-height);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -6px 18px oklch(0% 0 0 / 0.12);
+    overflow: hidden;
+    transition: height 0.25s ease;
+  }
+
+  .journal-container.dragging {
+    transition: none;
+  }
+
+  .sheet-drag-area {
+    display: block;
+    flex-shrink: 0;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .notes-section {
+    overflow-y: auto;
+  }
+}

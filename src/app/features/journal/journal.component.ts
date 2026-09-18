@@ -31,6 +31,15 @@ export class JournalComponent {
   saved = signal(false);
   notes = '';
 
+  protected readonly isExpanded = signal(false);
+  protected readonly sheetHeightPx = signal(0);
+  protected readonly isDragging = signal(false);
+
+  private collapsedHeight = 0;
+  private expandedHeight = 0;
+  private dragStartY = 0;
+  private dragStartHeight = 0;
+
   private savedMessageTimeout?: ReturnType<typeof setTimeout>;
 
   get selectedVerse(): Verse | undefined {
@@ -54,6 +63,10 @@ export class JournalComponent {
       this.selectedVerseNumber = journal.favoriteVerse ?? null;
       this.notes = journal.notes;
     });
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.setupSheetHeights();
+    }
   }
 
   saveJournal(): void {
@@ -82,6 +95,54 @@ export class JournalComponent {
         );
       },
     });
+  }
+
+  toggleSheet(): void {
+    this.isExpanded.update((expanded) => !expanded);
+    this.sheetHeightPx.set(this.isExpanded() ? this.expandedHeight : this.collapsedHeight);
+  }
+
+  onDragStart(event: PointerEvent): void {
+    this.isDragging.set(true);
+    this.dragStartY = event.clientY;
+    this.dragStartHeight = this.sheetHeightPx();
+
+    (event.target as HTMLElement).setPointerCapture(event.pointerId);
+  }
+
+  onDragMove(event: PointerEvent): void {
+    if (!this.isDragging()) {
+      return;
+    }
+
+    const delta = this.dragStartY - event.clientY;
+    const newHeight = this.dragStartHeight + delta;
+
+    this.sheetHeightPx.set(
+      Math.min(this.expandedHeight, Math.max(this.collapsedHeight, newHeight)),
+    );
+  }
+
+  onDragEnd(): void {
+    if (!this.isDragging()) {
+      return;
+    }
+
+    this.isDragging.set(false);
+
+    const midpoint = (this.collapsedHeight + this.expandedHeight) / 2;
+    const snapToExpanded = this.sheetHeightPx() > midpoint;
+
+    this.isExpanded.set(snapToExpanded);
+    this.sheetHeightPx.set(snapToExpanded ? this.expandedHeight : this.collapsedHeight);
+  }
+
+  private setupSheetHeights(): void {
+    const availableHeight = window.innerHeight - 64 - 70;
+
+    this.collapsedHeight = availableHeight * 0.4;
+    this.expandedHeight = availableHeight * 0.85;
+    this.sheetHeightPx.set(this.collapsedHeight);
   }
 
   private showSavedMessage(): void {

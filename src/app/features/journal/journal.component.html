@@ -1,5 +1,41 @@
-<div class="journal-container">
-  <span class="journal-title">Notes</span>
+<div
+  class="journal-container"
+  [style.--sheet-height.px]="sheetHeightPx()"
+  [class.dragging]="isDragging()"
+>
+  <div
+    class="sheet-drag-area d-md-none"
+    (pointerdown)="onDragStart($event)"
+    (pointermove)="onDragMove($event)"
+    (pointerup)="onDragEnd()"
+    (pointercancel)="onDragEnd()"
+  >
+    <div class="sheet-handle"></div>
+    <div class="d-flex align-items-center justify-content-between">
+      <span class="journal-title">Notes</span>
+      <button
+        type="button"
+        class="sheet-toggle"
+        (click)="toggleSheet()"
+        [attr.aria-expanded]="isExpanded()"
+        aria-label="Expand or collapse notes"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          [class.flipped]="isExpanded()"
+        >
+          <path d="M18 151-6-6-6 6" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <span class="journal-title d-none d-md-block">Notes</span>
 
   <section class="favorite-verse">
     <label for="favoriteVerse">Favorite verse</label>
@@ -21,9 +57,9 @@
     <textarea
       [(ngModel)]="notes"
       maxlength="10000"
-      placeholder="Write your thoughts about today's reading..."
+      placeHolder="Write your thoughts about today's reading..."
     ></textarea>
-    <div class="character-count">{{ notes.length }} / 10,000</div>
+    <div class="character-count">{{ notes.length }}/10,000</div>
   </section>
 
   <button type="button" class="save-btn" (click)="saveJournal()">
