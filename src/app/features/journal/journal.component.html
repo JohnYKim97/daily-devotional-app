@@ -1,6 +1,6 @@
 <div
   class="journal-container"
-  [style.--sheet-height.px]="sheetHeightPx()"
+  [style.--sheet-height]="sheetHeightPx() + 'px'"
   [class.dragging]="isDragging()"
 >
   <div
@@ -29,7 +29,7 @@
           stroke-width="2.5"
           [class.flipped]="isExpanded()"
         >
-          <path d="M18 151-6-6-6 6" />
+          <path d="M18 15l-6-6-6 6" />
         </svg>
       </button>
     </div>

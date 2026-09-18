@@ -141,6 +141,7 @@
 @media (max-width: 767px) {
   .journal-container {
     height: var(--sheet-height);
+    flex: none;
     border-radius: 18px 18px 0 0;
     box-shadow: 0 -6px 18px oklch(0% 0 0 / 0.12);
     overflow: hidden;
