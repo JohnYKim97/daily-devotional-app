@@ -7,6 +7,6 @@ public class UserSettings
 {
   public int Id { get; set; }
   public string UserId { get; set; } = string.Empty;
-  public bool ShowFavoriteVerseNotes { get; set; } = false;
+  public bool ShowFavoriteVerseInNotes { get; set; } = false;
   public string Theme { get; set; } = "system";
 }

@@ -23,14 +23,14 @@ public class UserSettingsService : IUserSettingsService
     {
       return new UserSettingsResponse
       {
-        ShowFavoriteVerseNotes = false,
+        ShowFavoriteVerseInNotes = false,
         Theme = "system",
       };
     }
 
     return new UserSettingsResponse
     {
-      ShowFavoriteVerseNotes = settings.ShowFavoriteVerseNotes,
+      ShowFavoriteVerseInNotes = settings.ShowFavoriteVerseInNotes,
       Theme = settings.Theme,
     };
   }
@@ -48,14 +48,14 @@ public class UserSettingsService : IUserSettingsService
       _context.UserSettings.Add(settings);
     }
 
-    settings.ShowFavoriteVerseNotes = request.ShowFavoriteVerseNotes;
+    settings.ShowFavoriteVerseInNotes = request.ShowFavoriteVerseInNotes;
     settings.Theme = request.Theme;
 
     await _context.SaveChangesAsync();
 
     return new UserSettingsResponse
     {
-      ShowFavoriteVerseNotes = settings.ShowFavoriteVerseNotes,
+      ShowFavoriteVerseInNotes = settings.ShowFavoriteVerseInNotes,
       Theme = settings.Theme,
     };
   }

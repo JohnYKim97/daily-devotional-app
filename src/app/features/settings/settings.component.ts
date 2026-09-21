@@ -20,7 +20,7 @@ export class SettingsComponent {
 
   toggleShowFavoriteVerse(): void {
     this.settingsService.setShowFavoriteVersesInNotes(
-      !this.settingsService.showFavoriteVersesInNotes(),
+      !this.settingsService.showFavoriteVerseInNotes(),
     );
   }
 }

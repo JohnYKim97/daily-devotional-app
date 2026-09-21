@@ -20,7 +20,7 @@ export class SettingsService {
   private apiUrl = 'http://localhost:5184/api/usersettings';
 
   private _settings = signal<UserSettings>(DEFAULT_SETTINGS);
-  readonly showFavoriteVersesInNotes = computed(() => this._settings().showFavoriteVerseInNotes);
+  readonly showFavoriteVerseInNotes = computed(() => this._settings().showFavoriteVerseInNotes);
   readonly theme = computed(() => this._settings().theme);
 
   constructor() {
