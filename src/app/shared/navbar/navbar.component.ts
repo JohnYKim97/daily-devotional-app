@@ -6,6 +6,7 @@ import { filter, map } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { DateService } from '../../core/services/date.service';
 import { ImportScheduleComponent } from '../../features/admin/import-schedule/import-schedule.component';
+import { SettingsService } from '../../core/services/settings.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +17,7 @@ import { ImportScheduleComponent } from '../../features/admin/import-schedule/im
 export class NavbarComponent {
   protected authService = inject(AuthService);
   private dateService = inject(DateService);
+  private settingsService = inject(SettingsService);
   private router = inject(Router);
 
   private importDialog = viewChild.required(ImportScheduleComponent);

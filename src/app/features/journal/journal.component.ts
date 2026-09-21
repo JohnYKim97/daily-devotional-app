@@ -9,6 +9,7 @@ import { JournalService } from '../../core/services/journal.service';
 import { DateService } from '../../core/services/date.service';
 import { DailyReadingStateService } from '../../core/services/daily-reading-state.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { SettingsService } from '../../core/services/settings.service';
 
 @Component({
   selector: 'app-journal',
@@ -22,6 +23,7 @@ export class JournalComponent {
   private dateService = inject(DateService);
   private readingStateService = inject(DailyReadingStateService);
   private notificationService = inject(NotificationService);
+  protected settingsService = inject(SettingsService);
   private platformId = inject(PLATFORM_ID);
 
   readonly reading = this.readingStateService.reading;

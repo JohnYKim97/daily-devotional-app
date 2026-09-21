@@ -3,6 +3,42 @@
   "WorkspaceRootPath": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Migrations\\20260921171939_AddUserSettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DailyDevotional.Api\\Migrations\\20260921171939_AddUserSettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\controllers\\usersettingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\controllers\\usersettingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\services\\usersettingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\services\\usersettingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\services\\iservices\\iusersettingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\services\\iservices\\iusersettingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\dtos\\updateusersettingsrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\dtos\\updateusersettingsrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\dtos\\usersettingsresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\dtos\\usersettingsresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\models\\usersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\models\\usersettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\services\\dailyreadingimportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\services\\dailyreadingimportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -39,10 +75,6 @@
       "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\services\\iservices\\ibibleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Migrations\\20260917172533_AddEndChapterSupport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DailyDevotional.Api\\Migrations\\20260917172533_AddEndChapterSupport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\models\\parsedreading.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\models\\parsedreading.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -61,6 +93,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\services\\iservices\\idailyreadingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\services\\iservices\\idailyreadingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|c:\\users\\john work\\codes\\daily-devotional-app\\backend\\dailydevotional.api\\dailydevotional.api\\migrations\\20260917172533_addendchaptersupport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9C6973F6-A7F1-469E-AD4C-77FBA1744C6F}|DailyDevotional.Api\\DailyDevotional.Api.csproj|solutionrelative:dailydevotional.api\\migrations\\20260917172533_addendchaptersupport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -75,19 +111,136 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20260921171939_AddUserSettings.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Migrations\\20260921171939_AddUserSettings.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\Migrations\\20260921171939_AddUserSettings.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Migrations\\20260921171939_AddUserSettings.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\Migrations\\20260921171939_AddUserSettings.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T17:19:39.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserSettingsController.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Controllers\\UserSettingsController.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\Controllers\\UserSettingsController.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Controllers\\UserSettingsController.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\Controllers\\UserSettingsController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAcwCUAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T17:10:45.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Program.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Program.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\Program.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAGUAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T17:04:38.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T17:04:06.91Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserSettingsService.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\UserSettingsService.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\UserSettingsService.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\UserSettingsService.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\Services\\UserSettingsService.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAwDoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T17:00:25.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IUserSettingsService.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\IServices\\IUserSettingsService.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\IServices\\IUserSettingsService.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\IServices\\IUserSettingsService.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\Services\\IServices\\IUserSettingsService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T16:56:05.21Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UpdateUserSettingsRequest.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\UpdateUserSettingsRequest.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\DTOs\\UpdateUserSettingsRequest.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\UpdateUserSettingsRequest.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\DTOs\\UpdateUserSettingsRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T16:55:32.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserSettingsResponse.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\UserSettingsResponse.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\DTOs\\UserSettingsResponse.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\UserSettingsResponse.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\DTOs\\UserSettingsResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T16:54:40.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserSettings.cs",
+              "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Models\\UserSettings.cs",
+              "RelativeDocumentMoniker": "DailyDevotional.Api\\Models\\UserSettings.cs",
+              "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Models\\UserSettings.cs",
+              "RelativeToolTip": "DailyDevotional.Api\\Models\\UserSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-21T16:53:01.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "DailyReadingImportService.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\DailyReadingImportService.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\DailyReadingImportService.cs",
               "ToolTip": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\DailyReadingImportService.cs",
               "RelativeToolTip": "DailyDevotional.Api\\Services\\DailyReadingImportService.cs",
-              "ViewState": "AgIAAOUBAAAAAAAAAAAAwPIBAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAAOgBAAAAAAAAAAAAwPIBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-17T17:38:27.149Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "DailyReadingVerseResponse.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\DailyReadingVerseResponse.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\DTOs\\DailyReadingVerseResponse.cs",
@@ -95,12 +248,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\DTOs\\DailyReadingVerseResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:36:59.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:36:59.856Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "DailyReadingResponse.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\DailyReadingResponse.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\DTOs\\DailyReadingResponse.cs",
@@ -108,12 +260,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\DTOs\\DailyReadingResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:36:48.605Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:36:48.605Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 16,
               "Title": "BibleService.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\BibleService.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\BibleService.cs",
@@ -121,12 +272,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Services\\BibleService.cs",
               "ViewState": "AgIAADsAAAAAAAAAAAAIwFQAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:28:11.327Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:28:11.327Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "IBibleService.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\IServices\\IBibleService.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\IServices\\IBibleService.cs",
@@ -134,12 +284,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Services\\IServices\\IBibleService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:27:55.473Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:27:55.473Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 23,
               "Title": "20260917172533_AddEndChapterSupport.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Migrations\\20260917172533_AddEndChapterSupport.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Migrations\\20260917172533_AddEndChapterSupport.cs",
@@ -147,12 +296,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Migrations\\20260917172533_AddEndChapterSupport.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAA1wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:25:33.85Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:25:33.85Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "ParsedReading.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Models\\ParsedReading.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Models\\ParsedReading.cs",
@@ -160,12 +308,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Models\\ParsedReading.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:24:49.114Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:24:49.114Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 19,
               "Title": "DailyReadingVerse.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Models\\DailyReadingVerse.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Models\\DailyReadingVerse.cs",
@@ -173,12 +320,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Models\\DailyReadingVerse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:24:29Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:24:29Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "DailyReading.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Models\\DailyReading.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Models\\DailyReading.cs",
@@ -186,12 +332,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Models\\DailyReading.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-17T17:23:41.124Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T17:23:41.124Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "DailyReadingController.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Controllers\\DailyReadingController.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Controllers\\DailyReadingController.cs",
@@ -199,12 +344,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Controllers\\DailyReadingController.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAIwCgAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-16T20:17:30.305Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-16T20:17:30.305Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 15,
               "Title": "DailyReadingService.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\DailyReadingService.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\DailyReadingService.cs",
@@ -212,12 +356,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Services\\DailyReadingService.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAADwv1kAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-16T20:15:21.995Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-16T20:15:21.995Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 22,
               "Title": "IDailyReadingService.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\IServices\\IDailyReadingService.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\IServices\\IDailyReadingService.cs",
@@ -229,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "DailyReadingSummaryResponse.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\DailyReadingSummaryResponse.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\DTOs\\DailyReadingSummaryResponse.cs",
@@ -237,12 +380,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\DTOs\\DailyReadingSummaryResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-16T20:12:45.82Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-16T20:12:45.82Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 10,
               "Title": "JournalService.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\Services\\JournalService.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\Services\\JournalService.cs",
@@ -250,12 +392,11 @@
               "RelativeToolTip": "DailyDevotional.Api\\Services\\JournalService.cs",
               "ViewState": "AgIAAGAAAAAAAAAAAAAmwG0AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-16T19:59:06.206Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-16T19:59:06.206Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "JournalHistoryEntryResponse.cs",
               "DocumentMoniker": "C:\\Users\\John Work\\Codes\\daily-devotional-app\\backend\\DailyDevotional.Api\\DailyDevotional.Api\\DTOs\\JournalHistoryEntryResponse.cs",
               "RelativeDocumentMoniker": "DailyDevotional.Api\\DTOs\\JournalHistoryEntryResponse.cs",
@@ -263,8 +404,7 @@
               "RelativeToolTip": "DailyDevotional.Api\\DTOs\\JournalHistoryEntryResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-16T19:58:37.206Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-16T19:58:37.206Z"
             }
           ]
         }

@@ -14,6 +14,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
   public DbSet<Journal> Journals { get; set; }
   public DbSet<DailyReading> DailyReadings { get; set; }
   public DbSet<DailyReadingVerse> DailyReadingVerses { get; set; }
+  public DbSet<UserSettings> UserSettings { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {

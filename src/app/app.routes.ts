@@ -32,4 +32,10 @@ export const routes: Routes = [
         (m) => m.AuthCallbackComponent,
       ),
   },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./features/settings/settings.component').then((m) => m.SettingsComponent),
+    canActivate: [authGuard],
+  },
 ];

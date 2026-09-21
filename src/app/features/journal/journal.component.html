@@ -37,21 +37,23 @@
 
   <span class="journal-title d-none d-md-block">Notes</span>
 
-  <section class="favorite-verse">
-    <label for="favoriteVerse">Favorite verse</label>
-    <select id="favoriteVerse" [(ngModel)]="selectedVerseNumber">
-      <option [ngValue]="null">Select a verse</option>
-      @for (verse of reading()?.verses ?? []; track verse.number) {
-        <option [ngValue]="verse.number">Verse {{ verse.number }}</option>
+  @if (settingsService.showFavoriteVersesInNotes()) {
+    <section class="favorite-verse">
+      <label for="favoriteVerse">Favorite verse</label>
+      <select id="favoriteVerse" [(ngModel)]="selectedVerseNumber">
+        <option [ngValue]="null">Select a verse</option>
+        @for (verse of reading()?.verses ?? []; track verse.number) {
+          <option [ngValue]="verse.number">Verse {{ verse.number }}</option>
+        }
+      </select>
+      @if (selectedVerse) {
+        <div class="selected-verse">
+          <strong>{{ reading()?.book }} {{ reading()?.chapter }}:{{ selectedVerse.number }}</strong>
+          <p>{{ selectedVerse.text }}</p>
+        </div>
       }
-    </select>
-    @if (selectedVerse) {
-      <div class="selected-verse">
-        <strong>{{ reading()?.book }} {{ reading()?.chapter }}:{{ selectedVerse.number }}</strong>
-        <p>{{ selectedVerse.text }}</p>
-      </div>
-    }
-  </section>
+    </section>
+  }
 
   <section class="notes-section">
     <textarea

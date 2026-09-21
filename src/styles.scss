@@ -42,32 +42,40 @@
   --shadow-card: 0 1px 3px oklch(0% 0 0 / 0.06);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: oklch(19% 0.012 260);
-    --color-surface: oklch(23% 0.014 260);
-    --color-text: oklch(93% 0.005 255);
-    --color-text-muted: oklch(66% 0.01 255);
-    --color-border: oklch(30% 0.014 260);
+@mixin dark-tokens {
+  --color-bg: oklch(19% 0.012 260);
+  --color-surface: oklch(23% 0.014 260);
+  --color-text: oklch(93% 0.005 255);
+  --color-text-muted: oklch(66% 0.01 255);
+  --color-border: oklch(30% 0.014 260);
 
-    --color-accent: oklch(75% 0.1 195);
-    --color-accent-contrast: oklch(15% 0.01 260);
-    --color-accent-wash: oklch(30% 0.03 195);
+  --color-accent: oklch(75% 0.1 195);
+  --color-accent-contrast: oklch(15% 0.01 260);
+  --color-accent-wash: oklch(30% 0.03 195);
 
-    --color-favorite: oklch(72% 0.14 75);
-    --color-favorite-wash: oklch(30% 0.05 80);
+  --color-favorite: oklch(72% 0.14 75);
+  --color-favorite-wash: oklch(30% 0.05 80);
 
-    --color-error: oklch(70% 0.16 25);
-    --color-error-wash: oklch(30% 0.06 25);
+  --color-error: oklch(70% 0.16 25);
+  --color-error-wash: oklch(30% 0.06 25);
 
-    --shadow-card: none;
+  --shadow-card: none;
 
-    --bs-primary-rgb: 83, 194, 193; // rgb() equivalent of --color-accent in dark mode
+  --bs-primary-rgb: 83, 194, 193; // rgb() equivalent of --color-accent in dark mode
 
-    .filter-control[type='date']::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-    }
+  .filter-control[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1);
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-tokens;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include dark-tokens;
 }
 
 * {
