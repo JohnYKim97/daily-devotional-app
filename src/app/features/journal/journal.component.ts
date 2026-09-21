@@ -29,9 +29,9 @@ export class JournalComponent {
   readonly reading = this.readingStateService.reading;
 
   journal = this.journalService.journal;
-  selectedVerseNumber: number | null = null;
+  selectedVerseNumber = signal<number | null>(null);
   saved = signal(false);
-  notes = '';
+  notes = signal('');
 
   protected readonly isExpanded = signal(false);
   protected readonly sheetHeightPx = signal(0);
@@ -45,7 +45,7 @@ export class JournalComponent {
   private savedMessageTimeout?: ReturnType<typeof setTimeout>;
 
   get selectedVerse(): Verse | undefined {
-    return this.reading()?.verses.find((verse) => verse.number === this.selectedVerseNumber);
+    return this.reading()?.verses.find((verse) => verse.number === this.selectedVerseNumber());
   }
 
   constructor() {
@@ -62,8 +62,8 @@ export class JournalComponent {
     effect(() => {
       const journal = this.journal();
 
-      this.selectedVerseNumber = journal.favoriteVerse ?? null;
-      this.notes = journal.notes;
+      this.selectedVerseNumber.set(journal.favoriteVerse ?? null);
+      this.notes.set(journal.notes);
     });
 
     if (isPlatformBrowser(this.platformId)) {
@@ -74,8 +74,8 @@ export class JournalComponent {
   saveJournal(): void {
     const journal: Journal = {
       ...this.journal(),
-      favoriteVerse: this.selectedVerseNumber ?? null,
-      notes: this.notes,
+      favoriteVerse: this.selectedVerseNumber() ?? null,
+      notes: this.notes(),
     };
 
     const request$ = journal.id
