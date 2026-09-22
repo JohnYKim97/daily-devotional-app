@@ -117,18 +117,6 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.drawer-logo {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: var(--color-accent);
-  color: var(--color-accent-contrast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 .drawer-title {
   font-weight: 700;
   font-size: 0.95rem;

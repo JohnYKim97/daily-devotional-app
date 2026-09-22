@@ -7,10 +7,11 @@ import { AuthService } from '../../core/services/auth.service';
 import { DateService } from '../../core/services/date.service';
 import { ImportScheduleComponent } from '../../features/admin/import-schedule/import-schedule.component';
 import { SettingsService } from '../../core/services/settings.service';
+import { LighthouseIconComponent } from '../lighthouse-icon/lighthouse-icon.component';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, ImportScheduleComponent],
+  imports: [RouterLink, RouterLinkActive, ImportScheduleComponent, LighthouseIconComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })

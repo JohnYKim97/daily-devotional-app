@@ -13,27 +13,27 @@
 
   --bs-primary: var(--color-accent);
   --bs-primary-rgb:
-    0, 110, 111; // rgb() equivalent of --color-accent, for Bootstrap's rgba()-based hover/focus shading
+    27, 75, 145; // rgb() equivalent of --color-accent, for Bootstrap's rgba()-based hover/focus shading
   --bs-link-color: var(--color-accent);
   --bs-link-hover-color: var(--color-accent);
 
   --font-sans: 'Manrope', system-ui, sans-serif;
 
-  --color-bg: oklch(98% 0.003 250);
-  --color-surface: oklch(100% 0 0);
-  --color-text: oklch(22% 0.01 260);
-  --color-text-muted: oklch(50% 0.01 255);
-  --color-border: oklch(90% 0.005 250);
+  --color-bg: #f7f2e7;
+  --color-surface: #fffdf8;
+  --color-text: #23262b;
+  --color-text-muted: #8a8172;
+  --color-border: #e7dfcf;
 
-  --color-accent: oklch(48% 0.1 195);
-  --color-accent-contrast: oklch(99% 0 0);
-  --color-accent-wash: oklch(94% 0.03 195);
+  --color-accent: #1b4b91;
+  --color-accent-contrast: #fffdf8;
+  --color-accent-wash: #e4ebf6;
 
-  --color-favorite: oklch(58% 0.14 75);
-  --color-favorite-wash: oklch(97% 0.02 90);
+  --color-favorite: #f4c430;
+  --color-favorite-wash: #fbf1d6;
 
-  --color-error: oklch(52% 0.18 25);
-  --color-error-wash: oklch(94% 0.05 25);
+  --color-error: #7a2430;
+  --color-error-wash: #f5e1e4;
 
   --radius-card: 12px;
   --radius-control: 8px;
@@ -43,25 +43,25 @@
 }
 
 @mixin dark-tokens {
-  --color-bg: oklch(19% 0.012 260);
-  --color-surface: oklch(23% 0.014 260);
-  --color-text: oklch(93% 0.005 255);
-  --color-text-muted: oklch(66% 0.01 255);
-  --color-border: oklch(30% 0.014 260);
+  --color-bg: #12151b;
+  --color-surface: #1c212b;
+  --color-text: #f7f3e9;
+  --color-text-muted: #a29c89;
+  --color-border: #2b313d;
 
-  --color-accent: oklch(75% 0.1 195);
-  --color-accent-contrast: oklch(15% 0.01 260);
-  --color-accent-wash: oklch(30% 0.03 195);
+  --color-accent: #6fa0e6;
+  --color-accent-contrast: #0b1220;
+  --color-accent-wash: #1e2a3d;
 
-  --color-favorite: oklch(72% 0.14 75);
-  --color-favorite-wash: oklch(30% 0.05 80);
+  --color-favorite: #f6ce55;
+  --color-favorite-wash: #3a2f12;
 
-  --color-error: oklch(70% 0.16 25);
-  --color-error-wash: oklch(30% 0.06 25);
+  --color-error: #e0838c;
+  --color-error-wash: #3a1e22;
 
   --shadow-card: none;
 
-  --bs-primary-rgb: 83, 194, 193; // rgb() equivalent of --color-accent in dark mode
+  --bs-primary-rgb: 111, 160, 230; // rgb() equivalent of --color-accent in dark mode
 
   .filter-control[type='date']::-webkit-calendar-picker-indicator {
     filter: invert(1);

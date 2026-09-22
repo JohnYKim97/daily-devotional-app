@@ -33,18 +33,24 @@
 
   <a
     routerLink="/"
-    class="navbar-brand navbar-brand-mobile text-decoration-none"
+    class="navbar-brand navbar-brand-mobile text-decoration-none d-flex align-items-center justify-content-center gap-2"
     (click)="closeMenu()"
-    >Daily Devotional</a
   >
+    <app-lighthouse-icon [size]="20" />
+    Daily Devotional
+  </a>
 
   <div class="navbar-mobile-spacer d-md-none" aria-hidden="true"></div>
 
   <!-- desktop nav -->
   <div class="d-none d-md-flex align-items-center gap-4 navbar-desktop-links">
-    <a routerLink="/" class="navbar-brand text-decoration-none d-none d-md-inline"
-      >Daily Devotional</a
+    <a
+      routerLink="/"
+      class="navbar-brand text-decoration-none d-none d-md-flex align-items-center gap-2"
     >
+      <app-lighthouse-icon [size]="22" />
+      Daily Devotional
+    </a>
 
     <div class="d-flex align-items-center gap-4 ms-md-auto">
       <button
@@ -98,19 +104,7 @@
 
   <div class="navbar-drawer">
     <div class="drawer-header">
-      <div class="drawer-logo">
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-        </svg>
-      </div>
+      <app-lighthouse-icon [size]="26" />
       <span class="drawer-title">Daily Devotional</span>
     </div>
 
