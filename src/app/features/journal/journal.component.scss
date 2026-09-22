@@ -91,7 +91,6 @@
 }
 
 .save-btn {
-  align-self: flex-end;
   background: var(--color-accent);
   color: var(--color-accent-contrast);
   border: none;
@@ -101,6 +100,12 @@
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
+}
+
+.journal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .save-message {

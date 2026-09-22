@@ -1,6 +1,7 @@
 import { Component, inject, effect, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { from } from 'rxjs';
 
 import { Verse } from '../../core/models/verse.model';
 import { Journal } from './../../core/models/journal.model';
@@ -10,6 +11,7 @@ import { DateService } from '../../core/services/date.service';
 import { DailyReadingStateService } from '../../core/services/daily-reading-state.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { SettingsService } from '../../core/services/settings.service';
+import { formatPassageReference } from '../../core/utils/passage-reference';
 
 @Component({
   selector: 'app-journal',
@@ -95,6 +97,44 @@ export class JournalComponent {
           'Could not save your journal entry. Please try again.',
           'error',
         );
+      },
+    });
+  }
+
+  shareJournal(): void {
+    const reading = this.reading();
+
+    if (!reading) {
+      return;
+    }
+
+    const dateLabel = new Date(`${this.dateService.selectedDate()}T00:00:00`).toLocaleDateString(
+      'en-US',
+      { month: 'long', day: 'numeric', year: 'numeric' },
+    );
+    const passageLabel = formatPassageReference(reading);
+    const text = `${dateLabel}\n${passageLabel}\n\n${this.notes}`;
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    if (typeof navigator.share === 'function') {
+      from(navigator.share({ text })).subscribe({
+        error: (error) => {
+          if ((error as DOMException).name !== 'AbortError') {
+            console.error('Error sharing journal: ', error);
+          }
+        },
+      });
+      return;
+    }
+
+    from(navigator.clipboard.writeText(text)).subscribe({
+      next: () => this.notificationService.show('Copied to clipboard!', 'success'),
+      error: (error) => {
+        console.error('Error copying journal: ', error);
+        this.notificationService.show('Could not copy to clipboard.', 'error');
       },
     });
   }
