@@ -4,6 +4,7 @@ export interface UserSettings {
   showFavoriteVerseInNotes: boolean;
   shareHistory: boolean;
   shareFavoriteVerseInHistory: boolean;
+  enableSearchInHistory: boolean;
   enableAiCommentary: boolean;
   theme: ThemePreference;
 }

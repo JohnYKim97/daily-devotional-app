@@ -26,6 +26,7 @@ public class UserSettingsService : IUserSettingsService
         ShowFavoriteVerseInNotes = false,
         ShareHistory = true,
         ShareFavoriteVerseInHistory = false,
+        EnableSearchInHistory = false,
         EnableAiCommentary = false,
         Theme = "system",
       };
@@ -36,6 +37,7 @@ public class UserSettingsService : IUserSettingsService
       ShowFavoriteVerseInNotes = settings.ShowFavoriteVerseInNotes,
       ShareHistory = settings.ShareHistory,
       ShareFavoriteVerseInHistory = settings.ShareFavoriteVerseInHistory,
+      EnableSearchInHistory = settings.EnableSearchInHistory,
       EnableAiCommentary = settings.EnableAiCommentary,
       Theme = settings.Theme,
     };
@@ -57,6 +59,7 @@ public class UserSettingsService : IUserSettingsService
     settings.ShowFavoriteVerseInNotes = request.ShowFavoriteVerseInNotes;
     settings.ShareHistory = request.ShareHistory;
     settings.ShareFavoriteVerseInHistory = request.ShareFavoriteVerseInHistory;
+    settings.EnableSearchInHistory = request.EnableSearchInHistory;
     settings.EnableAiCommentary = request.EnableAiCommentary;
     settings.Theme = request.Theme;
 
@@ -67,6 +70,7 @@ public class UserSettingsService : IUserSettingsService
       ShowFavoriteVerseInNotes = settings.ShowFavoriteVerseInNotes,
       ShareHistory = settings.ShareHistory,
       ShareFavoriteVerseInHistory = settings.ShareFavoriteVerseInHistory,
+      EnableSearchInHistory = settings.EnableSearchInHistory,
       EnableAiCommentary = settings.EnableAiCommentary,
       Theme = settings.Theme,
     };

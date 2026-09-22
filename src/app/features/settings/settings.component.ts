@@ -31,6 +31,10 @@ export class SettingsComponent {
     }
   }
 
+  toggleEnableSearchInHistory(): void {
+    this.settingsService.setEnableSearchInHistory(!this.settingsService.enableSearchInHistory());
+  }
+
   toggleShareFavoriteVerseInHistory(): void {
     this.settingsService.setShareFavoriteVerseInHistory(
       !this.settingsService.shareFavoriteVerseInHistory(),

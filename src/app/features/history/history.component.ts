@@ -8,6 +8,7 @@ import { NotificationService } from '../../core/services/notification.service';
 import { JournalHistoryEntry } from '../../core/models/journal-history-entry.model';
 import { BIBLE_BOOKS } from '../../core/constants/bible-books';
 import { formatPassageReference } from '../../core/utils/passage-reference';
+import { SettingsService } from '../../core/services/settings.service';
 
 @Component({
   selector: 'app-history',
@@ -19,6 +20,7 @@ export class HistoryComponent {
   private journalService = inject(JournalService);
   private dateService = inject(DateService);
   private notificationService = inject(NotificationService);
+  protected settingsService = inject(SettingsService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 

@@ -1,57 +1,60 @@
 <div class="history-page">
   <div class="sticky-header-mobile">
     <div class="page-header">
-      <h1>Notes History</h1>
+      <p>Community</p>
+      <h1>History</h1>
     </div>
 
-    <div class="d-flex flex-wrap align-items-center gap-2 filters">
-      <div class="d-flex align-items-center gap-2 search-control">
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
+    @if (settingsService.enableSearchInHistory()) {
+      <div class="d-flex flex-wrap align-items-center gap-2 filters">
+        <div class="d-flex align-items-center gap-2 search-control">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.3-4.3" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search notes..."
+            [value]="notesFilter()"
+            (input)="onNotesFilterChange($event)"
+          />
+        </div>
+
+        <select
+          class="filter-control"
+          [value]="authorFilter()"
+          (change)="onAuthorFilterChange($event)"
         >
-          <circle cx="11" cy="11" r="7" />
-          <path d="M21 21l-4.3-4.3" />
-        </svg>
+          <option value="">Everyone</option>
+          @for (author of availableAuthors(); track author.userId) {
+            <option [value]="author.userId">{{ author.displayName }}</option>
+          }
+        </select>
+
+        <select class="filter-control" [value]="bookFilter()" (change)="onBookFilterChange($event)">
+          <option value="">All books</option>
+          @for (book of availableBooks(); track book) {
+            <option [value]="book">{{ book }}</option>
+          }
+        </select>
+
         <input
-          type="text"
-          placeholder="Search notes..."
-          [value]="notesFilter()"
-          (input)="onNotesFilterChange($event)"
+          type="date"
+          class="filter-control"
+          [value]="dateFilter()"
+          (change)="onDateFilterChange($event)"
         />
+
+        <button type="button" class="clear-link" (click)="clearFilters()">Clear</button>
       </div>
-
-      <select
-        class="filter-control"
-        [value]="authorFilter()"
-        (change)="onAuthorFilterChange($event)"
-      >
-        <option value="">Everyone</option>
-        @for (author of availableAuthors(); track author.userId) {
-          <option [value]="author.userId">{{ author.displayName }}</option>
-        }
-      </select>
-
-      <select class="filter-control" [value]="bookFilter()" (change)="onBookFilterChange($event)">
-        <option value="">All books</option>
-        @for (book of availableBooks(); track book) {
-          <option [value]="book">{{ book }}</option>
-        }
-      </select>
-
-      <input
-        type="date"
-        class="filter-control"
-        [value]="dateFilter()"
-        (change)="onDateFilterChange($event)"
-      />
-
-      <button type="button" class="clear-link" (click)="clearFilters()">Clear</button>
-    </div>
+    }
   </div>
 
   @if (groupedJournals().length === 0) {

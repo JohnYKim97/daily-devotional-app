@@ -10,6 +10,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   showFavoriteVerseInNotes: false,
   shareHistory: true,
   shareFavoriteVerseInHistory: false,
+  enableSearchInHistory: false,
   enableAiCommentary: false,
   theme: 'system',
 };
@@ -25,6 +26,7 @@ export class SettingsService {
   private _settings = signal<UserSettings>(DEFAULT_SETTINGS);
   readonly showFavoriteVerseInNotes = computed(() => this._settings().showFavoriteVerseInNotes);
   readonly shareHistory = computed(() => this._settings().shareHistory);
+  readonly enableSearchInHistory = computed(() => this._settings().enableSearchInHistory);
   readonly enableAiCommentary = computed(() => this._settings().enableAiCommentary);
   readonly shareFavoriteVerseInHistory = computed(
     () => this._settings().shareFavoriteVerseInHistory,
@@ -65,6 +67,10 @@ export class SettingsService {
 
   setShareFavoriteVerseInHistory(share: boolean): void {
     this.updateSettings({ ...this._settings(), shareFavoriteVerseInHistory: share });
+  }
+
+  setEnableSearchInHistory(enable: boolean): void {
+    this.updateSettings({ ...this._settings(), enableSearchInHistory: enable });
   }
 
   setEnableAiCommentary(enable: boolean): void {

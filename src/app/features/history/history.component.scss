@@ -6,7 +6,7 @@
 
 .sticky-header-mobile {
   padding-top: 40px;
-  padding-bottom: 24px;
+  padding-bottom: 8px;
 }
 
 @media (max-width: 767px) {
@@ -17,7 +17,6 @@
     background: var(--color-bg);
     padding-top: 16px;
     padding-bottom: 16px;
-    box-shadow: 0 2px 6px oklch(0% 0 0 / 0.05);
   }
 }
 
@@ -193,7 +192,7 @@
   font-family: inherit;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--color-accent-secondary);
   cursor: pointer;
 }
 

@@ -68,6 +68,26 @@
     </div>
   </section>
 
+  <section class="settings-card">
+    <div class="settings-row">
+      <div class="settings-row-text">
+        <span class="settings-row-title">Enable search in History</span>
+        <p class="settings-row-desc">Display the search and filter system in History.</p>
+      </div>
+
+      <button
+        type="button"
+        class="settings-toggle"
+        [class.settings-toggle-on]="settingsService.enableSearchInHistory()"
+        [attr.aria-pressed]="settingsService.enableSearchInHistory()"
+        aria-label="Share my favorite verse in History"
+        (click)="toggleEnableSearchInHistory()"
+      >
+        <span class="settings-toggle-thumb"></span>
+      </button>
+    </div>
+  </section>
+
   <!-- Turn back on when an API key is available -->
   <!-- <section class="settings-card">
     <div class="settings-row">
