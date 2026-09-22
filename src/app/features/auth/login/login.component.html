@@ -1,27 +1,14 @@
-<div class="d-flex align-items-center justify-content-center login-page">
-  <div class="d-flex flex-column align-items-center gap-4 login-card">
-    <div class="d-flex flex-column align-items-center gap-3">
-      <svg
-        width="38"
-        height="38"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke-width="1.7"
-        class="brand-icon"
-      >
-        <path
-          d="M2 5.5C2 4.4 3.1 3.9 4.6 3.9c2.1 0 4.1.8 5.4 2v13.4c-1.3-1.2-3.3-1.9-5.4-1.9-1.5 0-2.6.4-2.6 1.3"
-        />
-        <path
-          d="M22 5.5c0-1.1-1.1-1.6-2.6-1.6-2.1 0-4.1.8-5.4 2v13.4c1.3-1.2 3.3-1.9 5.4-1.9 1.5 0 2.6.4 2.6 1.3"
-        />
-      </svg>
-
-      <div class="text-center">
-        <div class="brand-title">Daily Devotional</div>
-        <p class="brand-tagline">A quiet moment with Scripture,<br />every day.</p>
-      </div>
+<div class="login-page">
+  <div class="d-flex flex-column align-items-center gap-3 login-card">
+    <div class="d-flex align-items-center gap-2">
+      <app-lighthouse-icon [size]="26" />
+      <span class="brand-title">Daily Devotional</span>
     </div>
+
+    <p class="brand-tagline">
+      &ldquo;Love, Grow, and Live to make <br />
+      disciples of Jesus Christ!&rdquo;
+    </p>
 
     <button
       type="button"
@@ -46,11 +33,12 @@
           d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.167 6.656 3.58 9 3.58z"
         />
       </svg>
-      Continue with Google
+      Sign in with Google
     </button>
 
     <p class="text-center privacy-note">
-      Used only to save your reading history and journal privately. We never post on your behalf.
+      Devotional following the<br />
+      LightHouse Devotional Schedule.
     </p>
   </div>
 </div>
