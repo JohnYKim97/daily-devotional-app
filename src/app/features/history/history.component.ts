@@ -76,6 +76,7 @@ export class HistoryComponent {
 
     const filtered = this.journals().filter(
       (entry) =>
+        entry.date <= this.today &&
         (!book || entry.book === book) &&
         (!date || entry.date === date) &&
         (!author || entry.authorUserId === author) &&
