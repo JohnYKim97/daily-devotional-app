@@ -68,6 +68,16 @@ export class JournalComponent {
       this.notes.set(journal.notes);
     });
 
+    effect(() => {
+      const height = this.sheetHeightPx();
+
+      if (!isPlatformBrowser(this.platformId)) {
+        return;
+      }
+
+      document.documentElement.style.setProperty('--sheet-height', `${height}px`);
+    });
+
     if (isPlatformBrowser(this.platformId)) {
       this.setupSheetHeights();
     }
