@@ -1,7 +1,7 @@
 <div class="history-page">
   <div class="sticky-header-mobile">
     <div class="page-header">
-      <p>Community</p>
+      <span class="page-eyebrow">Community</span>
       <h1>History</h1>
     </div>
 
@@ -45,12 +45,13 @@
           }
         </select>
 
-        <input
+        <!-- Date filter. Can re-enable if needed. -->
+        <!-- <input
           type="date"
           class="filter-control"
           [value]="dateFilter()"
           (change)="onDateFilterChange($event)"
-        />
+        /> -->
 
         <button type="button" class="clear-link" (click)="clearFilters()">Clear</button>
       </div>

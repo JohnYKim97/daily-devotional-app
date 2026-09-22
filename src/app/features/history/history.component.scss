@@ -27,16 +27,18 @@
   margin-bottom: 20px;
 }
 
+.page-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-secondary);
+}
+
 .page-header h1 {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-}
-
-.page-header p {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
 }
 
 .filters {
@@ -158,8 +160,8 @@
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--color-accent-contrast);
-  background: var(--color-accent);
+  color: #0b1220;
+  background: var(--color-favorite);
   padding: 2px 8px;
   border-radius: var(--radius-pill);
 }
@@ -221,4 +223,8 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-favorite);
+  background: var(--color-favorite-wash);
+  border: 1px solid var(--color-favorite);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
 }
