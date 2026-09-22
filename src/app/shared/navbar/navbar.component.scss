@@ -23,16 +23,6 @@
   color: var(--color-text);
 }
 
-.navbar-brand-mobile {
-  text-align: center;
-}
-
-@media (min-width: 768px) {
-  .navbar-brand-mobile {
-    display: none;
-  }
-}
-
 .navbar-desktop-links {
   width: 100%;
 }
