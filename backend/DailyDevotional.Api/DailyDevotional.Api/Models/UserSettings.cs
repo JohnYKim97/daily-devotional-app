@@ -10,5 +10,6 @@ public class UserSettings
   public bool ShowFavoriteVerseInNotes { get; set; } = false;
   public bool ShareHistory { get; set; } = true;
   public bool ShareFavoriteVerseInHistory { get; set; } = false;
+  public bool EnableAiCommentary { get; set; } = false;
   public string Theme { get; set; } = "system";
 }

@@ -13,15 +13,18 @@ public class DailyReadingController : ControllerBase
 {
   private readonly IDailyReadingService _readingService;
   private readonly IDailyReadingImportService _importService;
+  private readonly IUserSettingsService _userSettingsService;
   private readonly IConfiguration _configuration;
 
   public DailyReadingController(
       IDailyReadingService readingService,
       IDailyReadingImportService importService,
+      IUserSettingsService userSettingsService,
       IConfiguration configuration)
   {
     _readingService = readingService;
     _importService = importService;
+    _userSettingsService = userSettingsService;
     _configuration = configuration;
   }
 
@@ -137,6 +140,31 @@ public class DailyReadingController : ControllerBase
         System.IO.File.Delete(tempFilePath);
       }
     }
+  }
+
+  [Authorize]
+  [HttpPost("{date}/commentary")]
+  public async Task<ActionResult<GenerateCommentaryResponse>> GenerateCommentary(DateOnly date)
+  {
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    var settings = await _userSettingsService.GetSettingsAsync(userId);
+
+    if (!settings.EnableAiCommentary)
+    {
+      return Forbid();
+    }
+
+    var commentary = await _readingService.GetOrGenerateCommentaryAsync(date);
+
+    if (commentary == null)
+    {
+      return NotFound();
+    }
+
+    return Ok(new GenerateCommentaryResponse
+    {
+      Commentary = commentary
+    });
   }
 }
 

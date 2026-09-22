@@ -36,4 +36,8 @@ export class SettingsComponent {
       !this.settingsService.shareFavoriteVerseInHistory(),
     );
   }
+
+  toggleEnableAiCommentary(): void {
+    this.settingsService.setEnableAiCommentary(!this.settingsService.enableAiCommentary());
+  }
 }

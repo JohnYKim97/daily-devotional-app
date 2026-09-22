@@ -70,6 +70,28 @@
   <section class="settings-card">
     <div class="settings-row">
       <div class="settings-row-text">
+        <span class="settings-row-title">Enable AI Commentary</span>
+        <p class="settings-row-desc">
+          Show the Commentary button and generate an AI commentary for each reading.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="settings-toggle"
+        [class.settings-toggle-on]="settingsService.enableAiCommentary()"
+        [attr.aria-pressed]="settingsService.enableAiCommentary()"
+        aria-label="Enable AI Commentary"
+        (click)="toggleEnableAiCommentary()"
+      >
+        <span class="settings-toggle-thumb"></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="settings-card">
+    <div class="settings-row">
+      <div class="settings-row-text">
         <span class="settings-row-title">Theme</span>
         <p class="settings-row-desc">Choose how Daily Devotional looks</p>
       </div>

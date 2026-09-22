@@ -10,11 +10,13 @@ public class DailyReadingService : IDailyReadingService
 {
   public readonly AppDbContext _context;
   private readonly IBibleService _bibleService;
+  private readonly IAiCommentaryService _aiCommentaryService;
 
-  public DailyReadingService(AppDbContext context, IBibleService bibleService)
+  public DailyReadingService(AppDbContext context, IBibleService bibleService, IAiCommentaryService aiCommentaryService)
   {
     _context = context;
     _bibleService = bibleService;
+    _aiCommentaryService = aiCommentaryService;
   }
 
   public async Task<DailyReadingResponse?> GetReadingByDateAsync(DateOnly date)
@@ -194,5 +196,58 @@ public class DailyReadingService : IDailyReadingService
     response.ImportedCount = readingsToInsert.Count;
 
     return response;
+  }
+
+  public async Task<string?> GetOrGenerateCommentaryAsync(DateOnly date)
+  {
+    var reading = await _context.DailyReadings
+      .Include(r => r.Verses)
+      .FirstOrDefaultAsync(r => r.Date == date);
+
+    if (reading == null)
+    {
+      return null;
+    }
+
+    if (!string.IsNullOrWhiteSpace(reading.Commentary))
+    {
+      return reading.Commentary;
+    }
+
+    if (reading.Verses.Count == 0)
+    {
+      try
+      {
+        await FetchAndAttachVersesAsync(reading);
+      }
+      catch (HttpRequestException)
+      {
+        return null;
+      }
+    }
+
+    var passageText = string.Join(
+      " ",
+      reading.Verses
+      .OrderBy(v => v.Chapter)
+      .ThenBy(v => v.VerseNumber)
+      .Select(v => v.Text));
+
+    if (string.IsNullOrWhiteSpace(passageText))
+    {
+      return null;
+    }
+
+    var commentary = await _aiCommentaryService.GenerateCommentaryAsync(reading.Book, reading.Chapter, reading.EndChapter, reading.StartVerse, reading.EndVerse, passageText);
+
+    if (string.IsNullOrWhiteSpace(commentary))
+    {
+      return null;
+    }
+
+    reading.Commentary = commentary;
+    await _context.SaveChangesAsync();
+
+    return commentary;
   }
 }

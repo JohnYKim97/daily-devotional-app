@@ -1,6 +1,10 @@
-@if (expanded() && commentary()) {
+@if (expanded()) {
   <div class="commentary-card">
     <span class="commentary-label">AI-generated</span>
-    <p class="commentary-text">{{ commentary() }}</p>
+    @if (loading()) {
+      <p class="commentary-text">Generating commentary...</p>
+    } @else if (commentary()) {
+      <p class="commentary-text">{{ commentary() }}</p>
+    }
   </div>
 }

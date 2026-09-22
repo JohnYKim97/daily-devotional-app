@@ -100,6 +100,7 @@ builder.Services.AddScoped<IDailyReadingService, DailyReadingService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IDailyReadingImportService, DailyReadingImportService>();
 builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
+builder.Services.AddScoped<IAiCommentaryService, AiCommentaryService>();
 
 // Add services to the container.
 

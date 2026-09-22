@@ -9,5 +9,6 @@ public interface IDailyReadingService
   Task<List<DailyReadingSummaryResponse>> GetScheduleAsync(string userId);
   Task<bool> ImportVersesAsync(int readingId);
   Task<ImportReadingsResponse> SaveImportedReadingsAsync(List<DailyReading> readings, bool overwrite);
+  Task<string?> GetOrGenerateCommentaryAsync(DateOnly date);
   
 }

@@ -3,6 +3,7 @@ using System;
 using DailyDevotional.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DailyDevotional.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260922173750_AddEnableAiCommentaryToSettings")]
+    partial class AddEnableAiCommentaryToSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,7 +133,7 @@ namespace DailyDevotional.Api.Migrations
                     b.HasIndex("Date")
                         .IsUnique();
 
-                    b.ToTable("DailyReadings", (string)null);
+                    b.ToTable("DailyReadings");
 
                     b.HasData(
                         new
@@ -193,7 +196,7 @@ namespace DailyDevotional.Api.Migrations
 
                     b.HasIndex("DailyReadingId");
 
-                    b.ToTable("DailyReadingVerses", (string)null);
+                    b.ToTable("DailyReadingVerses");
 
                     b.HasData(
                         new
@@ -269,7 +272,7 @@ namespace DailyDevotional.Api.Migrations
                     b.HasIndex("UserId", "Date")
                         .IsUnique();
 
-                    b.ToTable("Journals", (string)null);
+                    b.ToTable("Journals");
                 });
 
             modelBuilder.Entity("DailyDevotional.Api.Models.UserSettings", b =>
@@ -305,7 +308,7 @@ namespace DailyDevotional.Api.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserSettings", (string)null);
+                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

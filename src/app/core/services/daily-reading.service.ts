@@ -33,4 +33,8 @@ export class DailyReadingService {
 
     return this.http.post<ImportReadingsResponse>(`${this.apiUrl}/import`, formData);
   }
+
+  generateCommentary(date: string): Observable<{ commentary: string }> {
+    return this.http.post<{ commentary: string }>(`${this.apiUrl}/${date}/commentary`, {});
+  }
 }

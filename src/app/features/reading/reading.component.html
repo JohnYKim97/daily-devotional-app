@@ -10,11 +10,15 @@
     <app-passage-header
       [reading]="currentReading"
       [commentaryExpanded]="commentaryExpanded()"
-      (toggleCommentary)="commentaryExpanded.set(!commentaryExpanded())"
+      (toggleCommentary)="onToggleCommentary()"
     >
     </app-passage-header>
 
-    <app-commentary [commentary]="currentReading.commentary" [expanded]="commentaryExpanded()">
+    <app-commentary
+      [commentary]="currentReading.commentary"
+      [expanded]="commentaryExpanded()"
+      [loading]="commentaryLoading()"
+    >
     </app-commentary>
 
     <div class="verse-card">

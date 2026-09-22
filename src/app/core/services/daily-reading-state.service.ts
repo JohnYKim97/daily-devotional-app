@@ -35,4 +35,12 @@ export class DailyReadingStateService {
       },
     });
   }
+
+  updateCommentary(commentary: string): void {
+    const current = this._reading();
+
+    if (current) {
+      this._reading.set({ ...current, commentary });
+    }
+  }
 }
