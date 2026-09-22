@@ -6,6 +6,12 @@
   margin-bottom: 10px;
 }
 
+@media (max-width: 767px) {
+  .passage-title {
+    text-align: center;
+  }
+}
+
 .passage-title {
   font-size: 1.15rem;
   font-weight: 700;
