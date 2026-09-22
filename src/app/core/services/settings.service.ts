@@ -8,6 +8,8 @@ import { AuthService } from './auth.service';
 
 const DEFAULT_SETTINGS: UserSettings = {
   showFavoriteVerseInNotes: false,
+  shareHistory: true,
+  shareFavoriteVerseInHistory: false,
   theme: 'system',
 };
 
@@ -21,6 +23,10 @@ export class SettingsService {
 
   private _settings = signal<UserSettings>(DEFAULT_SETTINGS);
   readonly showFavoriteVerseInNotes = computed(() => this._settings().showFavoriteVerseInNotes);
+  readonly shareHistory = computed(() => this._settings().shareHistory);
+  readonly shareFavoriteVerseInHistory = computed(
+    () => this._settings().shareFavoriteVerseInHistory,
+  );
   readonly theme = computed(() => this._settings().theme);
 
   constructor() {
@@ -49,6 +55,14 @@ export class SettingsService {
 
   setShowFavoriteVersesInNotes(show: boolean): void {
     this.updateSettings({ ...this._settings(), showFavoriteVerseInNotes: show });
+  }
+
+  setShareHistory(share: boolean): void {
+    this.updateSettings({ ...this._settings(), shareHistory: share });
+  }
+
+  setShareFavoriteVerseInHistory(share: boolean): void {
+    this.updateSettings({ ...this._settings(), shareFavoriteVerseInHistory: share });
   }
 
   setTheme(theme: ThemePreference): void {

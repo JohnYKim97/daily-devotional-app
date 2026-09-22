@@ -24,6 +24,8 @@ public class UserSettingsService : IUserSettingsService
       return new UserSettingsResponse
       {
         ShowFavoriteVerseInNotes = false,
+        ShareHistory = true,
+        ShareFavoriteVerseInHistory = false,
         Theme = "system",
       };
     }
@@ -31,6 +33,8 @@ public class UserSettingsService : IUserSettingsService
     return new UserSettingsResponse
     {
       ShowFavoriteVerseInNotes = settings.ShowFavoriteVerseInNotes,
+      ShareHistory = settings.ShareHistory,
+      ShareFavoriteVerseInHistory = settings.ShareFavoriteVerseInHistory,
       Theme = settings.Theme,
     };
   }
@@ -49,6 +53,8 @@ public class UserSettingsService : IUserSettingsService
     }
 
     settings.ShowFavoriteVerseInNotes = request.ShowFavoriteVerseInNotes;
+    settings.ShareHistory = request.ShareHistory;
+    settings.ShareFavoriteVerseInHistory = request.ShareFavoriteVerseInHistory;
     settings.Theme = request.Theme;
 
     await _context.SaveChangesAsync();
@@ -56,6 +62,8 @@ public class UserSettingsService : IUserSettingsService
     return new UserSettingsResponse
     {
       ShowFavoriteVerseInNotes = settings.ShowFavoriteVerseInNotes,
+      ShareHistory = settings.ShareHistory,
+      ShareFavoriteVerseInHistory = settings.ShareFavoriteVerseInHistory,
       Theme = settings.Theme,
     };
   }

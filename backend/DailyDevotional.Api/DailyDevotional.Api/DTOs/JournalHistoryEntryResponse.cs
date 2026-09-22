@@ -11,4 +11,7 @@ public class JournalHistoryEntryResponse
   public int EndVerse { get; set; }
   public int? FavoriteVerse { get; set; }
   public string Notes { get; set; } = string.Empty;
+  public string AuthorUserId { get; set; } = string.Empty;
+  public string AuthorName { get; set; } = string.Empty;
+  public bool IsOwnEntry { get; set; }
 }

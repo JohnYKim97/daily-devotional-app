@@ -24,6 +24,52 @@
   <section class="settings-card">
     <div class="settings-row">
       <div class="settings-row-text">
+        <span class="settings-row-title">Share my History</span>
+        <p class="settings-row-desc">
+          Let other users see your journal entries on the History page.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="settings-toggle"
+        [class.settings-toggle-on]="settingsService.shareHistory()"
+        [attr.aria-pressed]="settingsService.shareHistory()"
+        aria-label="Share my History"
+        (click)="toggleShareHistory()"
+      >
+        <span class="settings-toggle-thumb"></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="settings-card">
+    <div class="settings-row">
+      <div class="settings-row-text">
+        <span class="settings-row-title">Share my favorite verse in History</span>
+        <p class="settings-row-desc">
+          Let other users see the verse you marked as your favorite on your History entries.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="settings-toggle"
+        [class.settings-toggle-on]="
+          settingsService.shareFavoriteVerseInHistory() && settingsService.shareHistory()
+        "
+        [attr.aria-pressed]="settingsService.shareFavoriteVerseInHistory()"
+        aria-label="Share my favorite verse in History"
+        (click)="toggleShareFavoriteVerseInHistory()"
+      >
+        <span class="settings-toggle-thumb"></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="settings-card">
+    <div class="settings-row">
+      <div class="settings-row-text">
         <span class="settings-row-title">Theme</span>
         <p class="settings-row-desc">Choose how Daily Devotional looks</p>
       </div>

@@ -8,4 +8,8 @@ export interface JournalHistoryEntry {
   endVerse: number;
   favoriteVerse: number | null;
   notes: string;
+  authorUserId: string;
+  authorName: string;
+  authorEmail: string;
+  isOwnEntry: boolean;
 }

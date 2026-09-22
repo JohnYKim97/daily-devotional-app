@@ -8,7 +8,6 @@ import { NotificationService } from '../../core/services/notification.service';
 import { JournalHistoryEntry } from '../../core/models/journal-history-entry.model';
 import { BIBLE_BOOKS } from '../../core/constants/bible-books';
 import { formatPassageReference } from '../../core/utils/passage-reference';
-import { SettingsService } from '../../core/services/settings.service';
 
 @Component({
   selector: 'app-history',
@@ -20,7 +19,6 @@ export class HistoryComponent {
   private journalService = inject(JournalService);
   private dateService = inject(DateService);
   private notificationService = inject(NotificationService);
-  protected settingsService = inject(SettingsService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
@@ -29,7 +27,9 @@ export class HistoryComponent {
   protected readonly journals = signal<JournalHistoryEntry[]>([]);
   protected readonly bookFilter = signal('');
   protected readonly dateFilter = signal('');
+  protected readonly authorFilter = signal('');
   protected readonly notesFilter = signal('');
+  protected readonly expandedEntryIds = signal<Set<number>>(new Set());
 
   protected readonly availableBooks = computed(() => {
     const booksWithEntries = new Set(this.journals().map((entry) => entry.book));
@@ -37,30 +37,62 @@ export class HistoryComponent {
     return BIBLE_BOOKS.filter((book) => booksWithEntries.has(book));
   });
 
+  protected readonly authorDisplayNames = computed(() => {
+    const byUserId = new Map<string, { name: string; isOwn: boolean }>();
+
+    for (const entry of this.journals()) {
+      if (!byUserId.has(entry.authorUserId)) {
+        byUserId.set(entry.authorUserId, { name: entry.authorName, isOwn: entry.isOwnEntry });
+      }
+    }
+
+    const nameCounts = new Map<string, number>();
+    for (const author of byUserId.values()) {
+      nameCounts.set(author.name, (nameCounts.get(author.name) ?? 0) + 1);
+    }
+
+    const displayNames = new Map<string, string>();
+
+    for (const [userId, author] of byUserId) {
+      const hasCollision = (nameCounts.get(author.name) ?? 0) > 1;
+      displayNames.set(userId, hasCollision && author.isOwn ? 'You' : author.name);
+    }
+
+    return displayNames;
+  });
+
+  protected readonly availableAuthors = computed(() => {
+    const displayNames = this.authorDisplayNames();
+
+    return [...displayNames.entries()]
+      .map(([userId, displayName]) => ({ userId, displayName }))
+      .sort((a, b) => a.displayName.localeCompare(b.displayName));
+  });
   protected readonly groupedJournals = computed(() => {
     const book = this.bookFilter();
     const date = this.dateFilter();
+    const author = this.authorFilter();
     const notesQuery = this.notesFilter().trim().toLowerCase();
 
     const filtered = this.journals().filter(
       (entry) =>
         (!book || entry.book === book) &&
         (!date || entry.date === date) &&
+        (!author || entry.authorUserId === author) &&
         (!notesQuery || entry.notes.toLowerCase().includes(notesQuery)),
     );
 
-    const entriesByBook = new Map<string, JournalHistoryEntry[]>();
+    const entriesByDate = new Map<string, JournalHistoryEntry[]>();
 
     for (const entry of filtered) {
-      const entries = entriesByBook.get(entry.book) ?? [];
+      const entries = entriesByDate.get(entry.date) ?? [];
       entries.push(entry);
-      entriesByBook.set(entry.book, entries);
+      entriesByDate.set(entry.date, entries);
     }
 
-    return BIBLE_BOOKS.filter((book) => entriesByBook.has(book)).map((book) => ({
-      book,
-      entries: entriesByBook.get(book)!,
-    }));
+    return [...entriesByDate.entries()]
+      .sort(([dateA], [dateB]) => (dateA < dateB ? 1 : -1))
+      .map(([date, entries]) => ({ date, entries }));
   });
 
   private hasScrolledToToday = false;
@@ -98,12 +130,42 @@ export class HistoryComponent {
     return formatPassageReference(entry);
   }
 
+  authorDisplayName(entry: JournalHistoryEntry): string {
+    return this.authorDisplayNames().get(entry.authorUserId) ?? entry.authorName;
+  }
+
+  isExpanded(entryId: number): boolean {
+    return this.expandedEntryIds().has(entryId);
+  }
+
+  isLongNote(notes: string): boolean {
+    return notes.length > 140;
+  }
+
+  toggleExpand(entryId: number): void {
+    this.expandedEntryIds.update((ids) => {
+      const next = new Set(ids);
+
+      if (next.has(entryId)) {
+        next.delete(entryId);
+      } else {
+        next.add(entryId);
+      }
+
+      return next;
+    });
+  }
+
   onBookFilterChange(event: Event): void {
     this.bookFilter.set((event.target as HTMLSelectElement).value);
   }
 
   onDateFilterChange(event: Event): void {
     this.dateFilter.set((event.target as HTMLInputElement).value);
+  }
+
+  onAuthorFilterChange(event: Event): void {
+    this.authorFilter.set((event.target as HTMLInputElement).value);
   }
 
   onNotesFilterChange(event: Event): void {
@@ -113,6 +175,7 @@ export class HistoryComponent {
   clearFilters(): void {
     this.bookFilter.set('');
     this.dateFilter.set('');
+    this.authorFilter.set('');
     this.notesFilter.set('');
   }
 

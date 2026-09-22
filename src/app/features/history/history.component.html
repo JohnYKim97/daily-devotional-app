@@ -19,11 +19,22 @@
         </svg>
         <input
           type="text"
-          placeholder="Search your notes..."
+          placeholder="Search notes..."
           [value]="notesFilter()"
           (input)="onNotesFilterChange($event)"
         />
       </div>
+
+      <select
+        class="filter-control"
+        [value]="authorFilter()"
+        (change)="onAuthorFilterChange($event)"
+      >
+        <option value="">Everyone</option>
+        @for (author of availableAuthors(); track author.userId) {
+          <option [value]="author.userId">{{ author.displayName }}</option>
+        }
+      </select>
 
       <select class="filter-control" [value]="bookFilter()" (change)="onBookFilterChange($event)">
         <option value="">All books</option>
@@ -47,28 +58,25 @@
     <p class="empty-state">No journal entries match these filters yet.</p>
   }
 
-  @for (group of groupedJournals(); track group.book) {
-    <section class="book-group">
-      <h2>{{ group.book }}</h2>
+  @for (group of groupedJournals(); track group.date) {
+    <section class="date-group" [id]="group.date === today ? 'today-entry' : null">
+      <h2>
+        {{ group.date | date: 'MMMM d, yyyy' }}
+        @if (group.date === today) {
+          <span class="today-badge">Today</span>
+        }
+      </h2>
 
       <div class="entries">
         @for (entry of group.entries; track entry.id) {
-          <div
-            class="entry-card"
-            [class.today]="entry.date === today"
-            [id]="entry.date === today ? 'today-entry' : null"
-          >
+          <div class="entry-card" [class.own-entry]="entry.isOwnEntry">
             <div class="entry-body">
               <div class="entry-meta">
-                @if (entry.date === today) {
-                  <span class="today-badge">Today</span>
-                }
-                <span class="entry-date">{{ entry.date | date: 'MMMM d, yyyy' }}</span>
+                <span class="author-name">{{ authorDisplayName(entry) }}</span>
+                <span class="entry-reference">{{ passageReference(entry) }}</span>
               </div>
 
-              <div class="entry-reference">{{ passageReference(entry) }}</div>
-
-              @if (entry.favoriteVerse && settingsService.showFavoriteVerseInNotes()) {
+              @if (entry.favoriteVerse !== null) {
                 <span class="favorite-badge">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -79,10 +87,20 @@
                 </span>
               }
 
-              <p class="entry-notes">{{ entry.notes }}</p>
+              <p class="entry-notes" [class.expanded]="isExpanded(entry.id)">{{ entry.notes }}</p>
+
+              @if (isLongNote(entry.notes)) {
+                <button type="button" class="expand-link" (click)="toggleExpand(entry.id)">
+                  {{ isExpanded(entry.id) ? 'Show less' : 'Show more' }}
+                </button>
+              }
             </div>
 
-            <button type="button" class="edit-button" (click)="editEntry(entry.date)">Edit</button>
+            @if (entry.isOwnEntry) {
+              <button type="button" class="edit-button" (click)="editEntry(entry.date)">
+                Edit
+              </button>
+            }
           </div>
         }
       </div>

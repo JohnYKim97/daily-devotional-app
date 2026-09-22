@@ -67,6 +67,9 @@ public class AuthController : ControllerBase
           "Google account did not provide an email address.");
     }
 
+    var firstName = principal.FindFirstValue(ClaimTypes.GivenName) ?? string.Empty;
+    var lastName = principal.FindFirstValue(ClaimTypes.Surname) ?? string.Empty;
+
     var user = await _userManager.FindByEmailAsync(email);
 
     if (user == null)
@@ -75,7 +78,9 @@ public class AuthController : ControllerBase
       {
         UserName = email,
         Email = email,
-        EmailConfirmed = true
+        EmailConfirmed = true,
+        FirstName = firstName,
+        LastName = lastName,
       };
 
       var result = await _userManager.CreateAsync(user);
@@ -84,10 +89,14 @@ public class AuthController : ControllerBase
       {
         return BadRequest(new
         {
-          errors = result.Errors.Select(
-                error => error.Description)
+          errors = result.Errors.Select(error => error.Description)
         });
       }
+    }
+    else if (user.FirstName != firstName || user.LastName != lastName) {
+      user.FirstName = firstName;
+      user.LastName = lastName;
+      await _userManager.UpdateAsync(user);
     }
 
     var token = _jwtService.GenerateToken(user);

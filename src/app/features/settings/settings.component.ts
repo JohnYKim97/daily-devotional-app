@@ -23,4 +23,17 @@ export class SettingsComponent {
       !this.settingsService.showFavoriteVerseInNotes(),
     );
   }
+
+  toggleShareHistory(): void {
+    this.settingsService.setShareHistory(!this.settingsService.shareHistory());
+    if (this.settingsService.shareFavoriteVerseInHistory()) {
+      this.toggleShareFavoriteVerseInHistory();
+    }
+  }
+
+  toggleShareFavoriteVerseInHistory(): void {
+    this.settingsService.setShareFavoriteVerseInHistory(
+      !this.settingsService.shareFavoriteVerseInHistory(),
+    );
+  }
 }
