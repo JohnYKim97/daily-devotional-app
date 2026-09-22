@@ -3,10 +3,11 @@ import { Component, inject, computed, input, output } from '@angular/core';
 import { DailyReading } from '../../../../core/models/daily-reading.model';
 import { formatPassageReference } from '../../../../core/utils/passage-reference';
 import { SettingsService } from '../../../../core/services/settings.service';
+import { DateNavComponent } from '../../../../shared/date-nav/date-nav.component';
 
 @Component({
   selector: 'app-passage-header',
-  imports: [],
+  imports: [DateNavComponent],
   templateUrl: './passage-header.component.html',
   styleUrl: './passage-header.component.scss',
 })

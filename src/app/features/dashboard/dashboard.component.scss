@@ -5,6 +5,57 @@
   min-height: 0;
 }
 
+.day-nav-edge {
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  border: none;
+  box-shadow: 0 2px 8px oklch(0% 0 0 / 0.2);
+  cursor: pointer;
+  z-index: 1;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.day-nav-edge-prev {
+  left: 16px;
+}
+
+.day-nav-edge-next {
+  right: 16px;
+}
+
+@media (max-width: 767px) {
+  .day-nav-edge {
+    width: 38px;
+    height: 38px;
+  }
+
+  .day-nav-edge-prev {
+    left: 8px;
+  }
+
+  .day-nav-edge-next {
+    right: 8px;
+  }
+}
+
+.dashboard-date-nav {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 8px;
+}
+
 .date-nav {
   padding: 16px 0 8px;
 }
@@ -29,6 +80,7 @@
 .date-display {
   font-size: 1.2rem;
   font-weight: 700;
+  color: var(--color-accent-secondary);
   border-bottom: 1px dashed var(--color-border);
 }
 

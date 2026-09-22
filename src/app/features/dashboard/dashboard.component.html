@@ -1,36 +1,45 @@
 <div class="dashboard-page">
-  <div class="d-flex align-items-center justify-content-center gap-3 date-nav">
-    <button
-      type="button"
-      class="date-nav-arrow"
-      (click)="dateService.previousDay()"
-      aria-label="Previous day"
+  <button
+    type="button"
+    class="day-nav-edge day-nav-edge-prev"
+    (click)="dateService.previousDay()"
+    aria-label="Previous day"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      ←
-    </button>
-    <div class="d-flex align-items-center gap-2">
-      <svg
-        class="date-icon"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke-width="2"
-      >
-        <rect x="3" y="5" width="18" height="16" rx="2" />
-        <path d="M3 10h18M8 3v4M16 3v4" />
-      </svg>
-      <span class="date-display">{{ selectedDate() | date: 'MMMM d, yyy' }}</span>
-    </div>
-    <button
-      type="button"
-      class="date-nav-arrow"
-      (click)="dateService.nextDay()"
-      aria-label="Next day"
+      <path d="M15 6l-6 6 6 6" />
+    </svg>
+  </button>
+
+  <button
+    type="button"
+    class="day-nav-edge day-nav-edge-next"
+    (click)="dateService.nextDay()"
+    aria-label="Next day"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      →
-    </button>
-  </div>
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  </button>
+
+  <app-date-nav class="d-md-none dashboard-date-nav" />
 
   <div class="d-flex gap-4 dashboard-panels">
     <section class="reading-panel">
