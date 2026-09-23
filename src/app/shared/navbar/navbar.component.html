@@ -62,19 +62,11 @@
         Today
       </button>
 
-      <a
-        routerLink="/schedule"
-        routerLinkActive="navbar-link-active"
-        class="navbar-link text-decoration-none"
+      <a routerLink="/schedule" routerLinkActive="navbar-link-active" class="navbar-link"
         >Schedule</a
       >
 
-      <a
-        routerLink="/history"
-        routerLinkActive="navbar-link-active"
-        class="navbar-link text-decoration-none"
-        >History</a
-      >
+      <a routerLink="/history" routerLinkActive="navbar-link-active" class="navbar-link">History</a>
 
       @if (authService.isAdmin()) {
         <button type="button" class="btn btn-sm navbar-admin-btn" (click)="openImportDialog()">
@@ -83,10 +75,7 @@
       }
 
       @if (authService.isAuthenticated()) {
-        <a
-          routerLink="/settings"
-          routerLinkActive="navbar-link-active"
-          class="navbar-link text-decoration-none"
+        <a routerLink="/settings" routerLinkActive="navbar-link-active" class="navbar-link"
           >Settings</a
         >
 
@@ -133,7 +122,7 @@
     <a
       routerLink="/schedule"
       routerLinkActive="drawer-link-active"
-      class="drawer-link text-decoration-none"
+      class="drawer-link"
       (click)="closeMenu()"
     >
       <svg
@@ -153,7 +142,7 @@
     <a
       routerLink="/history"
       routerLinkActive="drawer-link-active"
-      class="drawer-link text-decoration-none"
+      class="drawer-link"
       (click)="closeMenu()"
     >
       <svg
@@ -194,7 +183,7 @@
       <a
         routerLink="/settings"
         routerLinkActive="drawer-link-active"
-        class="drawer-link text-decoration-none"
+        class="drawer-link"
         (click)="closeMenu()"
         ><svg
           width="18"
