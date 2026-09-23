@@ -5,28 +5,48 @@ using DailyDevotional.Api.Services.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5184";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
+var allowedOrigins = builder.Configuration["AllowedOrigins"]
+  ?.Split(',', StringSplitOptions.RemoveEmptyEntries |
+  StringSplitOptions.TrimEntries)
+  ?? ["http://localhost:4200"];
 
 builder.Services.AddCors(options =>
 {
   options.AddPolicy("Angular", policy =>
   {
     policy
-        .WithOrigins("http://localhost:4200")
+        .WithOrigins(allowedOrigins)
         .AllowAnyHeader()
         .AllowAnyMethod();
   });
 });
 
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+var connectionString = string.IsNullOrWhiteSpace(databaseUrl)
+  ? builder.Configuration.GetConnectionString("DefaultConnection")
+  : BuildConnectionStringFromDatabaseUrl(databaseUrl);
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseNpgsql(
-  builder.Configuration.GetConnectionString("DefaultConnection")
-  ));
+options.UseNpgsql(connectionString));
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+  options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+  options.KnownNetworks.Clear();
+  options.KnownProxies.Clear();
+});
 
 builder.Services
   .AddIdentityCore<ApplicationUser>()
@@ -105,7 +125,6 @@ builder.Services.AddScoped<IAiCommentaryService, AiCommentaryService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -141,6 +160,14 @@ builder.Services.AddHttpClient<IBibleService, BibleService>(client =>
 
 var app = builder.Build();
 
+using (var migrationScope = app.Services.CreateScope())
+{
+  var dbContext = migrationScope.ServiceProvider.GetRequiredService<AppDbContext>();
+  dbContext.Database.Migrate();
+}
+
+app.UseForwardedHeaders();
+
 app.UseCors("Angular");
 
 // Configure the HTTP request pipeline.
@@ -158,3 +185,21 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+static string BuildConnectionStringFromDatabaseUrl(string databaseUrl)
+{
+  var uri = new Uri(databaseUrl);
+  var userInfo = uri.UserInfo.Split(':', 2);
+
+  return new NpgsqlConnectionStringBuilder
+  {
+    Host = uri.Host,
+    Port = uri.Port,
+    Database = uri.AbsolutePath.TrimStart('/'),
+    Username = Uri.UnescapeDataString(userInfo[0]),
+    Password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : "",
+    SslMode = SslMode.Require,
+    TrustServerCertificate = true,
+  }.ConnectionString;
+}
