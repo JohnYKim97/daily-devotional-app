@@ -4,11 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { Journal } from '../models/journal.model';
 import { JournalHistoryEntry } from '../models/journal-history-entry.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class JournalService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5184/api/journal';
+  private apiUrl = `${environment.apiUrl}/journal`;
 
   private _journal = signal<Journal>({
     id: 0,

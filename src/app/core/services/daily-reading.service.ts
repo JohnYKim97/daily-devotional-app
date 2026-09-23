@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { DailyReading } from '../models/daily-reading.model';
 import { ImportReadingsResponse } from '../models/import-readings-response.model';
 import { ScheduleEntry } from '../models/schedule-entry.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DailyReadingService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5184/api/DailyReading';
+  private apiUrl = `${environment.apiUrl}/DailyReading`;
 
   getReadingByDate(date: string): Observable<DailyReading> {
     return this.http.get<DailyReading>(`${this.apiUrl}/${date}`);

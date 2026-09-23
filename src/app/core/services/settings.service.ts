@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserSettings, ThemePreference } from '../models/user-settings.model';
 import { NotificationService } from './notification.service';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 const DEFAULT_SETTINGS: UserSettings = {
   showFavoriteVerseInNotes: false,
@@ -21,7 +22,7 @@ export class SettingsService {
   private notificationService = inject(NotificationService);
   private authService = inject(AuthService);
   private platformId = inject(PLATFORM_ID);
-  private apiUrl = 'http://localhost:5184/api/usersettings';
+  private apiUrl = `${environment.apiUrl}/usersettings`;
 
   private _settings = signal<UserSettings>(DEFAULT_SETTINGS);
   readonly showFavoriteVerseInNotes = computed(() => this._settings().showFavoriteVerseInNotes);

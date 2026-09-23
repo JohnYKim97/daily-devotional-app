@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { CurrentUserResponse } from '../models/current-user-response.model';
+import { environment } from '../../../environments/environment';
 
 const TOKEN_STORAGE_KEY = 'daily-devotional-token';
 
@@ -12,7 +13,7 @@ export class AuthService {
   private router = inject(Router);
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
-  private apiUrl = 'http://localhost:5184/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   private _token = signal<string | null>(this.readStoredToken());
   readonly token = this._token.asReadonly();
