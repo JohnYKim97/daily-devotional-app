@@ -101,7 +101,7 @@ public class AuthController : ControllerBase
 
     var token = _jwtService.GenerateToken(user);
 
-    var frontendBaseUrl = _configuration["https://lighthouse-daily-devotionals.up.railway.app"] ?? "http://localhost:4200";
+    var frontendBaseUrl = _configuration["FrontendBaseUrl"] ?? "http://localhost:4200";
 
     return Redirect($"{frontendBaseUrl}/auth/callback?token={Uri.EscapeDataString(token)}");
   }
