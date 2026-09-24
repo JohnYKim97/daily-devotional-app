@@ -20,7 +20,7 @@ export const BIBLE_BOOKS: readonly string[] = [
   'Psalms',
   'Proverbs',
   'Ecclesiastes',
-  'Song of Solomon',
+  'Song of Songs',
   'Isaiah',
   'Jeremiah',
   'Lamentations',
