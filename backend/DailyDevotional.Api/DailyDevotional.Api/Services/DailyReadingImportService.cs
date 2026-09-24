@@ -384,7 +384,7 @@ public class DailyReadingImportService : IDailyReadingImportService
             "Psalms",
             "Proverbs",
             "Ecclesiastes",
-            "Song of Solomon",
+            "Song of Songs",
 
             "Isaiah",
             "Jeremiah",
