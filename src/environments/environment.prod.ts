@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'daily-devotional-app-production.up.railway.app/api',
+  apiUrl: 'backend-production-20e3e.up.railway.app/api',
 };
