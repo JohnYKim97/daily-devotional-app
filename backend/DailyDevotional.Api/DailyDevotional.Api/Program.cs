@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5184";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-var allowedOrigins = builder.Configuration["https://frontend-production-11ea.up.railway.app"]
+var allowedOrigins = builder.Configuration["https://lighthouse-daily-devotionals.up.railway.app"]
   ?.Split(',', StringSplitOptions.RemoveEmptyEntries |
   StringSplitOptions.TrimEntries)
   ?? ["http://localhost:4200"];
