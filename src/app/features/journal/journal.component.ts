@@ -123,7 +123,7 @@ export class JournalComponent {
       { month: 'long', day: 'numeric', year: 'numeric' },
     );
     const passageLabel = formatPassageReference(reading);
-    const text = `${dateLabel}\n${passageLabel}\n\n${this.notes}`;
+    const text = `${dateLabel}\n${passageLabel}\n\n${this.notes()}`;
 
     if (!isPlatformBrowser(this.platformId)) {
       return;
