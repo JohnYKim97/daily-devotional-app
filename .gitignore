@@ -51,3 +51,8 @@ obj/
 *.suo
 *.userosscache
 *.sln.docstates
+
+# Local secrets
+.env
+.env.*
+appsettings.*.local.json
