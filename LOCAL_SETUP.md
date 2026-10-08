@@ -4,7 +4,7 @@ How to run the Daily Devotional app locally.
 
 - **Frontend:** Angular 22, http://localhost:4200
 - **Backend:** ASP.NET Core 8 API, http://localhost:5184 (Swagger at `/swagger`)
-- **Database:** PostgreSQL. The API applies EF migrations (and seeds sample readings) automatically on startup.
+- **Database:** PostgreSQL. The API applies EF migrations (and seeds sample readings) automatically on startup. To create a new migration after changing a model, run `dotnet ef migrations add <Name>` from `backend/DailyDevotional.Api/DailyDevotional.Api` (the setup script installs `dotnet-ef` as a repo-local tool; stop the running API first).
 
 ## Quick start (new developer checklist)
 
@@ -44,7 +44,7 @@ That's it. Everything in the next section is done for you.
 | 5 | **Generate the JWT key, set issuer and audience** | Stored in .NET user-secrets, outside the repo. | Same. |
 | 6 | **Set a custom connection string** | Only if you pass a non-default `-PgPassword`, `-PgHost`, `-PgPort` or `-PgUser`. | Only if you pass `--pg-password`, `--pg-host`, `--pg-port` or `--pg-user`. |
 | 7 | **Prompt for Google client ID/secret, ESV key, Anthropic key, admin email** | Press Enter to skip any. Secret input is hidden. The admin email is the Google account you sign in with; it makes you an admin so the schedule Import button appears. | Same. |
-| 8 | **Restore backend packages** | `dotnet restore`. | Same. |
+| 8 | **Restore backend packages and tools** | `dotnet restore`, then `dotnet tool restore` (installs `dotnet-ef`, pinned in `.config/dotnet-tools.json`, into this repo only). | Same. |
 | 9 | **Install frontend packages** | `npm ci` (never rewrites `package-lock.json`). Stops this repo's own leftover dev-server processes first so Windows can replace `node_modules`. | `npm ci`. |
 | 10 | **Start the API and frontend and open the browser** | Only with `-Run` (two PowerShell windows). | Only with `--run` (two Terminal windows). |
 

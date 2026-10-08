@@ -7,7 +7,7 @@
 #   2. Starts the PostgreSQL service and makes sure a `postgres` role exists
 #   3. Creates the local DailyDevotional database if it does not exist
 #   4. Stores backend secrets in .NET user-secrets (outside the repo)
-#   5. Restores backend NuGet packages
+#   5. Restores backend NuGet packages and local .NET tools (dotnet-ef)
 #   6. Installs frontend dependencies with `npm ci` (does not modify package-lock.json)
 #   7. Optionally starts the API and the frontend (--run)
 #
@@ -255,6 +255,10 @@ prompt_optional "Authentication:AdminEmail"          "Your Google sign-in email 
 step "5/6  Backend packages (dotnet restore)"
 dotnet restore >/dev/null
 ok "restored"
+
+# dotnet-ef is pinned in .config/dotnet-tools.json (used for `dotnet ef migrations add`)
+dotnet tool restore >/dev/null
+ok "dotnet-ef restored"
 
 # ---------------------------------------------------------------- 6. frontend packages
 step "6/6  Frontend packages (npm ci)"

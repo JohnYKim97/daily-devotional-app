@@ -7,7 +7,7 @@
   2. Makes sure the PostgreSQL service is running
   3. Creates the local DailyDevotional database if it does not exist
   4. Stores backend secrets in .NET user-secrets (outside the repo)
-  5. Restores backend NuGet packages
+  5. Restores backend NuGet packages and local .NET tools (dotnet-ef)
   6. Installs frontend dependencies with `npm ci` (does not modify package-lock.json)
   7. Optionally starts the API and the frontend (-Run)
 
@@ -257,6 +257,11 @@ try {
   dotnet restore | Out-Null
   if ($LASTEXITCODE -ne 0) { throw 'dotnet restore failed' }
   Write-Ok 'restored'
+
+  # dotnet-ef is pinned in .config/dotnet-tools.json (used for `dotnet ef migrations add`)
+  dotnet tool restore | Out-Null
+  if ($LASTEXITCODE -ne 0) { throw 'dotnet tool restore failed' }
+  Write-Ok 'dotnet-ef restored'
 }
 finally { Pop-Location }
 
