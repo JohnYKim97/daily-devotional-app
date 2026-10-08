@@ -2,15 +2,20 @@ using DailyDevotional.Api.Data;
 using DailyDevotional.Api.Models;
 using DailyDevotional.Api.Services;
 using DailyDevotional.Api.Services.IServices;
+using DailyDevotional.Api.Services.RateLimiting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Npgsql;
+using System.Globalization;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -153,10 +158,58 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-builder.Services.AddHttpClient<IBibleService, BibleService>(client =>
+var rateLimiting = builder.Configuration.GetSection("RateLimiting").Get<RateLimitingOptions>() ?? new RateLimitingOptions();
+builder.Services.Configure<RateLimitingOptions>(builder.Configuration.GetSection("RateLimiting"));
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddSingleton<IProviderRateLimiter, ProviderRateLimiter>();
+
+// Per-client limit on the endpoints that return Bible text, so one visitor cannot use up
+// the ESV allowance. Signed-in users are counted by account, everyone else by IP address.
+builder.Services.AddRateLimiter(options =>
+{
+  options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+  options.AddPolicy("passages", httpContext =>
+  {
+    var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var partitionKey = userId != null
+      ? $"user:{userId}"
+      : $"ip:{httpContext.Connection.RemoteIpAddress}";
+
+    return RateLimitPartition.GetSlidingWindowLimiter(partitionKey, _ => new SlidingWindowRateLimiterOptions
+    {
+      PermitLimit = rateLimiting.PassageRequestsPerMinute,
+      Window = TimeSpan.FromMinutes(1),
+      SegmentsPerWindow = 6,
+      QueueLimit = 0
+    });
+  });
+
+  options.OnRejected = async (context, cancellationToken) =>
+  {
+    // A sliding window does not report when a permit frees up, so fall back to its length.
+    var retryAfterSeconds = context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter)
+      ? Math.Ceiling(retryAfter.TotalSeconds)
+      : 60;
+
+    context.HttpContext.Response.Headers.RetryAfter = retryAfterSeconds.ToString(CultureInfo.InvariantCulture);
+
+    context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+    await context.HttpContext.Response.WriteAsJsonAsync(
+      new { errors = new[] { "Too many requests. Please wait a moment and try again." } },
+      cancellationToken);
+  };
+});
+
+builder.Services.AddHttpClient<EsvTranslationProvider>(client =>
 {
   client.BaseAddress = new Uri("https://api.esv.org/v3/");
 });
+builder.Services.AddTransient<ITranslationProvider>(sp => sp.GetRequiredService<EsvTranslationProvider>());
+builder.Services.AddScoped<IBibleTextService, BibleTextService>();
+builder.Services.AddScoped<IBibleMetadataService, BibleMetadataService>();
+builder.Services.AddHttpClient<TranslationImportService>();
+builder.Services.AddHostedService<TranslationCacheCleanupService>();
 
 var app = builder.Build();
 
@@ -164,6 +217,19 @@ using (var migrationScope = app.Services.CreateScope())
 {
   var dbContext = migrationScope.ServiceProvider.GetRequiredService<AppDbContext>();
   dbContext.Database.Migrate();
+
+  await migrationScope.ServiceProvider.GetRequiredService<TranslationImportService>().SeedStructureAsync();
+
+  // Usage: dotnet run -- import-translation <CODE> [path-to-bolls-json]
+  if (args.Length >= 2 && args[0] == "import-translation")
+  {
+    var imported = await migrationScope.ServiceProvider
+      .GetRequiredService<TranslationImportService>()
+      .ImportFullTranslationAsync(args[1], args.Length > 2 ? args[2] : null);
+
+    Console.WriteLine($"Imported {imported} verses of {args[1]}.");
+    return;
+  }
 }
 
 app.UseForwardedHeaders();
@@ -181,6 +247,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 
 app.MapControllers();
 

@@ -1,7 +1,6 @@
 using DailyDevotional.Api.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 namespace DailyDevotional.Api.Data;
 
@@ -13,24 +12,86 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
   public DbSet<Journal> Journals { get; set; }
   public DbSet<DailyReading> DailyReadings { get; set; }
-  public DbSet<DailyReadingVerse> DailyReadingVerses { get; set; }
+  public DbSet<Book> Books { get; set; }
+  public DbSet<Translation> Translations { get; set; }
+  public DbSet<TranslationBook> TranslationBooks { get; set; }
+  public DbSet<TranslationChapter> TranslationChapters { get; set; }
+  public DbSet<Verse> Verses { get; set; }
   public DbSet<UserSettings> UserSettings { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     base.OnModelCreating(modelBuilder);
 
-    modelBuilder.Entity<DailyReadingVerse>()
-      .HasOne(v => v.DailyReading)
-      .WithMany(r => r.Verses)
-      .HasForeignKey(v => v.DailyReadingId);
+    modelBuilder.Entity<Translation>(entity =>
+    {
+      entity.Property(t => t.StorageMode).HasConversion<string>().HasMaxLength(16);
+      entity.Property(t => t.ProviderKind).HasConversion<string>().HasMaxLength(16);
+    });
+
+    modelBuilder.Entity<TranslationBook>()
+      .HasKey(tb => new { tb.TranslationId, tb.BookId });
+
+    modelBuilder.Entity<TranslationChapter>()
+      .HasKey(tc => new { tc.TranslationId, tc.BookId, tc.Chapter });
+
+    modelBuilder.Entity<Verse>(entity =>
+    {
+      entity.HasKey(v => new { v.TranslationId, v.BookId, v.Chapter, v.VerseNumber });
+      entity.HasIndex(v => new { v.TranslationId, v.FetchedAt });
+    });
+
+    // Deleting a translation or a book must never silently remove users' settings
+    // or the reading schedule, so these relationships block the delete instead.
+    modelBuilder.Entity<UserSettings>()
+      .HasOne<Translation>()
+      .WithMany()
+      .HasForeignKey(s => s.PreferredTranslationId)
+      .OnDelete(DeleteBehavior.Restrict);
+
+    modelBuilder.Entity<DailyReading>()
+      .HasOne(r => r.Book)
+      .WithMany()
+      .HasForeignKey(r => r.BookId)
+      .OnDelete(DeleteBehavior.Restrict);
+
+    modelBuilder.Entity<Book>().HasData(BibleBookData.Books);
+
+    modelBuilder.Entity<Translation>().HasData(
+      new Translation
+      {
+        Id = 1,
+        Code = "ESV",
+        Name = "English Standard Version",
+        StorageMode = TranslationStorageMode.Cache,
+        ProviderKind = TranslationProviderKind.EsvApi,
+        MaxCachedVerses = 500,
+        MaxCacheAgeDays = 14,
+        CopyrightNotice = "Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.",
+        NonCommercialOnly = true,
+        IsEnabled = true,
+        SortOrder = 1
+      },
+      new Translation
+      {
+        Id = 2,
+        Code = "KJV",
+        Name = "King James Version",
+        StorageMode = TranslationStorageMode.Full,
+        ProviderKind = TranslationProviderKind.Local,
+        CopyrightNotice = "King James Version (public domain in the United States).",
+        NonCommercialOnly = false,
+        // Enabled by `import-translation KJV` once its verses are loaded.
+        IsEnabled = false,
+        SortOrder = 2
+      });
 
     modelBuilder.Entity<DailyReading>().HasData(
       new DailyReading
       {
         Id = 1,
         Date = new DateOnly(2026, 8, 11),
-        Book = "Genesis",
+        BookId = 1,
         Chapter = 1,
         StartVerse = 1,
         EndVerse = 5,
@@ -39,7 +100,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
       new DailyReading {
         Id = 2,
         Date = new DateOnly(2026, 8, 12),
-        Book = "Genesis",
+        BookId = 1,
         Chapter = 1,
         StartVerse = 6,
         EndVerse = 10,
@@ -49,48 +110,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
       {
         Id = 3,
         Date = new DateOnly(2026, 8, 13),
-        Book = "Genesis",
+        BookId = 1,
         Chapter = 1,
         StartVerse = 11,
         EndVerse = 15,
         Commentary = "Creation continues as God brings forth life and establishes the rhythms of the world."
-      });
-
-    modelBuilder.Entity<DailyReadingVerse>().HasData(
-      new DailyReadingVerse
-      {
-        Id = 1,
-        DailyReadingId = 1,
-        VerseNumber = 1,
-        Text = "Placeholder text for Genesis 1:1."
-      },
-      new DailyReadingVerse()
-      {
-        Id = 2,
-        DailyReadingId = 1,
-        VerseNumber = 2,
-        Text = "Placeholder text for Genesis 1:2."
-      },
-      new DailyReadingVerse()
-      {
-        Id = 3,
-        DailyReadingId = 1,
-        VerseNumber = 3,
-        Text = "Placeholder text for Genesis 1:3."
-      },
-      new DailyReadingVerse()
-      {
-        Id = 4,
-        DailyReadingId = 1,
-        VerseNumber = 4,
-        Text = "Placeholder text for Genesis 1:4."
-      },
-      new DailyReadingVerse()
-      {
-        Id = 5,
-        DailyReadingId = 1,
-        VerseNumber = 5,
-        Text = "Placeholder text for Genesis 1:5."
       });
   }
 }

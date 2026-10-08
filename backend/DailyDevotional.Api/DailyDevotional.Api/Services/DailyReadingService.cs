@@ -3,26 +3,27 @@ using DailyDevotional.Api.Data;
 using DailyDevotional.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using DailyDevotional.Api.Services.IServices;
+using DailyDevotional.Api.Services.RateLimiting;
 
 namespace DailyDevotional.Api.Services;
 
 public class DailyReadingService : IDailyReadingService
 {
   public readonly AppDbContext _context;
-  private readonly IBibleService _bibleService;
+  private readonly IBibleTextService _bibleTextService;
   private readonly IAiCommentaryService _aiCommentaryService;
 
-  public DailyReadingService(AppDbContext context, IBibleService bibleService, IAiCommentaryService aiCommentaryService)
+  public DailyReadingService(AppDbContext context, IBibleTextService bibleTextService, IAiCommentaryService aiCommentaryService)
   {
     _context = context;
-    _bibleService = bibleService;
+    _bibleTextService = bibleTextService;
     _aiCommentaryService = aiCommentaryService;
   }
 
-  public async Task<DailyReadingResponse?> GetReadingByDateAsync(DateOnly date)
+  public async Task<DailyReadingResponse?> GetReadingByDateAsync(DateOnly date, string? translationCode = null)
   {
     var reading = await _context.DailyReadings
-      .Include(r => r.Verses)
+      .Include(r => r.Book)
       .FirstOrDefaultAsync(r => r.Date == date);
 
     if (reading == null)
@@ -30,50 +31,47 @@ public class DailyReadingService : IDailyReadingService
       return null;
     }
 
-    if (reading.Verses.Count == 0)
-    {
-      try
-      {
-        await FetchAndAttachVersesAsync(reading);
-      }
-      catch (HttpRequestException)
-      {
-        // Verse text couldn't be fetched right now (e.g. the ESV API is
-        // rate-limited or briefly unavailable). The rest of the reading
-        // still loads; this will simply retry on the next request for
-        // this date.
-      }
-    }
-
-    return new DailyReadingResponse
+    var response = new DailyReadingResponse
     {
       Id = reading.Id,
       Date = reading.Date,
-      Book = reading.Book,
+      BookId = reading.BookId,
+      Book = reading.Book.Name,
       Chapter = reading.Chapter,
       EndChapter = reading.EndChapter,
       StartVerse = reading.StartVerse,
       EndVerse = reading.EndVerse,
-      Commentary = reading.Commentary,
-      Verses = reading.Verses
-      .OrderBy(v => v.Chapter)
-      .ThenBy(v => v.VerseNumber)
-      .Select(v => new DailyReadingVerseResponse
-      {
-        Chapter = v.Chapter,
-        Number = v.VerseNumber,
-        Text = v.Text
-      })
-      .ToList()
+      Commentary = reading.Commentary
     };
+
+    try
+    {
+      var passage = await GetPassageAsync(reading, translationCode);
+
+      response.Reference = passage.Reference;
+      response.CoversWholeChapters = passage.CoversWholeChapters;
+      response.TranslationCode = passage.TranslationCode;
+      response.CopyrightNotice = passage.CopyrightNotice;
+      response.Verses = passage.Verses;
+    }
+    catch (ProviderRateLimitException)
+    {
+      // This app has used up its allowance for the Bible provider for now.
+      response.VersesUnavailable = "rate_limited";
+    }
+    catch (HttpRequestException)
+    {
+      // Verse text could not be fetched right now (e.g. the ESV API is
+      // briefly unavailable). The rest of the reading still loads; this
+      // will simply retry on the next request for this date.
+      response.VersesUnavailable = "error";
+    }
+
+    return response;
   }
 
   public async Task<List<DailyReadingSummaryResponse>> GetScheduleAsync(string userId)
   {
-    var readings = await _context.DailyReadings
-      .OrderBy(r => r.Date)
-      .ToListAsync();
-
     var datesWithNotes = await _context.Journals
       .Where(j => j.UserId == userId && !string.IsNullOrWhiteSpace(j.Notes))
       .Select(j => j.Date)
@@ -87,7 +85,8 @@ public class DailyReadingService : IDailyReadingService
       {
         Id = r.Id,
         Date = r.Date,
-        Book = r.Book,
+        BookId = r.BookId,
+        Book = r.Book.Name,
         Chapter = r.Chapter,
         EndChapter = r.EndChapter,
         StartVerse = r.StartVerse,
@@ -99,46 +98,29 @@ public class DailyReadingService : IDailyReadingService
 
   public async Task<bool> ImportVersesAsync(int readingId)
   {
-    var reading = await _context.DailyReadings
-      .Include(r => r.Verses)
-      .FirstOrDefaultAsync(r => r.Id == readingId);
+    var reading = await _context.DailyReadings.FirstOrDefaultAsync(r => r.Id == readingId);
 
     if (reading == null)
     {
       return false;
     }
 
-    _context.DailyReadingVerses.RemoveRange(reading.Verses);
-    reading.Verses.Clear();
+    var passage = await GetPassageAsync(reading, null, forceRefresh: true);
 
-    return await FetchAndAttachVersesAsync(reading);
+    return passage.Verses.Count > 0;
   }
 
-  private async Task<bool> FetchAndAttachVersesAsync(DailyReading reading)
+  private Task<PassageResponse> GetPassageAsync(DailyReading reading, string? translationCode, bool forceRefresh = false)
   {
-    var verses = await _bibleService.GetVersesAsync(
-      reading.Book,
+    return _bibleTextService.GetPassageAsync(
+      translationCode,
+      reading.BookId,
       reading.Chapter,
       reading.StartVerse,
-      reading.EndChapter,
-      reading.EndVerse);
-
-    if (verses.Count == 0)
-    {
-      return false;
-    }
-
-    foreach (var verse in verses)
-    {
-      verse.DailyReadingId = reading.Id;
-    }
-
-    await _context.DailyReadingVerses.AddRangeAsync(verses);
-    await _context.SaveChangesAsync();
-
-    reading.Verses = verses;
-
-    return true;
+      // The seeded sample readings predate EndChapter and leave it at 0.
+      Math.Max(reading.Chapter, reading.EndChapter),
+      reading.EndVerse,
+      forceRefresh);
   }
 
   public async Task<ImportReadingsResponse> SaveImportedReadingsAsync(
@@ -150,7 +132,6 @@ public class DailyReadingService : IDailyReadingService
       .ToList();
 
     var existingReadings = await _context.DailyReadings
-      .Include(r => r.Verses)
       .Where(r => dates.Contains(r.Date))
       .ToListAsync();
 
@@ -166,9 +147,6 @@ public class DailyReadingService : IDailyReadingService
 
     if (overwrite && existingReadings.Count > 0)
     {
-      _context.DailyReadingVerses.RemoveRange(
-          existingReadings.SelectMany(r => r.Verses));
-
       _context.DailyReadings.RemoveRange(existingReadings);
 
       // Persist the deletes first so the unique index on Date
@@ -201,7 +179,7 @@ public class DailyReadingService : IDailyReadingService
   public async Task<string?> GetOrGenerateCommentaryAsync(DateOnly date)
   {
     var reading = await _context.DailyReadings
-      .Include(r => r.Verses)
+      .Include(r => r.Book)
       .FirstOrDefaultAsync(r => r.Date == date);
 
     if (reading == null)
@@ -214,31 +192,27 @@ public class DailyReadingService : IDailyReadingService
       return reading.Commentary;
     }
 
-    if (reading.Verses.Count == 0)
+    PassageResponse passage;
+
+    try
     {
-      try
-      {
-        await FetchAndAttachVersesAsync(reading);
-      }
-      catch (HttpRequestException)
-      {
-        return null;
-      }
+      passage = await GetPassageAsync(reading, null);
+    }
+    catch (HttpRequestException)
+    {
+      return null;
     }
 
     var passageText = string.Join(
       " ",
-      reading.Verses
-      .OrderBy(v => v.Chapter)
-      .ThenBy(v => v.VerseNumber)
-      .Select(v => v.Text));
+      passage.Verses.Select(v => v.Text));
 
     if (string.IsNullOrWhiteSpace(passageText))
     {
       return null;
     }
 
-    var commentary = await _aiCommentaryService.GenerateCommentaryAsync(reading.Book, reading.Chapter, reading.EndChapter, reading.StartVerse, reading.EndVerse, passageText);
+    var commentary = await _aiCommentaryService.GenerateCommentaryAsync(reading.Book.Name, reading.Chapter, reading.EndChapter, reading.StartVerse, reading.EndVerse, passageText);
 
     if (string.IsNullOrWhiteSpace(commentary))
     {

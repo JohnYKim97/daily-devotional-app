@@ -4,6 +4,7 @@ public class DailyReadingSummaryResponse
 {
   public int Id { get; set; }
   public DateOnly Date { get; set; }
+  public int BookId { get; set; }
   public string Book { get; set; } = string.Empty;
   public int Chapter { get; set; }
   public int EndChapter { get; set; }

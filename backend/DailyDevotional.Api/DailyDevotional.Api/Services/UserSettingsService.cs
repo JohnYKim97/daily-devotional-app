@@ -29,6 +29,7 @@ public class UserSettingsService : IUserSettingsService
         EnableSearchInHistory = false,
         EnableAiCommentary = false,
         Theme = "system",
+        PreferredTranslationId = 1,
       };
     }
 
@@ -40,6 +41,7 @@ public class UserSettingsService : IUserSettingsService
       EnableSearchInHistory = settings.EnableSearchInHistory,
       EnableAiCommentary = settings.EnableAiCommentary,
       Theme = settings.Theme,
+      PreferredTranslationId = settings.PreferredTranslationId,
     };
   }
 
@@ -63,6 +65,12 @@ public class UserSettingsService : IUserSettingsService
     settings.EnableAiCommentary = request.EnableAiCommentary;
     settings.Theme = request.Theme;
 
+    if (request.PreferredTranslationId is int translationId
+      && await _context.Translations.AnyAsync(t => t.Id == translationId && t.IsEnabled))
+    {
+      settings.PreferredTranslationId = translationId;
+    }
+
     await _context.SaveChangesAsync();
 
     return new UserSettingsResponse
@@ -73,6 +81,7 @@ public class UserSettingsService : IUserSettingsService
       EnableSearchInHistory = settings.EnableSearchInHistory,
       EnableAiCommentary = settings.EnableAiCommentary,
       Theme = settings.Theme,
+      PreferredTranslationId = settings.PreferredTranslationId,
     };
   }
 }

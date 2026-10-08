@@ -94,6 +94,7 @@ public class JournalService : IJournalService
     var userIds = journals.Select(j => j.UserId).Distinct().ToList();
 
     var readingsByDate = await _context.DailyReadings
+      .Include(r => r.Book)
       .Where(r => dates.Contains(r.Date))
       .ToDictionaryAsync(r => r.Date);
 
@@ -129,7 +130,7 @@ public class JournalService : IJournalService
       {
         Id = journal.Id,
         Date = journal.Date,
-        Book = reading?.Book ?? string.Empty,
+        Book = reading?.Book.Name ?? string.Empty,
         Chapter = reading?.Chapter ?? 0,
         EndChapter = reading?.EndChapter ?? 0,
         StartVerse = reading?.StartVerse ?? 0,
