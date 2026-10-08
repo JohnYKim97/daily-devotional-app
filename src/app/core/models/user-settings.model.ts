@@ -7,4 +7,5 @@ export interface UserSettings {
   enableSearchInHistory: boolean;
   enableAiCommentary: boolean;
   theme: ThemePreference;
+  preferredTranslationId: number;
 }

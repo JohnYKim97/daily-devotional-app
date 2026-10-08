@@ -1,5 +1,11 @@
 @if (loading()) {
   <div class="reading-loading">Loading reading...</div>
+} @else if (rateLimited()) {
+  <div class="reading-error" role="alert">
+    <h2>Too many requests</h2>
+    <p>You're loading readings too quickly. Wait a moment, then try again.</p>
+    <button type="button" class="retry-button" (click)="retry()">Try again</button>
+  </div>
 } @else if (error()) {
   <div class="reading-error">
     <h2>No reading available</h2>
@@ -10,8 +16,28 @@
     <app-passage-header
       [reading]="currentReading"
       [commentaryExpanded]="commentaryExpanded()"
+      [fullChapter]="!!fullChapterVerses()"
       (toggleCommentary)="onToggleCommentary()"
     >
+      @if (canReadFullChapter()) {
+        <button
+          type="button"
+          class="full-chapter-button"
+          [disabled]="fullChapterLoading()"
+          [attr.aria-busy]="fullChapterLoading()"
+          (click)="onToggleFullChapter()"
+        >
+          @if (fullChapterLoading()) {
+            Loading…
+          } @else if (fullChapterVerses()) {
+            Show daily passage only
+          } @else if (spansChapters()) {
+            Read full chapters
+          } @else {
+            Read full chapter
+          }
+        </button>
+      }
     </app-passage-header>
 
     <app-commentary
@@ -22,7 +48,29 @@
     </app-commentary>
 
     <div class="verse-card">
-      <app-verse-list [verses]="currentReading.verses"> </app-verse-list>
+      @if (currentReading.versesUnavailable; as reason) {
+        <div class="verses-unavailable" role="status">
+          @if (reason === 'rate_limited') {
+            <p>
+              The Bible text is temporarily unavailable because it has been requested too often.
+              Please try again in a few minutes.
+            </p>
+          } @else {
+            <p>The Bible text could not be loaded right now. Please try again shortly.</p>
+          }
+          <button type="button" class="retry-button" (click)="retry()">Try again</button>
+        </div>
+      }
+
+      <app-verse-list
+        [verses]="displayedVerses()"
+        [highlight]="dailyPassage()"
+        [highlightReference]="dailyPassageReference()"
+      >
+      </app-verse-list>
+      @if (currentReading.copyrightNotice) {
+        <p class="copyright-notice">{{ currentReading.copyrightNotice }}</p>
+      }
     </div>
   </div>
 } @else {

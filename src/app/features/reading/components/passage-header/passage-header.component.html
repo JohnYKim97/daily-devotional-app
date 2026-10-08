@@ -3,7 +3,12 @@
 <div
   class="d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between gap-3 passage-header"
 >
-  <span class="passage-title"> {{ passageReference() }} </span>
+  <!-- The reference title, with any actions the page projects in (e.g. "Read full chapter")
+       beside it on wide screens and centered beneath it on mobile. -->
+  <div class="passage-title-group d-flex flex-column flex-md-row align-items-center gap-2 gap-md-3">
+    <span class="passage-title"> {{ passageReference() }} </span>
+    <ng-content />
+  </div>
 
   @if (settingsService.enableAiCommentary()) {
     <button

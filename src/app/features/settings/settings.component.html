@@ -111,6 +111,35 @@
     </div>
   </section> -->
 
+  @if (translationService.translations().length > 1) {
+    <section class="settings-card">
+      <div class="settings-row">
+        <div class="settings-row-text">
+          <span class="settings-row-title">Bible translation</span>
+          <p class="settings-row-desc">Choose which translation your daily reading is shown in.</p>
+        </div>
+
+        <div class="settings-segmented" role="radiogroup" aria-label="Bible translation">
+          @for (translation of translationService.translations(); track translation.id) {
+            <button
+              type="button"
+              role="radio"
+              class="settings-segment"
+              [class.settings-segment-active]="
+                settingsService.preferredTranslationId() === translation.id
+              "
+              [attr.aria-checked]="settingsService.preferredTranslationId() === translation.id"
+              [attr.title]="translation.name"
+              (click)="settingsService.setPreferredTranslation(translation.id)"
+            >
+              {{ translation.code }}
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+  }
+
   <section class="settings-card">
     <div class="settings-row">
       <div class="settings-row-text">

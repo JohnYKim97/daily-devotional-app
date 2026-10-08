@@ -14,6 +14,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   enableSearchInHistory: false,
   enableAiCommentary: false,
   theme: 'system',
+  preferredTranslationId: 1,
 };
 
 @Service()
@@ -33,6 +34,7 @@ export class SettingsService {
     () => this._settings().shareFavoriteVerseInHistory,
   );
   readonly theme = computed(() => this._settings().theme);
+  readonly preferredTranslationId = computed(() => this._settings().preferredTranslationId);
 
   constructor() {
     if (!isPlatformBrowser(this.platformId)) {
@@ -80,6 +82,10 @@ export class SettingsService {
 
   setTheme(theme: ThemePreference): void {
     this.updateSettings({ ...this._settings(), theme });
+  }
+
+  setPreferredTranslation(translationId: number): void {
+    this.updateSettings({ ...this._settings(), preferredTranslationId: translationId });
   }
 
   private loadSettings(): void {

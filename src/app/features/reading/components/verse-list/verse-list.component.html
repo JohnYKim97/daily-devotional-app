@@ -1,8 +1,64 @@
 <div class="verse-list">
-  @for (verse of verses(); track verse.chapter + '_' + verse.number) {
-    <p class="verse">
-      <span class="verse-number">{{ verse.number }}</span>
-      {{ verse.text }}
-    </p>
+  @for (group of groups(); track group.key) {
+    <div
+      class="verse-group"
+      [class.verse-group-highlighted]="group.highlighted"
+      [attr.role]="group.highlighted ? 'group' : null"
+      [attr.aria-label]="group.highlighted ? highlightLabel() : null"
+    >
+      @if (group.highlighted) {
+        <span class="verse-group-label"
+          >Today’s passage
+          @if (highlightReference()) {
+            ·
+            <span class="verse-group-reference">{{ highlightReference() }}</span>
+          }
+        </span>
+      }
+
+      @for (verse of group.verses; track verse.key) {
+        @if (verse.headingTitle) {
+          <div class="verse-heading">
+            <h2 class="verse-heading-title">{{ verse.headingTitle }}</h2>
+            @for (subtitle of verse.headingSubtitles; track $index) {
+              <p class="verse-heading-subtitle">{{ subtitle }}</p>
+            }
+          </div>
+        }
+
+        <p class="verse">
+          <span class="verse-number">{{ verse.number }}</span>
+          @for (segment of verse.segments; track $index) {
+            @if (segment.footnoteKey) {
+              <button
+                type="button"
+                class="footnote-marker"
+                [attr.aria-label]="'Footnote ' + segment.footnoteLabel"
+                [attr.aria-expanded]="isOpen(segment.footnoteKey)"
+                [attr.aria-controls]="'footnote-' + segment.footnoteKey"
+                (click)="toggleFootnote(segment.footnoteKey)"
+              >
+                {{ segment.footnoteLabel }}
+              </button>
+            } @else {
+              {{ segment.text }}
+            }
+          }
+        </p>
+
+        @for (footnote of verse.footnotes; track footnote.key) {
+          <p class="footnote" [id]="'footnote-' + footnote.key" [hidden]="!isOpen(footnote.key)">
+            <span class="footnote-label">{{ footnote.label }}</span>
+            @for (part of footnote.parts; track $index) {
+              @if (part.italic) {
+                <i>{{ part.text }}</i>
+              } @else {
+                {{ part.text }}
+              }
+            }
+          </p>
+        }
+      }
+    </div>
   }
 </div>
