@@ -120,7 +120,8 @@ public class DailyReadingService : IDailyReadingService
       // The seeded sample readings predate EndChapter and leave it at 0.
       Math.Max(reading.Chapter, reading.EndChapter),
       reading.EndVerse,
-      forceRefresh);
+      forceRefresh,
+      clampVerses: true);
   }
 
   public async Task<ImportReadingsResponse> SaveImportedReadingsAsync(

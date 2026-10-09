@@ -24,7 +24,8 @@ public class BibleTextService : IBibleTextService
     int? startVerse,
     int endChapter,
     int? endVerse,
-    bool forceRefresh = false)
+    bool forceRefresh = false,
+    bool clampVerses = false)
   {
     var code = translationCode ?? Translation.DefaultCode;
 
@@ -42,6 +43,14 @@ public class BibleTextService : IBibleTextService
     // of the end chapter.
     var firstVerse = startVerse ?? 1;
     var lastVerse = endVerse ?? chapterVerseCounts[endChapter];
+
+    if (clampVerses)
+    {
+      // The schedule's verse numbers follow the ESV; a translation that numbers a chapter
+      // differently (e.g. the KJV has 14 verses in 3 John, the ESV 15) ends where it ends.
+      firstVerse = Math.Min(firstVerse, chapterVerseCounts[startChapter]);
+      lastVerse = Math.Min(lastVerse, chapterVerseCounts[endChapter]);
+    }
 
     ValidateVerses(chapterVerseCounts, startChapter, firstVerse, endChapter, lastVerse);
 

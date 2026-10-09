@@ -204,6 +204,10 @@ dotnet user-secrets set "Anthropic:ApiKey" "<key>"
 
 Without the Google values the app starts but you cannot sign in. Without the ESV or Anthropic keys, those features will not work.
 
+### Bible translations
+
+The ESV is fetched from the ESV API (needs `ESV:ApiKey`) and only a small amount is cached, because of its license. The King James Version is public domain, so it is stored in full: the first time the API starts it downloads the text once from bolls.life (about 12 MB) and imports it in the background, and the translation picker in Settings appears when that finishes. If you are offline it logs a warning and tries again on the next start. To skip this (for example in CI), set `Translations:ImportOnStartup` to `false`. To import by hand: `dotnet run -- import-translation KJV`.
+
 ## 4. Frontend dependencies (manual; the script does this)
 
 From the repo root:

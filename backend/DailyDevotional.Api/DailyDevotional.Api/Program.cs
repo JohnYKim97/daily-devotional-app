@@ -208,7 +208,12 @@ builder.Services.AddHttpClient<EsvTranslationProvider>(client =>
 builder.Services.AddTransient<ITranslationProvider>(sp => sp.GetRequiredService<EsvTranslationProvider>());
 builder.Services.AddScoped<IBibleTextService, BibleTextService>();
 builder.Services.AddScoped<IBibleMetadataService, BibleMetadataService>();
-builder.Services.AddHttpClient<TranslationImportService>();
+builder.Services.AddHttpClient<TranslationImportService>(client =>
+{
+  // The KJV file is about 12 MB; allow for a slow connection.
+  client.Timeout = TimeSpan.FromMinutes(5);
+});
+builder.Services.AddHostedService<FullTranslationBootstrapService>();
 builder.Services.AddHostedService<TranslationCacheCleanupService>();
 
 var app = builder.Build();
