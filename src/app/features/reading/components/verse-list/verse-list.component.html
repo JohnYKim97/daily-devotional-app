@@ -26,7 +26,7 @@
           </div>
         }
 
-        <p class="verse">
+        <p class="verse" [attr.data-verse]="verse.key">
           <span class="verse-number">{{ verse.number }}</span>
           @for (segment of verse.segments; track $index) {
             @if (segment.footnoteKey) {

@@ -51,8 +51,10 @@ describe('ReadingComponent', () => {
     loadReading: ReturnType<typeof vi.fn>;
   };
   let getFullChapters: ReturnType<typeof vi.fn>;
+  let select: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
+    select = vi.fn();
     state = {
       reading: signal<DailyReading | null>(reading),
       loading: signal(false),
@@ -69,7 +71,15 @@ describe('ReadingComponent', () => {
         { provide: DailyReadingService, useValue: { getFullChapters } },
         {
           provide: TranslationService,
-          useValue: { loaded: signal(true), selectedCode: () => 'ESV' },
+          useValue: {
+            loaded: signal(true),
+            selectedCode: () => 'ESV',
+            translations: signal([
+              { id: 1, code: 'ESV', name: 'English Standard Version' },
+              { id: 2, code: 'KJV', name: 'King James Version' },
+            ]),
+            select,
+          },
         },
         { provide: SettingsService, useValue: { enableAiCommentary: signal(false) } },
       ],
@@ -86,6 +96,18 @@ describe('ReadingComponent', () => {
     const button = element.querySelector('app-passage-header .full-chapter-button');
 
     expect(button?.textContent?.trim()).toBe('Read full chapter');
+  });
+
+  it('lets the reader switch the Bible version on the page', () => {
+    const dropdown = element.querySelector<HTMLSelectElement>('.version-select')!;
+
+    expect(Array.from(dropdown.options).map((o) => o.textContent?.trim())).toEqual(['ESV', 'KJV']);
+    expect(dropdown.value).toBe('1');
+
+    dropdown.value = '2';
+    dropdown.dispatchEvent(new Event('change'));
+
+    expect(select).toHaveBeenCalledWith(2);
   });
 
   it('hides the button when the daily passage is already the whole chapter', async () => {
@@ -136,6 +158,20 @@ describe('ReadingComponent', () => {
     expect(element.querySelectorAll('p.verse').length).toBe(2);
     expect(element.querySelector('.verse-group-highlighted')).toBeNull();
     expect(text('.full-chapter-button')).toBe('Read full chapter');
+  });
+
+  it('keeps the full chapter open when the Bible version changes', async () => {
+    element.querySelector<HTMLButtonElement>('.full-chapter-button')!.click();
+    await fixture.whenStable();
+
+    // Switching version loads the reading again, as a new object in the other version.
+    state.reading.set(null);
+    state.reading.set({ ...reading, translationCode: 'KJV' });
+    await fixture.whenStable();
+
+    expect(getFullChapters).toHaveBeenLastCalledWith('KJV', 24, 10, 10);
+    expect(text('.passage-title')).toBe('Jeremiah 10');
+    expect(text('.full-chapter-button')).toBe('Show daily passage only');
   });
 
   it('shows a clear message, with a retry, when the API is rate limiting', async () => {

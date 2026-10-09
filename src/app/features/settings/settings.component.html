@@ -115,11 +115,14 @@
     <section class="settings-card">
       <div class="settings-row">
         <div class="settings-row-text">
-          <span class="settings-row-title">Bible translation</span>
-          <p class="settings-row-desc">Choose which translation your daily reading is shown in.</p>
+          <span class="settings-row-title">Preferred version</span>
+          <p class="settings-row-desc">
+            The Bible version that loads by default when you open the app. You can switch versions
+            on the daily reading page.
+          </p>
         </div>
 
-        <div class="settings-segmented" role="radiogroup" aria-label="Bible translation">
+        <div class="settings-segmented" role="radiogroup" aria-label="Preferred version">
           @for (translation of translationService.translations(); track translation.id) {
             <button
               type="button"

@@ -19,25 +19,44 @@
       [fullChapter]="!!fullChapterVerses()"
       (toggleCommentary)="onToggleCommentary()"
     >
-      @if (canReadFullChapter()) {
-        <button
-          type="button"
-          class="full-chapter-button"
-          [disabled]="fullChapterLoading()"
-          [attr.aria-busy]="fullChapterLoading()"
-          (click)="onToggleFullChapter()"
-        >
-          @if (fullChapterLoading()) {
-            Loading…
-          } @else if (fullChapterVerses()) {
-            Show daily passage only
-          } @else if (spansChapters()) {
-            Read full chapters
-          } @else {
-            Read full chapter
-          }
-        </button>
-      }
+      <div class="reading-actions">
+        @if (translationService.translations().length > 1) {
+          <select
+            class="version-select"
+            aria-label="Bible version"
+            (change)="onVersionChange($event)"
+          >
+            @for (translation of translationService.translations(); track translation.id) {
+              <option
+                [value]="translation.id"
+                [attr.title]="translation.name"
+                [selected]="translation.code === currentReading.translationCode"
+              >
+                {{ translation.code }}
+              </option>
+            }
+          </select>
+        }
+        @if (canReadFullChapter()) {
+          <button
+            type="button"
+            class="full-chapter-button"
+            [disabled]="fullChapterLoading()"
+            [attr.aria-busy]="fullChapterLoading()"
+            (click)="onToggleFullChapter()"
+          >
+            @if (fullChapterLoading()) {
+              Loading…
+            } @else if (fullChapterVerses()) {
+              Show daily passage only
+            } @else if (spansChapters()) {
+              Read full chapters
+            } @else {
+              Read full chapter
+            }
+          </button>
+        }
+      </div>
     </app-passage-header>
 
     <app-commentary
