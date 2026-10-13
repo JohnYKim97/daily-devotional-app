@@ -1,7 +1,7 @@
 {
   "name": "LightHouse Devotionals",
   "short_name": "LightHouse",
-  "description": "Daily Bible readings and journaling.",
+  "description": "Daily Bible devotionals and sharing",
   "id": "/",
   "start_url": "/",
   "scope": "/",
