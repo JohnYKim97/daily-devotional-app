@@ -1,4 +1,4 @@
-import { Component, inject, effect, signal, PLATFORM_ID } from '@angular/core';
+import { Component, inject, effect, signal, computed, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { from } from 'rxjs';
@@ -34,6 +34,7 @@ export class JournalComponent {
   selectedVerseNumber = signal<number | null>(null);
   saved = signal(false);
   notes = signal('');
+  protected readonly isNotesEmpty = computed(() => this.notes().trim().length === 0);
 
   protected readonly isExpanded = signal(false);
   protected readonly sheetHeightPx = signal(0);
@@ -84,6 +85,11 @@ export class JournalComponent {
   }
 
   saveJournal(): void {
+    if (this.isNotesEmpty()) {
+      this.notificationService.show('Journal text cannot be empty.', 'error');
+      return;
+    }
+
     const journal: Journal = {
       ...this.journal(),
       favoriteVerse: this.selectedVerseNumber() ?? null,
