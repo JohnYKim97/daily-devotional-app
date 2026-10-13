@@ -44,7 +44,24 @@ export class AuthService {
       return null;
     }
 
-    return localStorage.getItem(TOKEN_STORAGE_KEY);
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+
+    if (token && isTokenExpired(token)) {
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      return null;
+    }
+
+    return token;
+  }
+
+  hasValidToken(): boolean {
+    const token = this._token();
+
+    if (token && isTokenExpired(token)) {
+      this.clearToken();
+    }
+
+    return this._token() !== null;
   }
 
   loginWithGoogle(): void {
@@ -63,12 +80,27 @@ export class AuthService {
   }
 
   logout(): void {
+    this.clearToken();
+    this.router.navigateByUrl('/login');
+  }
+
+  private clearToken(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(TOKEN_STORAGE_KEY);
     }
 
     this._token.set(null);
     this._isAdmin.set(false);
-    this.router.navigateByUrl('/login');
+  }
+}
+
+function isTokenExpired(token: string): boolean {
+  try {
+    const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const { exp } = JSON.parse(atob(payload)) as { exp?: number };
+
+    return typeof exp === 'number' && exp * 1000 <= Date.now();
+  } catch {
+    return true;
   }
 }
