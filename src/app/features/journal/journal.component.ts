@@ -86,7 +86,7 @@ export class JournalComponent {
 
   saveJournal(): void {
     if (this.isNotesEmpty()) {
-      this.notificationService.show('Journal text cannot be empty.', 'error');
+      this.notificationService.show('Notes cannot be empty.', 'error');
       return;
     }
 
