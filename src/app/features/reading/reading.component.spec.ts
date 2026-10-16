@@ -128,8 +128,8 @@ describe('ReadingComponent', () => {
     element.querySelector<HTMLButtonElement>('.full-chapter-button')!.click();
     await fixture.whenStable();
 
-    // The header now names the whole chapter, and the highlight names the daily passage.
-    expect(text('.passage-title')).toBe('Jeremiah 10');
+    // The header now spans the whole chapter, and the highlight names the daily passage.
+    expect(text('.passage-title')).toBe('Jeremiah 10:1-5');
     expect(text('.verse-group-label')?.replace(/\s+/g, ' ')).toBe(
       'Today’s passage · Jeremiah 10:3-4',
     );
@@ -170,7 +170,7 @@ describe('ReadingComponent', () => {
     await fixture.whenStable();
 
     expect(getFullChapters).toHaveBeenLastCalledWith('KJV', 24, 10, 10);
-    expect(text('.passage-title')).toBe('Jeremiah 10');
+    expect(text('.passage-title')).toBe('Jeremiah 10:1-5');
     expect(text('.full-chapter-button')).toBe('Show daily passage only');
   });
 

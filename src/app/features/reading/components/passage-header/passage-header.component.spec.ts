@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PassageHeaderComponent } from './passage-header.component';
 import { DailyReading } from '../../../../core/models/daily-reading.model';
+import { Verse } from '../../../../core/models/verse.model';
 import { SettingsService } from '../../../../core/services/settings.service';
 
 const reading: DailyReading = {
@@ -23,14 +24,14 @@ const reading: DailyReading = {
 @Component({
   imports: [PassageHeaderComponent],
   template: `
-    <app-passage-header [reading]="reading" [fullChapter]="fullChapter()">
+    <app-passage-header [reading]="reading" [fullChapterVerses]="fullChapterVerses()">
       <button type="button" class="projected-action">Read full chapter</button>
     </app-passage-header>
   `,
 })
 class HostComponent {
   reading = reading;
-  fullChapter = signal(false);
+  fullChapterVerses = signal<Verse[] | null>(null);
 }
 
 describe('PassageHeaderComponent', () => {
@@ -54,11 +55,11 @@ describe('PassageHeaderComponent', () => {
     expect(element.querySelector('.passage-title')?.textContent?.trim()).toBe('Jeremiah 10:11-25');
   });
 
-  it('names the whole chapter while the full chapter is shown', async () => {
-    host.fullChapter.set(true);
+  it('spans the whole chapter while the full chapter is shown', async () => {
+    host.fullChapterVerses.set([1, 2, 27].map((number) => ({ chapter: 10, number, text: '' })));
     await fixture.whenStable();
 
-    expect(element.querySelector('.passage-title')?.textContent?.trim()).toBe('Jeremiah 10');
+    expect(element.querySelector('.passage-title')?.textContent?.trim()).toBe('Jeremiah 10:1-27');
   });
 
   it('places projected actions beside the title, in the same group', () => {
