@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using DailyDevotional.Api.Services.IServices;
 
-namespace DailyDevotional.Api.Services;
+namespace DailyDevotional.Api.Services.Parsers;
 
 // Turns the HTML the YouVersion Platform API returns for a passage
 // (GET /v1/bibles/{id}/passages/{ref}?format=html&include_headings=true&include_notes=true)

@@ -2,9 +2,10 @@ using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using DailyDevotional.Api.Models;
 using DailyDevotional.Api.Services.IServices;
+using DailyDevotional.Api.Services.Parsers;
 using DailyDevotional.Api.Services.RateLimiting;
 
-namespace DailyDevotional.Api.Services;
+namespace DailyDevotional.Api.Services.TranslationProviders;
 
 // Fetches licensed Bible text from the YouVersion Platform API (https://api.youversion.com/v1),
 // which hands out publishers' translations (the NIV, the NASB, ...) under their own

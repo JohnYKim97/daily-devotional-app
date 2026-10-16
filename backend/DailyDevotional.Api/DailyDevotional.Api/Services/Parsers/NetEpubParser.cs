@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using DailyDevotional.Api.Data;
 
-namespace DailyDevotional.Api.Services;
+namespace DailyDevotional.Api.Services.Parsers;
 
 public record ParsedVerse(
   int BookId,

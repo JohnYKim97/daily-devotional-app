@@ -1,8 +1,9 @@
 using DailyDevotional.Api.Models;
 using DailyDevotional.Api.Services.IServices;
+using DailyDevotional.Api.Services.Parsers;
 using DailyDevotional.Api.Services.RateLimiting;
 
-namespace DailyDevotional.Api.Services;
+namespace DailyDevotional.Api.Services.TranslationProviders;
 
 // Fetches New Living Translation text from the NLT API (https://api.nlt.to).
 //

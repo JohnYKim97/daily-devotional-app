@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using DailyDevotional.Api.Services.IServices;
 
-namespace DailyDevotional.Api.Services;
+namespace DailyDevotional.Api.Services.Parsers;
 
 // Turns the HTML the NLT API (https://api.nlt.to/api/passages) returns into verses.
 //

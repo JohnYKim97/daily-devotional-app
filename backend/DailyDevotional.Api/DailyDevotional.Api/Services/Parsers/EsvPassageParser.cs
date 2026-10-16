@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using DailyDevotional.Api.Services.IServices;
 
-namespace DailyDevotional.Api.Services;
+namespace DailyDevotional.Api.Services.Parsers;
 
 // Parses the plain-text passage format returned by the ESV API when headings and
 // footnotes are included:
