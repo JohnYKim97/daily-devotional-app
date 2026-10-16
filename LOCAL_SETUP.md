@@ -43,7 +43,7 @@ That's it. Everything in the next section is done for you.
 | 4 | **Create the `DailyDevotional` database** | Skipped if it exists. Tables and sample data are created by the API on its first start. | Same. |
 | 5 | **Generate the JWT key, set issuer and audience** | Stored in .NET user-secrets, outside the repo. | Same. |
 | 6 | **Set a custom connection string** | Only if you pass a non-default `-PgPassword`, `-PgHost`, `-PgPort` or `-PgUser`. | Only if you pass `--pg-password`, `--pg-host`, `--pg-port` or `--pg-user`. |
-| 7 | **Prompt for Google client ID/secret, ESV key, Anthropic key, admin email** | Press Enter to skip any. Secret input is hidden. The admin email is the Google account you sign in with; it makes you an admin so the schedule Import button appears. | Same. |
+| 7 | **Prompt for Google client ID/secret, ESV key, YouVersion app key, Anthropic key, admin email** | Press Enter to skip any. Secret input is hidden. The admin email is the Google account you sign in with; it makes you an admin so the schedule Import button appears. | Same. |
 | 8 | **Restore backend packages and tools** | `dotnet restore`, then `dotnet tool restore` (installs `dotnet-ef`, pinned in `.config/dotnet-tools.json`, into this repo only). | Same. |
 | 9 | **Install frontend packages** | `npm ci` (never rewrites `package-lock.json`). Stops this repo's own leftover dev-server processes first so Windows can replace `node_modules`. | `npm ci`. |
 | 10 | **Start the API and frontend and open the browser** | Only with `-Run` (two PowerShell windows). | Only with `--run` (two Terminal windows). |
@@ -198,17 +198,22 @@ dotnet user-secrets set "ESV:ApiKey" "<key>"
 # Makes the Google account you sign in with an admin (shows the schedule Import button)
 dotnet user-secrets set "Authentication:AdminEmail" "<your Google email>"
 
+# NIV text through the YouVersion Platform (your own free app key, see "Bible translations" below)
+dotnet user-secrets set "YouVersion:AppKey" "<key>"
+
 # AI commentary (optional, your own key)
 dotnet user-secrets set "Anthropic:ApiKey" "<key>"
 ```
 
-Without the Google values the app starts but you cannot sign in. Without the ESV or Anthropic keys, those features will not work.
+Without the Google values the app starts but you cannot sign in. Without the ESV, YouVersion or Anthropic keys, those features will not work.
 
 ### Bible translations
 
 The ESV is fetched from the ESV API (needs `ESV:ApiKey`) and only a small amount is cached, because of its license. The King James Version is public domain, so it is stored in full: the first time the API starts it downloads the text once from bolls.life (about 12 MB) and imports it in the background, and the translation picker in Settings appears when that finishes. If you are offline it logs a warning and tries again on the next start. To skip this (for example in CI), set `Translations:ImportOnStartup` to `false`. To import by hand: `dotnet run -- import-translation KJV`.
 
 The New Living Translation is fetched from the NLT API the same way as the ESV and cached briefly. It works with no setup, using the anonymous access (50 verses per request, 500 requests per day, shared by everyone using your server). For more, get a free key at <https://api.nlt.to/Account/Register> and set it: `dotnet user-secrets set "NLT:ApiKey" "<key>"`. Non-commercial use only.
+
+The NIV and the NASB (the 2020 edition, shown as "NASB") are fetched from the YouVersion Platform API and cached briefly. They need your own free app key from <https://platform.youversion.com> (`dotnet user-secrets set "YouVersion:AppKey" "<key>"`, or let the setup script ask for it) and the publishers' license agreements accepted on your YouVersion account. Without the key they stay switched off and do not appear in the version picker. A free key allows 200 requests an hour and a production key 10,000; the app's own call limit is set under `RateLimiting:YouVersionApi` (9,000 an hour by default, so lower it in your local `appsettings.Development.json` or user-secrets while on a free key).
 
 The NET Bible comes with its translators' notes from the free EPUB on bible.org, which blocks automatic downloads. Download "NET Bible 2.1" (EPUB) from <https://bible.org/downloads>, save it as `backend/DailyDevotional.Api/DailyDevotional.Api/Data/Imports/NETBIBLE21.epub` (git ignores that folder), then restart the API or run `dotnet run -- import-translation NET`. Until the file is there the NET is simply not offered. Use another location with the `Translations:NetEpubPath` setting. The NET license allows non-commercial use only.
 

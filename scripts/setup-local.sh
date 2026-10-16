@@ -248,6 +248,7 @@ prompt_optional() { # name prompt secret(0/1)
 prompt_optional "Authentication:Google:ClientId"     "Google OAuth client ID (needed to sign in)" 0
 prompt_optional "Authentication:Google:ClientSecret" "Google OAuth client secret (needed to sign in)" 1
 prompt_optional "ESV:ApiKey"                         "ESV API key (passage text; get it from the project lead)" 1
+prompt_optional "YouVersion:AppKey"                   "YouVersion Platform app key (NIV text; free from platform.youversion.com)" 1
 prompt_optional "Anthropic:ApiKey"                   "Anthropic API key (AI commentary, optional)" 1
 prompt_optional "Authentication:AdminEmail"          "Your Google sign-in email (makes you admin to import the schedule)" 0
 

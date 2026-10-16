@@ -96,6 +96,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         ProviderKind = TranslationProviderKind.Local,
         CopyrightNotice = "Quotations designated (NET) are from the NET Bible® copyright ©1996, 2019 by Biblical Studies Press, L.L.C. All rights reserved.",
         NonCommercialOnly = true,
+        AttributionLinkText = "NET",
+        AttributionLinkUrl = "https://netbible.org",
         // Enabled by `import-translation NET` once its verses are loaded.
         IsEnabled = false,
         SortOrder = 3
@@ -115,6 +117,46 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         NonCommercialOnly = true,
         IsEnabled = true,
         SortOrder = 4
+      },
+      // The NIV and NASB are served by the YouVersion Platform under the publishers' own
+      // license agreements. They are switched on at startup when YouVersion:AppKey is set.
+      new Translation
+      {
+        Id = 5,
+        Code = "NIV",
+        Name = "New International Version",
+        StorageMode = TranslationStorageMode.Cache,
+        ProviderKind = TranslationProviderKind.YouVersionApi,
+        ExternalId = 111,
+        MaxCachedVerses = 500,
+        MaxCacheAgeDays = 14,
+        // Replaced by the notice YouVersion publishes for the NIV once text has been fetched.
+        CopyrightNotice = "The Holy Bible, New International Version® NIV®\nCopyright © 1973, 1978, 1984, 2011 by Biblica, Inc.®\nUsed by Permission of Biblica, Inc.® All rights reserved worldwide.",
+        NoticeFromProvider = true,
+        AttributionLinkText = "Biblica",
+        AttributionLinkUrl = "https://www.biblica.com",
+        MaxDisplayChapters = 2,
+        MaxDisplayVerses = 25,
+        NonCommercialOnly = true,
+        IsEnabled = false,
+        SortOrder = 5
+      },
+      new Translation
+      {
+        Id = 7,
+        Code = "NASB",
+        Name = "New American Standard Bible (2020)",
+        StorageMode = TranslationStorageMode.Cache,
+        ProviderKind = TranslationProviderKind.YouVersionApi,
+        ExternalId = 2692,
+        MaxCachedVerses = 500,
+        MaxCacheAgeDays = 14,
+        CopyrightNotice = "Scripture quotations from the New American Standard Bible – NASB 2020 Copyright © 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation. All rights reserved. Used by permission.",
+        AttributionLinkText = "Lockman.org",
+        AttributionLinkUrl = "https://www.lockman.org",
+        NonCommercialOnly = true,
+        IsEnabled = false,
+        SortOrder = 6
       });
 
     modelBuilder.Entity<DailyReading>().HasData(

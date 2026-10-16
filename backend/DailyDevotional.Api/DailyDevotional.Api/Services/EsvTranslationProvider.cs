@@ -27,6 +27,7 @@ public class EsvTranslationProvider : ITranslationProvider
   }
 
   public async Task<List<ProviderVerse>> GetVersesAsync(
+    Translation translation,
     string bookName,
     int startChapter,
     int startVerse,

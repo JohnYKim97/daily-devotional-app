@@ -52,7 +52,14 @@ public class DailyReadingService : IDailyReadingService
       response.CoversWholeChapters = passage.CoversWholeChapters;
       response.TranslationCode = passage.TranslationCode;
       response.CopyrightNotice = passage.CopyrightNotice;
+      response.AttributionLinkText = passage.AttributionLinkText;
+      response.AttributionLinkUrl = passage.AttributionLinkUrl;
       response.Verses = passage.Verses;
+    }
+    catch (PassageTooLongException)
+    {
+      // The translation's license does not allow a passage this long to be shown.
+      response.VersesUnavailable = "too_long";
     }
     catch (ProviderRateLimitException)
     {

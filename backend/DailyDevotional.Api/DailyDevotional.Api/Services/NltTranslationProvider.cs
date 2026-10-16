@@ -34,6 +34,7 @@ public class NltTranslationProvider : ITranslationProvider
   }
 
   public async Task<List<ProviderVerse>> GetVersesAsync(
+    Translation translation,
     string bookName,
     int startChapter,
     int startVerse,

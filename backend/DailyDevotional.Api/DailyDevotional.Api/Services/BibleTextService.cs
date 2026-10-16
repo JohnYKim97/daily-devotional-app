@@ -53,6 +53,7 @@ public class BibleTextService : IBibleTextService
     }
 
     ValidateVerses(chapterVerseCounts, startChapter, firstVerse, endChapter, lastVerse);
+    EnforceDisplayLimit(translation, chapterVerseCounts, startChapter, firstVerse, endChapter, lastVerse);
 
     var verses = await LoadStoredVersesAsync(translation, bookId, startChapter, firstVerse, endChapter, lastVerse);
 
@@ -81,6 +82,8 @@ public class BibleTextService : IBibleTextService
       CoversWholeChapters = firstVerse == 1 && lastVerse == chapterVerseCounts[endChapter],
       TranslationCode = translation.Code,
       CopyrightNotice = translation.CopyrightNotice,
+      AttributionLinkText = translation.AttributionLinkText,
+      AttributionLinkUrl = translation.AttributionLinkUrl,
       BookId = book.Id,
       Book = book.Name,
       Verses = verses
@@ -138,6 +141,41 @@ public class BibleTextService : IBibleTextService
     if (startVerse > chapterVerseCounts[startChapter] || endVerse > chapterVerseCounts[endChapter])
     {
       throw new ArgumentException("Verse is outside the chapter.");
+    }
+  }
+
+  // Some licenses limit how much may be shown at once: at most so many chapters, or so many
+  // verses when that allows more. A passage over both limits is not shown.
+  private static void EnforceDisplayLimit(
+    Translation translation,
+    Dictionary<int, int> chapterVerseCounts,
+    int startChapter,
+    int startVerse,
+    int endChapter,
+    int endVerse)
+  {
+    if (translation.MaxDisplayChapters is not int maxChapters || translation.MaxDisplayVerses is not int maxVerses)
+    {
+      return;
+    }
+
+    if (endChapter - startChapter + 1 <= maxChapters)
+    {
+      return;
+    }
+
+    var verses = Enumerable.Range(startChapter, endChapter - startChapter + 1)
+      .Sum(chapter =>
+      {
+        var first = chapter == startChapter ? startVerse : 1;
+        var last = chapter == endChapter ? endVerse : chapterVerseCounts[chapter];
+        return last - first + 1;
+      });
+
+    if (verses > maxVerses)
+    {
+      throw new PassageTooLongException(
+        $"{translation.Code} passages are limited to {maxChapters} chapters or {maxVerses} verses at a time under its license.");
     }
   }
 
@@ -236,7 +274,9 @@ public class BibleTextService : IBibleTextService
         $"{translation.Code} passages are limited to {limit} verses for {book.Name} under its license.");
     }
 
-    var fetched = await provider.GetVersesAsync(book.Name, startChapter, startVerse, endChapter, endVerse, chapterVerseCounts);
+    var fetched = await provider.GetVersesAsync(translation, book.Name, startChapter, startVerse, endChapter, endVerse, chapterVerseCounts);
+
+    await RefreshCopyrightNoticeAsync(translation, provider);
 
     if (fetched.Count == 0)
     {
@@ -300,6 +340,39 @@ public class BibleTextService : IBibleTextService
       .ToList();
   }
 
+  private static readonly System.Collections.Concurrent.ConcurrentDictionary<int, DateTime> NoticeRefreshedAt = new();
+
+  // Some licenses require the copyright notice exactly as the provider currently publishes
+  // it. It is looked up at most once a day, whenever text is fetched.
+  private async Task RefreshCopyrightNoticeAsync(Translation translation, ITranslationProvider provider)
+  {
+    if (!translation.NoticeFromProvider
+      || NoticeRefreshedAt.TryGetValue(translation.Id, out var refreshed) && DateTime.UtcNow - refreshed < TimeSpan.FromDays(1))
+    {
+      return;
+    }
+
+    try
+    {
+      var notice = await provider.GetCopyrightNoticeAsync(translation);
+
+      NoticeRefreshedAt[translation.Id] = DateTime.UtcNow;
+
+      if (!string.IsNullOrWhiteSpace(notice) && notice != translation.CopyrightNotice)
+      {
+        await _context.Translations
+          .Where(t => t.Id == translation.Id)
+          .ExecuteUpdateAsync(s => s.SetProperty(t => t.CopyrightNotice, notice));
+
+        translation.CopyrightNotice = notice;
+      }
+    }
+    catch (HttpRequestException)
+    {
+      // Keep the notice already stored; it is looked up again with the next fetch.
+    }
+  }
+
   public async Task EnforceCacheLimitsAsync()
   {
     var translations = await _context.Translations
@@ -317,6 +390,13 @@ public class BibleTextService : IBibleTextService
   {
     if (translation.StorageMode != TranslationStorageMode.Cache)
     {
+      return;
+    }
+
+    // A switched-off translation keeps no text at all (a license can end at any time).
+    if (!translation.IsEnabled)
+    {
+      await _context.Verses.Where(v => v.TranslationId == translation.Id).ExecuteDeleteAsync();
       return;
     }
 

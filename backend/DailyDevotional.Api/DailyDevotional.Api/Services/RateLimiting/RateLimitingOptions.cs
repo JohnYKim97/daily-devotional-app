@@ -15,6 +15,11 @@ public class RateLimitingOptions
   // Calls this app makes to the NLT API. The defaults suit the anonymous access (500
   // requests per day); with a personal key (5,000 per day) raise them in configuration.
   public ProviderLimits NltApi { get; set; } = new() { PerMinute = 30, PerHour = 250, PerDay = 450 };
+
+  // Calls this app makes to the YouVersion Platform API. A production app key allows 10,000
+  // requests an hour (a free key before the app goes live only 200), so this stays below that
+  // with headroom. Lower it in configuration while still on a free key.
+  public ProviderLimits YouVersionApi { get; set; } = new() { PerMinute = 150, PerHour = 9000, PerDay = 200000 };
 }
 
 public class ProviderLimits

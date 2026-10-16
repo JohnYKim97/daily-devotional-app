@@ -235,6 +235,7 @@ try {
     @{ Name = 'Authentication:Google:ClientId';     Prompt = 'Google OAuth client ID (needed to sign in)';        Secret = $false },
     @{ Name = 'Authentication:Google:ClientSecret'; Prompt = 'Google OAuth client secret (needed to sign in)';    Secret = $true  },
     @{ Name = 'ESV:ApiKey';                         Prompt = 'ESV API key (passage text, from api.esv.org)';      Secret = $true  },
+    @{ Name = 'YouVersion:AppKey';                  Prompt = 'YouVersion Platform app key (NIV text, from platform.youversion.com)'; Secret = $true  },
     @{ Name = 'Anthropic:ApiKey';                   Prompt = 'Anthropic API key (AI commentary, optional)';       Secret = $true  },
     @{ Name = 'Authentication:AdminEmail';          Prompt = 'Your Google sign-in email (makes you admin to import the schedule)'; Secret = $false }
   )

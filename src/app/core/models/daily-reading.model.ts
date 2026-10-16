@@ -14,7 +14,10 @@ export interface DailyReading {
   reference?: string;
   coversWholeChapters?: boolean;
   // Why the verses are missing, when they are.
-  versesUnavailable?: 'rate_limited' | 'error' | null;
+  versesUnavailable?: 'rate_limited' | 'too_long' | 'error' | null;
   translationCode: string;
   copyrightNotice: string;
+  // A link the license requires beside the copyright notice, e.g. to the publisher's site.
+  attributionLinkText?: string | null;
+  attributionLinkUrl?: string | null;
 }

@@ -18,6 +18,25 @@ Only the KJV and the open-licensed interlinear data can be stored in full in you
 | Hebrew interlinear | Data sets, not an API (OSHB, STEPBible) | None; CC BY 4.0, WLC text is public domain | n/a | Yes, with attribution |
 | Greek interlinear | Data sets (STEPBible, MorphGNT) | None for STEPBible (CC BY 4.0); MorphGNT is CC BY-SA | n/a | Yes, with attribution and license conditions |
 
+## APIs and data sources this app uses
+
+This is what the code calls or imports today, per translation. The rest of this guide explains the licensing behind each choice.
+
+| Translation | Source | Endpoint or file | How it is kept | Setting |
+|---|---|---|---|---|
+| ESV | ESV API (Crossway) | `https://api.esv.org/v3/passage/text/` | Cache only: 500 verses, 14 days | `ESV:ApiKey` |
+| KJV | bolls.life bulk file | `https://bolls.life/static/translations/KJV.json`, imported once at startup | Stored in full | none |
+| NET | NET Bible 2.1 EPUB from bible.org | A file placed by hand in `Data/Imports/` (no API; bible.org blocks automated downloads) | Stored in full, non-commercial only. Translators' notes are off until permission is confirmed | `Translations:NetEpubPath`, `Translations:NetNotes` |
+| NLT | NLT API (Tyndale) | `https://api.nlt.to/api/passages` | Cache only: 500 verses, 14 days | `NLT:ApiKey` (optional; anonymous access works) |
+| NIV | YouVersion Platform API | `https://api.youversion.com/v1/bibles/111/passages/{ref}` (called from the backend, one chapter per call) | Cache only: 500 verses, 14 days. Notes and headings are included | `YouVersion:AppKey` |
+| NASB (2020 edition) | YouVersion Platform API | `https://api.youversion.com/v1/bibles/2692/passages/{ref}` | Cache only: 500 verses, 14 days. Notes and headings are included | `YouVersion:AppKey` |
+
+Only the 2020 edition of the NASB is offered in the app, shown as "NASB", so the version picker stays short. Checked against the YouVersion Platform with this project's key: the NIV (id 111) and the NASB (ids 100 for 1995 and 2692 for 2020) are available, but the ESV, NLT, NET, NRSV and KJV are not, which is why those keep their own sources. The Biblica and Lockman license agreements are confidential and are kept out of the repository (`docs/Licenses/` is git-ignored); this guide only notes where they apply.
+
+**YouVersion Platform (NIV and NASB).** One generic provider serves both, using the YouVersion Bible id stored with each translation. The NIV and NASB are switched on at startup only when `YouVersion:AppKey` is set; without it they stay off and keep no cached text. Passages are requested one chapter at a time as HTML (`format=html`, with headings and notes). The app limits its own calls (`RateLimiting:YouVersionApi`) to 9,000 an hour, 150 a minute and 200,000 a day, below the 10,000 an hour a production app key allows. A free key allows only 200 an hour, so lower these limits while still on one. Both versions are shown under the publisher's own license agreement, with the copyright notice and the publisher link those agreements ask for (the NIV's notice is refreshed from the API at most once a day). The NIV also has a limit on how much may be shown at once, so a reading longer than that shows a message asking the reader to pick another version. The verse counts for both were read from YouVersion's own index for each Bible and equal the ESV's. The license agreements themselves are confidential and are not kept in this repository.
+
+Not implemented, with no source chosen yet: the NRSV (no API found), and the Hebrew and Greek interlinears (data sets, to import later).
+
 ## ESV
 
 The ESV API is the clearest of the copyrighted options, and it forbids exactly what you were considering: keeping a full copy.

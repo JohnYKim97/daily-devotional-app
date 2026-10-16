@@ -74,10 +74,17 @@
               The Bible text is temporarily unavailable because it has been requested too often.
               Please try again in a few minutes.
             </p>
+          } @else if (reason === 'too_long') {
+            <p>
+              This passage is too long to show in the {{ translationService.selectedCode() }} under
+              its license. Please choose another version above.
+            </p>
           } @else {
             <p>The Bible text could not be loaded right now. Please try again shortly.</p>
           }
-          <button type="button" class="retry-button" (click)="retry()">Try again</button>
+          @if (reason !== 'too_long') {
+            <button type="button" class="retry-button" (click)="retry()">Try again</button>
+          }
         </div>
       }
 
@@ -89,9 +96,14 @@
       </app-verse-list>
       @if (currentReading.copyrightNotice) {
         <p class="copyright-notice">
-          {{ currentReading.copyrightNotice }}
-          @if (currentReading.translationCode === 'NET') {
-            <a href="https://netbible.org" target="_blank" rel="noopener noreferrer">NET</a>
+          <span class="copyright-text">{{ currentReading.copyrightNotice }}</span>
+          @if (currentReading.attributionLinkUrl) {
+            <a
+              [href]="currentReading.attributionLinkUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ currentReading.attributionLinkText || currentReading.attributionLinkUrl }}</a
+            >
           }
         </p>
       }

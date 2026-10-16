@@ -211,6 +211,11 @@ builder.Services.AddHttpClient<NltTranslationProvider>(client =>
   client.BaseAddress = new Uri("https://api.nlt.to/api/");
 });
 builder.Services.AddTransient<ITranslationProvider>(sp => sp.GetRequiredService<NltTranslationProvider>());
+builder.Services.AddHttpClient<YouVersionTranslationProvider>(client =>
+{
+  client.BaseAddress = new Uri("https://api.youversion.com/v1/");
+});
+builder.Services.AddTransient<ITranslationProvider>(sp => sp.GetRequiredService<YouVersionTranslationProvider>());
 builder.Services.AddScoped<IBibleTextService, BibleTextService>();
 builder.Services.AddScoped<IBibleMetadataService, BibleMetadataService>();
 builder.Services.AddHttpClient<TranslationImportService>(client =>
@@ -229,6 +234,14 @@ using (var migrationScope = app.Services.CreateScope())
   dbContext.Database.Migrate();
 
   await migrationScope.ServiceProvider.GetRequiredService<TranslationImportService>().SeedStructureAsync();
+
+  // The NIV and NASB come from the YouVersion Platform and only work with an app key. Without
+  // one they stay switched off (and keep no cached text), so they never show in the picker.
+  var youVersionConfigured = !string.IsNullOrWhiteSpace(builder.Configuration["YouVersion:AppKey"]);
+
+  await dbContext.Translations
+    .Where(t => t.ProviderKind == TranslationProviderKind.YouVersionApi)
+    .ExecuteUpdateAsync(s => s.SetProperty(t => t.IsEnabled, youVersionConfigured));
 
   // Usage: dotnet run -- import-translation <CODE> [path-to-bolls-json]
   if (args.Length >= 2 && args[0] == "import-translation")

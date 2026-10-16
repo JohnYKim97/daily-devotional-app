@@ -113,6 +113,11 @@
   }
 }
 
+// A notice can be several lines (copyright, then trademark), kept as the publisher gives it.
+.copyright-text {
+  white-space: pre-line;
+}
+
 .copyright-notice {
   margin: 1rem 0 0;
   color: var(--color-text-muted);

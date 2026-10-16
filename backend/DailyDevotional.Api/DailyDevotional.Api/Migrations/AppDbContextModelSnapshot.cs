@@ -707,6 +707,12 @@ namespace DailyDevotional.Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AttributionLinkText")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AttributionLinkUrl")
+                        .HasColumnType("text");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("text");
@@ -714,6 +720,9 @@ namespace DailyDevotional.Api.Migrations
                     b.Property<string>("CopyrightNotice")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("ExternalId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("boolean");
@@ -728,11 +737,20 @@ namespace DailyDevotional.Api.Migrations
                     b.Property<int?>("MaxCachedVerses")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("MaxDisplayChapters")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MaxDisplayVerses")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("NonCommercialOnly")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("NoticeFromProvider")
                         .HasColumnType("boolean");
 
                     b.Property<string>("ProviderKind")
@@ -767,6 +785,7 @@ namespace DailyDevotional.Api.Migrations
                             MaxCachedVerses = 500,
                             Name = "English Standard Version",
                             NonCommercialOnly = true,
+                            NoticeFromProvider = false,
                             ProviderKind = "EsvApi",
                             SortOrder = 1,
                             StorageMode = "Cache"
@@ -780,6 +799,7 @@ namespace DailyDevotional.Api.Migrations
                             Language = "en",
                             Name = "King James Version",
                             NonCommercialOnly = false,
+                            NoticeFromProvider = false,
                             ProviderKind = "Local",
                             SortOrder = 2,
                             StorageMode = "Full"
@@ -787,12 +807,15 @@ namespace DailyDevotional.Api.Migrations
                         new
                         {
                             Id = 3,
+                            AttributionLinkText = "NET",
+                            AttributionLinkUrl = "https://netbible.org",
                             Code = "NET",
                             CopyrightNotice = "Quotations designated (NET) are from the NET Bible® copyright ©1996, 2019 by Biblical Studies Press, L.L.C. All rights reserved.",
                             IsEnabled = false,
                             Language = "en",
                             Name = "New English Translation",
                             NonCommercialOnly = true,
+                            NoticeFromProvider = false,
                             ProviderKind = "Local",
                             SortOrder = 3,
                             StorageMode = "Full"
@@ -808,8 +831,49 @@ namespace DailyDevotional.Api.Migrations
                             MaxCachedVerses = 500,
                             Name = "New Living Translation",
                             NonCommercialOnly = true,
+                            NoticeFromProvider = false,
                             ProviderKind = "NltApi",
                             SortOrder = 4,
+                            StorageMode = "Cache"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AttributionLinkText = "Biblica",
+                            AttributionLinkUrl = "https://www.biblica.com",
+                            Code = "NIV",
+                            CopyrightNotice = "The Holy Bible, New International Version® NIV®\nCopyright © 1973, 1978, 1984, 2011 by Biblica, Inc.®\nUsed by Permission of Biblica, Inc.® All rights reserved worldwide.",
+                            ExternalId = 111,
+                            IsEnabled = false,
+                            Language = "en",
+                            MaxCacheAgeDays = 14,
+                            MaxCachedVerses = 500,
+                            MaxDisplayChapters = 2,
+                            MaxDisplayVerses = 25,
+                            Name = "New International Version",
+                            NonCommercialOnly = true,
+                            NoticeFromProvider = true,
+                            ProviderKind = "YouVersionApi",
+                            SortOrder = 5,
+                            StorageMode = "Cache"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AttributionLinkText = "Lockman.org",
+                            AttributionLinkUrl = "https://www.lockman.org",
+                            Code = "NASB",
+                            CopyrightNotice = "Scripture quotations from the New American Standard Bible – NASB 2020 Copyright © 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation. All rights reserved. Used by permission.",
+                            ExternalId = 2692,
+                            IsEnabled = false,
+                            Language = "en",
+                            MaxCacheAgeDays = 14,
+                            MaxCachedVerses = 500,
+                            Name = "New American Standard Bible (2020)",
+                            NonCommercialOnly = true,
+                            NoticeFromProvider = false,
+                            ProviderKind = "YouVersionApi",
+                            SortOrder = 6,
                             StorageMode = "Cache"
                         });
                 });

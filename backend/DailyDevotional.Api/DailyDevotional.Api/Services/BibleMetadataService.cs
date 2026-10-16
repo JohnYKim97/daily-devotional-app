@@ -26,7 +26,9 @@ public class BibleMetadataService : IBibleMetadataService
         Code = t.Code,
         Name = t.Name,
         Language = t.Language,
-        CopyrightNotice = t.CopyrightNotice
+        CopyrightNotice = t.CopyrightNotice,
+        AttributionLinkText = t.AttributionLinkText,
+        AttributionLinkUrl = t.AttributionLinkUrl
       })
       .ToListAsync();
   }

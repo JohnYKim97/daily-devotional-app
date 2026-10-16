@@ -43,7 +43,8 @@ public class ProviderRateLimiter : IProviderRateLimiter
     _limits = new Dictionary<TranslationProviderKind, ProviderLimits>
     {
       [TranslationProviderKind.EsvApi] = options.Value.EsvApi,
-      [TranslationProviderKind.NltApi] = options.Value.NltApi
+      [TranslationProviderKind.NltApi] = options.Value.NltApi,
+      [TranslationProviderKind.YouVersionApi] = options.Value.YouVersionApi
     };
   }
 

@@ -110,8 +110,14 @@ describe('ReadingComponent', () => {
     expect(select).toHaveBeenCalledWith(2);
   });
 
-  it('links the NET to netbible.org beside its copyright notice', async () => {
-    state.reading.set({ ...reading, translationCode: 'NET', copyrightNotice: 'NET notice' });
+  it('links the publisher beside the copyright notice when the license asks for it', async () => {
+    state.reading.set({
+      ...reading,
+      translationCode: 'NET',
+      copyrightNotice: 'NET notice',
+      attributionLinkText: 'NET',
+      attributionLinkUrl: 'https://netbible.org',
+    });
     await fixture.whenStable();
 
     const link = element.querySelector<HTMLAnchorElement>('.copyright-notice a')!;
@@ -119,6 +125,19 @@ describe('ReadingComponent', () => {
     expect(link.textContent?.trim()).toBe('NET');
     expect(link.href).toBe('https://netbible.org/');
     expect(element.querySelector('.copyright-notice')?.textContent).toContain('NET notice');
+  });
+
+  it('explains when a passage is too long for the translation’s license, without a retry', async () => {
+    state.reading.set({
+      ...reading,
+      verses: [],
+      translationCode: '',
+      versesUnavailable: 'too_long',
+    });
+    await fixture.whenStable();
+
+    expect(text('.verses-unavailable')).toContain('too long to show in the ESV');
+    expect(element.querySelector('.verses-unavailable .retry-button')).toBeNull();
   });
 
   it('hides the button when the daily passage is already the whole chapter', async () => {

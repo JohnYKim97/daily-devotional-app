@@ -10,4 +10,7 @@ public class PassageResponse
   // True when the passage runs from verse 1 of its first chapter to the last verse of its last chapter.
   public bool CoversWholeChapters { get; set; }
   public List<DailyReadingVerseResponse> Verses { get; set; } = new();
+  // A link the license requires beside the copyright notice, e.g. to the publisher's site.
+  public string? AttributionLinkText { get; set; }
+  public string? AttributionLinkUrl { get; set; }
 }
