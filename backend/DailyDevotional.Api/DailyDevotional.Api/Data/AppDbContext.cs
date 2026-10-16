@@ -84,6 +84,21 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         // Enabled by `import-translation KJV` once its verses are loaded.
         IsEnabled = false,
         SortOrder = 2
+      },
+      new Translation
+      {
+        Id = 3,
+        Code = "NET",
+        Name = "New English Translation",
+        // The NET license lets its text (without the NET notes) be quoted in any form,
+        // electronic included, for non-commercial use, so it is stored in full like the KJV.
+        StorageMode = TranslationStorageMode.Full,
+        ProviderKind = TranslationProviderKind.Local,
+        CopyrightNotice = "Quotations designated (NET) are from the NET Bible® copyright ©1996, 2019 by Biblical Studies Press, L.L.C. All rights reserved.",
+        NonCommercialOnly = true,
+        // Enabled by `import-translation NET` once its verses are loaded.
+        IsEnabled = false,
+        SortOrder = 3
       });
 
     modelBuilder.Entity<DailyReading>().HasData(

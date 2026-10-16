@@ -208,6 +208,10 @@ Without the Google values the app starts but you cannot sign in. Without the ESV
 
 The ESV is fetched from the ESV API (needs `ESV:ApiKey`) and only a small amount is cached, because of its license. The King James Version is public domain, so it is stored in full: the first time the API starts it downloads the text once from bolls.life (about 12 MB) and imports it in the background, and the translation picker in Settings appears when that finishes. If you are offline it logs a warning and tries again on the next start. To skip this (for example in CI), set `Translations:ImportOnStartup` to `false`. To import by hand: `dotnet run -- import-translation KJV`.
 
+The NET Bible comes with its translators' notes from the free EPUB on bible.org, which blocks automatic downloads. Download "NET Bible 2.1" (EPUB) from <https://bible.org/downloads>, save it as `backend/DailyDevotional.Api/DailyDevotional.Api/Data/Imports/NETBIBLE21.epub` (git ignores that folder), then restart the API or run `dotnet run -- import-translation NET`. Until the file is there the NET is simply not offered. Use another location with the `Translations:NetEpubPath` setting. The NET license allows non-commercial use only.
+
+The NET translators' notes are off for now (`Translations:NetNotes` is `false` in `appsettings.json`), because the NET license grants quoting of the text "without the NET Bible notes" and written permission for the notes has been requested from Biblical Studies Press. Until it arrives only the text and headings are imported. To switch notes on once permission is confirmed, set `Translations:NetNotes` to `true` and run `dotnet run -- import-translation NET` again; the import replaces the stored NET text.
+
 ## 4. Frontend dependencies (manual; the script does this)
 
 From the repo root:

@@ -56,3 +56,6 @@ obj/
 .env
 .env.*
 appsettings.*.local.json
+
+# NET Bible EPUB from bible.org, imported by hand (see LOCAL_SETUP.md)
+backend/**/Data/Imports/

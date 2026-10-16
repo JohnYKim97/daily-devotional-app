@@ -75,6 +75,11 @@ public class FullTranslationBootstrapService : BackgroundService
 
       await importer.ImportFullTranslationAsync(code, null);
     }
+    catch (FileNotFoundException ex)
+    {
+      // A translation that is imported from a file placed by hand (the NET), not downloaded.
+      _logger.LogInformation("{Code} is not imported yet: {Message}", code, ex.Message);
+    }
     catch (Exception ex) when (ex is not OperationCanceledException)
     {
       _logger.LogWarning(

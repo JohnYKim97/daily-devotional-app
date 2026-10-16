@@ -18,15 +18,27 @@ public partial class TranslationImportService
   // or wrong download is never enabled.
   private const double MinimumCoverage = 0.99;
 
+  private const string NetCode = "NET";
+  private const string DefaultNetEpubPath = "Data/Imports/NETBIBLE21.epub";
+
   private readonly AppDbContext _context;
   private readonly HttpClient _httpClient;
   private readonly ILogger<TranslationImportService> _logger;
+  private readonly IConfiguration _configuration;
+  private readonly IHostEnvironment _environment;
 
-  public TranslationImportService(AppDbContext context, HttpClient httpClient, ILogger<TranslationImportService> logger)
+  public TranslationImportService(
+    AppDbContext context,
+    HttpClient httpClient,
+    ILogger<TranslationImportService> logger,
+    IConfiguration configuration,
+    IHostEnvironment environment)
   {
     _context = context;
     _httpClient = httpClient;
     _logger = logger;
+    _configuration = configuration;
+    _environment = environment;
   }
 
   // Verse counts are facts rather than copyrighted text, so they ship with the app. They are
@@ -95,7 +107,8 @@ public partial class TranslationImportService
   }
 
   // Imports the whole text of a Full-mode translation from a bolls.life JSON file
-  // (downloaded from bolls.life unless a local file is given), then enables it.
+  // (downloaded from bolls.life unless a local file is given), then enables it. The NET is
+  // read from its EPUB instead, with its headings and translators' notes.
   //
   // Only verses that exist in the translation's stored structure are kept, which drops
   // anything extra in the source (e.g. the apocryphal Additions to Esther that the bolls.life
@@ -122,26 +135,9 @@ public partial class TranslationImportService
       throw new InvalidOperationException($"The chapter structure of {code} has not been loaded.");
     }
 
-    var json = filePath != null
-      ? await File.ReadAllTextAsync(filePath)
-      : await _httpClient.GetStringAsync($"https://bolls.life/static/translations/{code}.json");
-
-    var source = JsonSerializer.Deserialize<List<BollsVerse>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
-      ?? throw new InvalidOperationException("The translation file is empty.");
-
-    var verses = source
-      .Where(v => chapterCounts.TryGetValue((v.Book, v.Chapter), out var count) && v.Verse >= 1 && v.Verse <= count)
-      .DistinctBy(v => (v.Book, v.Chapter, v.Verse))
-      .Select(v => new Verse
-      {
-        TranslationId = translation.Id,
-        BookId = v.Book,
-        Chapter = v.Chapter,
-        VerseNumber = v.Verse,
-        Text = CleanText(v.Text)
-      })
-      .Where(v => v.Text.Length > 0)
-      .ToList();
+    var verses = code == NetCode
+      ? ReadNetEpub(translation.Id, filePath, chapterCounts)
+      : await ReadBollsAsync(translation.Id, code, filePath, chapterCounts);
 
     var expected = chapterCounts.Values.Sum();
 
@@ -173,6 +169,72 @@ public partial class TranslationImportService
     _logger.LogInformation("Imported {Count} verses of {Code} and enabled it.", verses.Count, code);
 
     return verses.Count;
+  }
+
+  private async Task<List<Verse>> ReadBollsAsync(
+    int translationId,
+    string code,
+    string? filePath,
+    Dictionary<(int BookId, int Chapter), int> chapterCounts)
+  {
+    var json = filePath != null
+      ? await File.ReadAllTextAsync(filePath)
+      : await _httpClient.GetStringAsync($"https://bolls.life/static/translations/{code}.json");
+
+    var source = JsonSerializer.Deserialize<List<BollsVerse>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+      ?? throw new InvalidOperationException("The translation file is empty.");
+
+    return source
+      .Where(v => chapterCounts.TryGetValue((v.Book, v.Chapter), out var count) && v.Verse >= 1 && v.Verse <= count)
+      .DistinctBy(v => (v.Book, v.Chapter, v.Verse))
+      .Select(v => new Verse
+      {
+        TranslationId = translationId,
+        BookId = v.Book,
+        Chapter = v.Chapter,
+        VerseNumber = v.Verse,
+        Text = CleanText(v.Text)
+      })
+      .Where(v => v.Text.Length > 0)
+      .ToList();
+  }
+
+  // The NET comes from the free EPUB on bible.org (https://bible.org/downloads), which
+  // includes the translators' notes. bible.org blocks automatic downloads, so the file is
+  // put in place by hand (see LOCAL_SETUP.md).
+  private List<Verse> ReadNetEpub(
+    int translationId,
+    string? filePath,
+    Dictionary<(int BookId, int Chapter), int> chapterCounts)
+  {
+    var path = filePath ?? Path.Combine(
+      _environment.ContentRootPath,
+      _configuration["Translations:NetEpubPath"] ?? DefaultNetEpubPath);
+
+    if (!File.Exists(path))
+    {
+      throw new FileNotFoundException(
+        $"The NET Bible EPUB was not found at '{path}'. Download it from https://bible.org/downloads and put it there.",
+        path);
+    }
+
+    // Off until Biblical Studies Press confirms the notes may be stored (see docs/bible-translations.md).
+    var includeNotes = _configuration.GetValue("Translations:NetNotes", false);
+
+    return NetEpubParser.Parse(path, includeNotes, warning => _logger.LogWarning("NET import: {Warning}", warning))
+      .Where(v => chapterCounts.TryGetValue((v.BookId, v.Chapter), out var count) && v.VerseNumber >= 1 && v.VerseNumber <= count)
+      .Where(v => v.Text.Length > 0)
+      .Select(v => new Verse
+      {
+        TranslationId = translationId,
+        BookId = v.BookId,
+        Chapter = v.Chapter,
+        VerseNumber = v.VerseNumber,
+        Text = v.Text,
+        Heading = v.Heading,
+        Footnotes = v.Footnotes
+      })
+      .ToList();
   }
 
   // bolls.life text contains Strong's number tags (<S>), footnotes (<sup>) and

@@ -783,6 +783,19 @@ namespace DailyDevotional.Api.Migrations
                             ProviderKind = "Local",
                             SortOrder = 2,
                             StorageMode = "Full"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "NET",
+                            CopyrightNotice = "Quotations designated (NET) are from the NET Bible® copyright ©1996, 2019 by Biblical Studies Press, L.L.C. All rights reserved.",
+                            IsEnabled = false,
+                            Language = "en",
+                            Name = "New English Translation",
+                            NonCommercialOnly = true,
+                            ProviderKind = "Local",
+                            SortOrder = 3,
+                            StorageMode = "Full"
                         });
                 });
 

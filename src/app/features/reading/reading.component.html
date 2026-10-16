@@ -88,7 +88,12 @@
       >
       </app-verse-list>
       @if (currentReading.copyrightNotice) {
-        <p class="copyright-notice">{{ currentReading.copyrightNotice }}</p>
+        <p class="copyright-notice">
+          {{ currentReading.copyrightNotice }}
+          @if (currentReading.translationCode === 'NET') {
+            <a href="https://netbible.org" target="_blank" rel="noopener noreferrer">NET</a>
+          }
+        </p>
       }
     </div>
   </div>

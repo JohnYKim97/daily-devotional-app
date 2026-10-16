@@ -11,7 +11,7 @@ Only the KJV and the open-licensed interlinear data can be stored in full in you
 | ESV | Yes, [api.esv.org](https://api.esv.org/), key required, non-commercial only | 500 verses or half a book, whichever is less | 5,000/day, 1,000/hour, 60/minute; 500 verses per query | No |
 | NASB | No publisher API found. Possible via [API.Bible](https://api.bible/) if the NASB is on your plan (unverified) | Max 1,000 verses stored in an electronic retrieval system | API.Bible Starter: 5,000 calls/month (sources also say 5,000/day) | No |
 | NRSV / NRSVue | No API found | Unverified; no published limits found | None found | No, needs a license from the rights holder |
-| NET | Yes, [labs.bible.org](https://labs.bible.org/api_web_service) web service, free non-commercial | Unverified; storing the full text is not addressed | Unverified; page was not readable | Unverified; ask Biblical Studies Press |
+| NET | Free EPUB download from [bible.org](https://bible.org/downloads) (text and notes); labs.bible.org web service exists but its terms are unpublished | Text quotable in any form, electronic included, non-commercial only; the page says "without the NET Bible notes" and does not address storing a full copy | Not applicable to the EPUB (imported once); labs.bible.org limits are unpublished | Stored in full in this app, non-commercial only; commercial use needs HarperCollins Christian Publishing |
 | NIV | No public API. Not available for commercial use on API.Bible | 500 verses quotation allowance; no app or storage terms published | None | No |
 | NLT | Yes, [api.nlt.to](https://api.nlt.to/), non-commercial | Not stated; the 500-verse cap matches the NLT copyright statement | Anonymous: 500 requests/day, 50 verses each. With key: 5,000/day, 500 verses each | No |
 | KJV | Yes, several, e.g. Bolls and API.Bible open access | None; public domain in the US | Bolls asks you to use the bulk download, not the per-chapter endpoints | Yes |
@@ -33,7 +33,23 @@ The ESV API is the clearest of the copyrighted options, and it forbids exactly w
 
 **NRSV / NRSVue.** The National Council of Churches owns the rights, and licensing runs through Riggins Rights Management (NRSVcopyright@rigginsrights.com). I found no published quotation limits and no API. API.Bible says it does not provide the NRSV-CE. Treat any NRSV use as needing a written license.
 
-**NET.** The [NET copyright page](https://netbible.com/copyright/) allows free quoting in non-commercial use with "(NET)" after each quotation and a link to netbible.org in apps. It does not address storing the full text. A free non-commercial web service exists at labs.bible.org, but I could not read its page, so its rate limits and key rules are unverified. Commercial use goes through HarperCollins Christian Publishing.
+**NET.** The [NET copyright page](https://netbible.com/copyright/) and the publisher's [notice page](https://thebible.org/gt/notices/net.html) say:
+
+- **Quoting:** the Scripture text (without the NET Bible notes) may be quoted in any form (written, visual, electronic, projection or audio) for non-commercial use, without written permission.
+- **Notices:** each quotation must end with "(NET)", and the acknowledgment is "Quotations designated (NET) are from the NET Bible® copyright ©1996, 2019 by Biblical Studies Press, L.L.C. All rights reserved." Software apps with internet access should hyperlink "NET" to netbible.org.
+- **Distribution:** copies may be given away free, but not bundled with anything sold or used to solicit donations. The free download is at [bible.org/downloads](https://bible.org/downloads), where the EPUB with the notes is offered.
+- **Commercial use:** contact HarperCollins Christian Publishing. Anything not expressly granted needs written permission from Biblical Studies Press.
+- **Not addressed:** storing a full copy in an app database, and the terms and rate limits of the labs.bible.org web service (its page returned 403 to me).
+
+**How this app uses the NET.**
+
+- **Source:** the free NET Bible 2.1 EPUB from bible.org (copyright 1996-2019), imported once by hand (see LOCAL_SETUP.md). The EPUB is git-ignored, not committed.
+- **Stored:** the whole text in the database, like the KJV, flagged non-commercial only. It is not fetched from labs.bible.org, so there is no rate limit to manage.
+- **Imported content:** verse text, section headings and Psalm titles, plus every translators' note (tn, sn and tc, about 58,000) only when `Translations:NetNotes` is `true`. **Notes are currently off** (the default); see "Permission status" below. The divine names appear as in the EPUB ("Lord", "God"; the EPUB prints them in small capitals, which plain text cannot).
+- **Shown:** the notice above under each NET passage, with "NET" linking to netbible.org.
+- **Reasoning:** storing relies on the "any form, electronic included" grant and on the free download being offered for exactly this kind of non-commercial use. The notes are the weakest part: the page's grant is for the text "without the NET Bible notes", and the notes are included because the free download ships them. This is an interpretation, not written permission.
+- **Permission status:** no page I could read grants the notes for use in an app. The copyright page and FAQ cover the text "without the NET Bible notes", the FAQ only says you may reference the notes at netbible.org, and the free-distribution clause is for copies given away for personal study. The [Bible.org copyright page](https://bible.org/article/trademark-and-copyright-information) adds nothing on the notes: its NET section only says "see https://netbible.com/copyright/". Its website terms (which cover Bible.org's own articles) allow personal study and paper printing, and say resources "may not be reposted on other websites, duplicated electronically or copied to media other than paper" without written permission. It is unclear whether those terms also govern the EPUB offered at bible.org/downloads, so the request also asks whether that file may be used and stored in an app. A permission request was emailed to Biblical Studies Press. Turn `Translations:NetNotes` on and re-import only after they confirm in writing.
+- **Before charging or showing ads:** get written permission from Biblical Studies Press (and HarperCollins Christian Publishing for commercial use), or turn the NET off.
 
 **NIV.** [Biblica](https://www.biblica.com/permissions/) allows quoting up to 500 verses, no complete book, and under 25% of your work. Commentaries and reference works need written permission. I found no public NIV API, and [API.Bible](https://docs.api.bible/your-account/plans-pricing) states the NIV is not currently available for commercial use. For an app, contact Biblica or Zondervan.
 
@@ -51,16 +67,16 @@ These three are the ones you can legally store in full, each with attribution co
 
 ## Recommendations and open questions
 
-To get all eight in your app, treat the ESV, NLT and NET as live API lookups and the KJV and interlinears as stored data.
+To get all eight in your app, treat the ESV and NLT as live API lookups and the KJV, NET and interlinears as stored data.
 
-1. **Store in your DB:** KJV, OSHB (Hebrew), STEPBible (Hebrew and Greek tagged text).
+1. **Store in your DB:** KJV, OSHB (Hebrew), STEPBible (Hebrew and Greek tagged text), and the NET (non-commercial only, from the bible.org EPUB, notes included).
 2. **Fetch live, cache at most 500 verses:** ESV and NLT. Both are non-commercial only, so no ads, subscriptions or paid tiers.
 3. **Needs a license or a decision:** NIV, NASB and NRSV have no free API I could verify. Contact Biblica/Zondervan, the Lockman Foundation and Riggins respectively, or check [API.Bible](https://api.bible/bibles) for current availability.
-4. **Confirm for NET:** ask Biblical Studies Press about rate limits and caching.
+4. **Confirm for NET:** the NET is already stored in full. Ask Biblical Studies Press in writing to confirm that storing the text and notes in an app is fine, and for terms if the app ever becomes commercial.
 
 Open questions:
 
-- Will the app ever charge or show ads? That decides whether the free ESV, NLT and NET APIs remain allowed.
+- Will the app ever charge or show ads? That decides whether the free ESV and NLT APIs and the free NET text remain allowed.
 - Is NRSV or NRSVue the one you want? It changes who to contact.
 
 Your list ended at an empty item 5), so I did not cover it. Tell me what it was and I will add it.

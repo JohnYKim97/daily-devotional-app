@@ -110,6 +110,17 @@ describe('ReadingComponent', () => {
     expect(select).toHaveBeenCalledWith(2);
   });
 
+  it('links the NET to netbible.org beside its copyright notice', async () => {
+    state.reading.set({ ...reading, translationCode: 'NET', copyrightNotice: 'NET notice' });
+    await fixture.whenStable();
+
+    const link = element.querySelector<HTMLAnchorElement>('.copyright-notice a')!;
+
+    expect(link.textContent?.trim()).toBe('NET');
+    expect(link.href).toBe('https://netbible.org/');
+    expect(element.querySelector('.copyright-notice')?.textContent).toContain('NET notice');
+  });
+
   it('hides the button when the daily passage is already the whole chapter', async () => {
     state.reading.set({ ...reading, coversWholeChapters: true });
     await fixture.whenStable();
