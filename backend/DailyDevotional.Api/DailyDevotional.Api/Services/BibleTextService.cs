@@ -236,7 +236,7 @@ public class BibleTextService : IBibleTextService
         $"{translation.Code} passages are limited to {limit} verses for {book.Name} under its license.");
     }
 
-    var fetched = await provider.GetVersesAsync(book.Name, startChapter, startVerse, endChapter, endVerse);
+    var fetched = await provider.GetVersesAsync(book.Name, startChapter, startVerse, endChapter, endVerse, chapterVerseCounts);
 
     if (fetched.Count == 0)
     {

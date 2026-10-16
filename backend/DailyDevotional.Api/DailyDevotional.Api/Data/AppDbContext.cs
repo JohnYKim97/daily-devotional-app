@@ -99,6 +99,22 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         // Enabled by `import-translation NET` once its verses are loaded.
         IsEnabled = false,
         SortOrder = 3
+      },
+      new Translation
+      {
+        Id = 4,
+        Code = "NLT",
+        Name = "New Living Translation",
+        // Fetched from the NLT API and only cached for a short time, like the ESV. The API
+        // is free for non-commercial use, and Tyndale's quotation limit is 500 verses.
+        StorageMode = TranslationStorageMode.Cache,
+        ProviderKind = TranslationProviderKind.NltApi,
+        MaxCachedVerses = 500,
+        MaxCacheAgeDays = 14,
+        CopyrightNotice = "Scripture quotations are taken from the Holy Bible, New Living Translation, copyright ©1996, 2004, 2015 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, Carol Stream, Illinois 60188. All rights reserved.",
+        NonCommercialOnly = true,
+        IsEnabled = true,
+        SortOrder = 4
       });
 
     modelBuilder.Entity<DailyReading>().HasData(

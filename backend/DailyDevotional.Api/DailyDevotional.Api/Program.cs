@@ -206,6 +206,11 @@ builder.Services.AddHttpClient<EsvTranslationProvider>(client =>
   client.BaseAddress = new Uri("https://api.esv.org/v3/");
 });
 builder.Services.AddTransient<ITranslationProvider>(sp => sp.GetRequiredService<EsvTranslationProvider>());
+builder.Services.AddHttpClient<NltTranslationProvider>(client =>
+{
+  client.BaseAddress = new Uri("https://api.nlt.to/api/");
+});
+builder.Services.AddTransient<ITranslationProvider>(sp => sp.GetRequiredService<NltTranslationProvider>());
 builder.Services.AddScoped<IBibleTextService, BibleTextService>();
 builder.Services.AddScoped<IBibleMetadataService, BibleMetadataService>();
 builder.Services.AddHttpClient<TranslationImportService>(client =>

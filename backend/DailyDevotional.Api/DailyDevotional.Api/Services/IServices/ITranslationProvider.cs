@@ -20,5 +20,7 @@ public interface ITranslationProvider
     int startChapter,
     int startVerse,
     int endChapter,
-    int endVerse);
+    int endVerse,
+    // Verse count of every chapter in the range, for providers that must split a request.
+    IReadOnlyDictionary<int, int> chapterVerseCounts);
 }

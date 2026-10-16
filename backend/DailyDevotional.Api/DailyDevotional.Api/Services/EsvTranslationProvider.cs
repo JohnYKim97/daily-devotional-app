@@ -31,7 +31,8 @@ public class EsvTranslationProvider : ITranslationProvider
     int startChapter,
     int startVerse,
     int endChapter,
-    int endVerse)
+    int endVerse,
+    IReadOnlyDictionary<int, int> chapterVerseCounts)
   {
     var reference = startChapter == endChapter
       ? $"{bookName} {startChapter}:{startVerse}-{endVerse}"

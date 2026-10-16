@@ -13,7 +13,7 @@ Only the KJV and the open-licensed interlinear data can be stored in full in you
 | NRSV / NRSVue | No API found | Unverified; no published limits found | None found | No, needs a license from the rights holder |
 | NET | Free EPUB download from [bible.org](https://bible.org/downloads) (text and notes); labs.bible.org web service exists but its terms are unpublished | Text quotable in any form, electronic included, non-commercial only; the page says "without the NET Bible notes" and does not address storing a full copy | Not applicable to the EPUB (imported once); labs.bible.org limits are unpublished | Stored in full in this app, non-commercial only; commercial use needs HarperCollins Christian Publishing |
 | NIV | No public API. Not available for commercial use on API.Bible | 500 verses quotation allowance; no app or storage terms published | None | No |
-| NLT | Yes, [api.nlt.to](https://api.nlt.to/), non-commercial | Not stated; the 500-verse cap matches the NLT copyright statement | Anonymous: 500 requests/day, 50 verses each. With key: 5,000/day, 500 verses each | No |
+| NLT | Yes, [api.nlt.to](https://api.nlt.to/), non-commercial | Not stated; the app caches at most 500 verses for 14 days, matching the 500-verse quotation limit | Anonymous: 500 requests/day, 50 verses each. With key: 5,000/day, 500 verses each | No |
 | KJV | Yes, several, e.g. Bolls and API.Bible open access | None; public domain in the US | Bolls asks you to use the bulk download, not the per-chapter endpoints | Yes |
 | Hebrew interlinear | Data sets, not an API (OSHB, STEPBible) | None; CC BY 4.0, WLC text is public domain | n/a | Yes, with attribution |
 | Greek interlinear | Data sets (STEPBible, MorphGNT) | None for STEPBible (CC BY 4.0); MorphGNT is CC BY-SA | n/a | Yes, with attribution and license conditions |
@@ -53,7 +53,16 @@ The ESV API is the clearest of the copyrighted options, and it forbids exactly w
 
 **NIV.** [Biblica](https://www.biblica.com/permissions/) allows quoting up to 500 verses, no complete book, and under 25% of your work. Commentaries and reference works need written permission. I found no public NIV API, and [API.Bible](https://docs.api.bible/your-account/plans-pricing) states the NIV is not currently available for commercial use. For an app, contact Biblica or Zondervan.
 
-**NLT.** The [NLT API](https://api.nlt.to/) is free for non-commercial use. Anonymous callers get 50 verses per request and 500 requests per day. With a key you get 500 verses per request and 5,000 requests per day. Its page does not mention caching. Tyndale's [permission policy](https://www.tyndale.com/permissions) allows 500 verses and under 25% of your work, so I would assume the same 500-verse storage cap.
+**NLT.** The [NLT API](https://api.nlt.to/) is free for non-commercial use, and you must affirm that your use fits Tyndale's purpose. Anonymous callers get 50 verses per request and 500 requests per day. With a key (free sign-up at api.nlt.to/Account/Register) you get 500 verses per request and 5,000 requests per day. The API pages say nothing about caching or required attribution. Tyndale's [permission policy](https://www.tyndale.com/permissions) allows quoting up to 500 verses, not more than 25% of a work and not a complete book, and it does not address apps, software or electronic storage. Its credit line is "Scripture quotations are taken from the Holy Bible, New Living Translation, copyright ©1996, 2004, 2015 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, Carol Stream, Illinois 60188. All rights reserved."
+
+**How this app uses the NLT.**
+
+- **Provider:** fetched live from `https://api.nlt.to/api/passages`, like the ESV, never stored in full.
+- **Cache:** at most 500 verses (and half of any book), kept 14 days. This is an assumption copied from the ESV and the 500-verse quotation limit, because the API does not state caching rules.
+- **Limits:** requests are split to 50 verses each without a key and 500 with one (`NLT:ApiKey`). The app also stops itself at 30 calls a minute, 250 an hour and 450 a day (`RateLimiting:NltApi`), under the anonymous allowance of 500 a day. All visitors share that allowance, because it is counted per server IP address. Raise the limits in configuration when using a key.
+- **Content:** verse text, section headings, Psalm titles and the NLT's footnotes, shown in the existing footnote UI. The divine name stays "Lord", as in the NLT's plain text.
+- **Shown:** the credit line above under each NLT passage. The API's `(NLT)` abbreviation appears in the version picker.
+- **Non-commercial only:** like the ESV, this stops being allowed if the app charges or shows ads. Commercial use needs a commercial license from Tyndale.
 
 ## KJV and the interlinears
 

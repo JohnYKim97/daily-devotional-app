@@ -796,6 +796,21 @@ namespace DailyDevotional.Api.Migrations
                             ProviderKind = "Local",
                             SortOrder = 3,
                             StorageMode = "Full"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "NLT",
+                            CopyrightNotice = "Scripture quotations are taken from the Holy Bible, New Living Translation, copyright ©1996, 2004, 2015 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, Carol Stream, Illinois 60188. All rights reserved.",
+                            IsEnabled = true,
+                            Language = "en",
+                            MaxCacheAgeDays = 14,
+                            MaxCachedVerses = 500,
+                            Name = "New Living Translation",
+                            NonCommercialOnly = true,
+                            ProviderKind = "NltApi",
+                            SortOrder = 4,
+                            StorageMode = "Cache"
                         });
                 });
 
