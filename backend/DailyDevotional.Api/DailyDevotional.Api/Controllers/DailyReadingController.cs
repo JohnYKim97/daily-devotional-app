@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using DailyDevotional.Api.Services.IServices;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DailyDevotional.Api.Controllers;
 
@@ -28,10 +29,20 @@ public class DailyReadingController : ControllerBase
     _configuration = configuration;
   }
 
+  [EnableRateLimiting("passages")]
   [HttpGet("{date}")]
-  public async Task<ActionResult<DailyReadingResponse>> GetReading(DateOnly date)
+  public async Task<ActionResult<DailyReadingResponse>> GetReading(DateOnly date, [FromQuery] string? translation = null)
   {
-    var reading = await _readingService.GetReadingByDateAsync(date);
+    DailyReadingResponse? reading;
+
+    try
+    {
+      reading = await _readingService.GetReadingByDateAsync(date, translation);
+    }
+    catch (ArgumentException ex)
+    {
+      return BadRequest(new { errors = new[] { ex.Message } });
+    }
 
     if (reading == null) {
       return NotFound();

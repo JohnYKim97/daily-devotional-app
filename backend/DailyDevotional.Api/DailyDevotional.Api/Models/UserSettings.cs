@@ -13,4 +13,5 @@ public class UserSettings
   public bool EnableSearchInHistory { get; set; } = false;
   public bool EnableAiCommentary { get; set; } = false;
   public string Theme { get; set; } = "system";
+  public int PreferredTranslationId { get; set; } = 1;
 }

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 
 import { SettingsService } from '../../core/services/settings.service';
 import { ThemePreference } from '../../core/models/user-settings.model';
+import { TranslationService } from '../../core/services/translation.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +12,7 @@ import { ThemePreference } from '../../core/models/user-settings.model';
 })
 export class SettingsComponent {
   protected settingsService = inject(SettingsService);
+  protected translationService = inject(TranslationService);
 
   protected readonly themeOptions: { value: ThemePreference; label: string }[] = [
     { value: 'system', label: 'System' },

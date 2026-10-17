@@ -51,3 +51,14 @@ obj/
 *.suo
 *.userosscache
 *.sln.docstates
+
+# Local secrets
+.env
+.env.*
+appsettings.*.local.json
+
+# NET Bible EPUB from bible.org, imported by hand (see LOCAL_SETUP.md)
+backend/**/Data/Imports/
+
+# Third-party license agreements are confidential; keep them out of the repo
+docs/Licenses/
