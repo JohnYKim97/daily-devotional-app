@@ -107,6 +107,29 @@ public class AuthController : ControllerBase
   }
 
   [Authorize]
+  [HttpPost("refresh")]
+  public async Task<IActionResult> RefreshToken()
+  {
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    if (string.IsNullOrEmpty(userId))
+    {
+      return Unauthorized();
+    }
+
+    var user = await _userManager.FindByIdAsync(userId);
+
+    if (user == null)
+    {
+      return Unauthorized();
+    }
+
+    var token = _jwtService.GenerateToken(user);
+
+    return Ok(new { token });
+  }
+
+  [Authorize]
   [HttpGet("me")]
   public async Task<IActionResult> GetCurrentUser()
   {

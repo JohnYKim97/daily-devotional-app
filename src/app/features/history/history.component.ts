@@ -142,7 +142,7 @@ export class HistoryComponent {
   }
 
   isLongNote(notes: string): boolean {
-    return notes.length > 140;
+    return notes.length > 140 || notes.split('\n').length > 2;
   }
 
   toggleExpand(entryId: number): void {

@@ -23,9 +23,23 @@ export class AuthService {
   readonly isAdmin = this._isAdmin.asReadonly();
 
   constructor() {
-    if (this._token() !== null) {
-      this.fetchCurrentUser();
+    if (this._token() === null || !isPlatformBrowser(this.platformId)) {
+      return;
     }
+
+    // Deferred so the auth interceptor can inject this service once it has finished constructing.
+    queueMicrotask(() => {
+      this.refreshToken();
+      this.fetchCurrentUser();
+    });
+  }
+
+  // Swaps the stored token for a fresh one so active users stay signed in.
+  private refreshToken(): void {
+    this.http.post<{ token: string }>(`${this.apiUrl}/refresh`, {}).subscribe({
+      next: ({ token }) => this.storeToken(token),
+      error: (error) => console.error('Error refreshing session: ', error),
+    });
   }
 
   private fetchCurrentUser(): void {
@@ -44,7 +58,24 @@ export class AuthService {
       return null;
     }
 
-    return localStorage.getItem(TOKEN_STORAGE_KEY);
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+
+    if (token && isTokenExpired(token)) {
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      return null;
+    }
+
+    return token;
+  }
+
+  hasValidToken(): boolean {
+    const token = this._token();
+
+    if (token && isTokenExpired(token)) {
+      this.clearToken();
+    }
+
+    return this._token() !== null;
   }
 
   loginWithGoogle(): void {
@@ -54,21 +85,40 @@ export class AuthService {
   }
 
   setToken(token: string): void {
+    this.storeToken(token);
+    this.fetchCurrentUser();
+  }
+
+  private storeToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(TOKEN_STORAGE_KEY, token);
     }
 
     this._token.set(token);
-    this.fetchCurrentUser();
   }
 
   logout(): void {
+    this.clearToken();
+    this.router.navigateByUrl('/login');
+  }
+
+  private clearToken(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(TOKEN_STORAGE_KEY);
     }
 
     this._token.set(null);
     this._isAdmin.set(false);
-    this.router.navigateByUrl('/login');
+  }
+}
+
+function isTokenExpired(token: string): boolean {
+  try {
+    const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const { exp } = JSON.parse(atob(payload)) as { exp?: number };
+
+    return typeof exp === 'number' && exp * 1000 <= Date.now();
+  } catch {
+    return true;
   }
 }
