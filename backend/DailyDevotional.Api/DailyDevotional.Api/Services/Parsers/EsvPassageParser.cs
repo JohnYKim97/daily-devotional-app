@@ -39,7 +39,7 @@ public static partial class EsvPassageParser
 
       if (markers.Count == 0)
       {
-        if (!char.IsWhiteSpace(block[0]))
+        if (!char.IsWhiteSpace(block[0]) || IsIndentedHeading(block))
         {
           // Headings are unindented; every unindented block before a verse
           // paragraph belongs to the same heading (title, then superscription).
@@ -101,6 +101,17 @@ public static partial class EsvPassageParser
     }
 
     return verses;
+  }
+
+  // After poetry the API indents a heading like the verse text, but sets it off from the
+  // poetry with an extra whitespace-only line, so the block is a blank line plus one text line.
+  // A later stanza of the same verse has no such line, or has several lines.
+  private static bool IsIndentedHeading(string block)
+  {
+    var lines = block.Split('\n');
+
+    return string.IsNullOrWhiteSpace(lines[0])
+      && lines.Count(line => !string.IsNullOrWhiteSpace(line)) == 1;
   }
 
   private static string NormalizePassage(string passage)
