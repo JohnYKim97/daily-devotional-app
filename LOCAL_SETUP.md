@@ -217,7 +217,7 @@ The NIV and the NASB (the 2020 edition, shown as "NASB") are fetched from the Yo
 
 The NET Bible comes with its translators' notes from the free EPUB on bible.org, which blocks automatic downloads. Download "NET Bible 2.1" (EPUB) from <https://bible.org/downloads>, save it as `backend/DailyDevotional.Api/DailyDevotional.Api/Data/Imports/NETBIBLE21.epub` (git ignores that folder), then restart the API or run `dotnet run -- import-translation NET`. Until the file is there the NET is simply not offered. Use another location with the `Translations:NetEpubPath` setting. The NET license allows non-commercial use only.
 
-The NET translators' notes are off for now (`Translations:NetNotes` is `false` in `appsettings.json`), because the NET license grants quoting of the text "without the NET Bible notes" and written permission for the notes has been requested from Biblical Studies Press. Until it arrives only the text and headings are imported. To switch notes on once permission is confirmed, set `Translations:NetNotes` to `true` and run `dotnet run -- import-translation NET` again; the import replaces the stored NET text.
+The NET translators' notes are on (`Translations:NetNotes` is `true` in `appsettings.json`), with permission from Biblical Studies Press. If you imported the NET before, run `dotnet run -- import-translation NET` again to add the notes; the import replaces the stored NET text. Set `Translations:NetNotes` to `false` to import the text and headings only.
 
 ## 4. Frontend dependencies (manual; the script does this)
 

@@ -219,7 +219,7 @@ public partial class TranslationImportService
         path);
     }
 
-    // Off until Biblical Studies Press confirms the notes may be stored (see docs/bible-translations.md).
+    // Biblical Studies Press has given permission for the notes (see docs/bible-translations.md).
     var includeNotes = _configuration.GetValue("Translations:NetNotes", false);
 
     return NetEpubParser.Parse(path, includeNotes, warning => _logger.LogWarning("NET import: {Warning}", warning))
