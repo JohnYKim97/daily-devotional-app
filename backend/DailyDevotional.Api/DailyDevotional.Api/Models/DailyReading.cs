@@ -7,11 +7,11 @@ public class DailyReading
 {
   public int Id { get; set; }
   public DateOnly Date { get; set; }
-  public string Book { get; set; } = string.Empty;
+  public int BookId { get; set; }
   public int Chapter { get; set; }
   public int EndChapter { get; set; }
   public int StartVerse { get; set; }
   public int EndVerse { get; set; }
   public string Commentary { get; set; } = string.Empty;
-  public ICollection<DailyReadingVerse> Verses { get; set; } = new List<DailyReadingVerse>();
+  public Book Book { get; set; } = null!;
 }

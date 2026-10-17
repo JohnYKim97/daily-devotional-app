@@ -8,4 +8,5 @@ public class UpdateUserSettingsRequest
   public bool EnableSearchInHistory { get; set; }
   public bool EnableAiCommentary { get; set; }
   public string Theme { get; set; } = "system";
+  public int? PreferredTranslationId { get; set; }
 }

@@ -16,13 +16,17 @@ export class DailyReadingStateService {
   readonly loading = this._loading.asReadonly();
   private _error = signal(false);
   readonly error = this._error.asReadonly();
+  // True when the API refused the request because of too many requests.
+  private _rateLimited = signal(false);
+  readonly rateLimited = this._rateLimited.asReadonly();
 
-  loadReading(date: string): void {
+  loadReading(date: string, translationCode?: string): void {
     this._loading.set(true);
     this._error.set(false);
+    this._rateLimited.set(false);
     this._reading.set(null);
 
-    this.dailyReadingService.getReadingByDate(date).subscribe({
+    this.dailyReadingService.getReadingByDate(date, translationCode).subscribe({
       next: (reading) => {
         this._reading.set(reading);
         this._loading.set(false);
@@ -32,6 +36,7 @@ export class DailyReadingStateService {
         this._reading.set(null);
         this._loading.set(false);
         this._error.set(true);
+        this._rateLimited.set(err.status === 429);
       },
     });
   }

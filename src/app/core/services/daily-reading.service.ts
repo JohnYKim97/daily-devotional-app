@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { DailyReading } from '../models/daily-reading.model';
+import { Passage } from '../models/passage.model';
 import { ImportReadingsResponse } from '../models/import-readings-response.model';
 import { ScheduleEntry } from '../models/schedule-entry.model';
 import { environment } from '../../../environments/environment';
@@ -14,8 +15,23 @@ export class DailyReadingService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/DailyReading`;
 
-  getReadingByDate(date: string): Observable<DailyReading> {
-    return this.http.get<DailyReading>(`${this.apiUrl}/${date}`);
+  getReadingByDate(date: string, translationCode?: string): Observable<DailyReading> {
+    const params = translationCode ? { translation: translationCode } : undefined;
+
+    return this.http.get<DailyReading>(`${this.apiUrl}/${date}`, { params });
+  }
+
+  // Every verse of the chapters from startChapter to endChapter (no verse numbers are sent,
+  // so the passage endpoint runs from the first to the last verse).
+  getFullChapters(
+    translationCode: string,
+    bookId: number,
+    startChapter: number,
+    endChapter: number,
+  ): Observable<Passage> {
+    return this.http.get<Passage>(`${environment.apiUrl}/translations/${translationCode}/passage`, {
+      params: { bookId, startChapter, endChapter },
+    });
   }
 
   getSchedule(): Observable<ScheduleEntry[]> {

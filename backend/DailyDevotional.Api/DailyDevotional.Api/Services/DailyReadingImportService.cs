@@ -1,18 +1,20 @@
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DailyDevotional.Api.Data;
 using DailyDevotional.Api.Models;
+using Microsoft.EntityFrameworkCore;
 using DailyDevotional.Api.Services.IServices;
 
 namespace DailyDevotional.Api.Services;
 
 public class DailyReadingImportService : IDailyReadingImportService
 {
-  private readonly IBibleService _bibleService;
+  private readonly AppDbContext _context;
 
-  public DailyReadingImportService(IBibleService bibleService)
+  public DailyReadingImportService(AppDbContext context)
   {
-    _bibleService = bibleService;
+    _context = context;
   }
   public List<ParsedReading> ParseDocument(string filePath)
   {
@@ -439,6 +441,7 @@ public class DailyReadingImportService : IDailyReadingImportService
   public List<DailyReading> CreateDailyReadings(List<ParsedReading> parsedReadings, DateOnly startDate)
   {
     var readings = new List<DailyReading>();
+    var bookIds = LoadBookIds();
 
     var currentDate = startDate;
 
@@ -447,7 +450,7 @@ public class DailyReadingImportService : IDailyReadingImportService
       readings.Add(new DailyReading
       {
         Date = currentDate,
-        Book = parsed.Book,
+        BookId = bookIds[parsed.Book],
         Chapter = parsed.Chapter,
         EndChapter = parsed.EndChapter,
         StartVerse = parsed.StartVerse,
@@ -515,30 +518,42 @@ public class DailyReadingImportService : IDailyReadingImportService
     return errors;
   }
 
+  private Dictionary<string, int> LoadBookIds()
+  {
+    return _context.Books
+      .AsNoTracking()
+      .ToDictionary(b => b.Name, b => b.Id, StringComparer.OrdinalIgnoreCase);
+  }
+
   public async Task ResolveVerseRangesAsync(List<ParsedReading> readings)
   {
-    var chapterVerseCounts = new Dictionary<(string Book, int Chapter), int>();
+    var bookIds = LoadBookIds();
+
+    // Chapter lengths come from the stored structure of the default
+    // translation, so no external API call is needed.
+    var chapterVerseCounts = await _context.TranslationChapters
+      .AsNoTracking()
+      .Where(tc => tc.Translation.Code == Translation.DefaultCode)
+      .ToDictionaryAsync(tc => (tc.BookId, tc.Chapter), tc => tc.VerseCount);
 
     foreach (var reading in readings)
     {
+      if (!bookIds.TryGetValue(reading.Book, out var bookId))
+      {
+        throw new InvalidOperationException($"Unknown book '{reading.Book}'.");
+      }
+
+      if (!chapterVerseCounts.ContainsKey((bookId, reading.Chapter)))
+      {
+        throw new InvalidOperationException($"{reading.Book} does not have a chapter {reading.Chapter}.");
+      }
+
       if (!reading.IsWholeChapter && !reading.ContinuesToEndOfChapter)
       {
         continue;
       }
 
-      var key = (reading.Book, reading.Chapter);
-
-      if (!chapterVerseCounts.TryGetValue(key, out var endVerse))
-      {
-        endVerse = await _bibleService.GetChapterVerseCountAsync(reading.Book, reading.Chapter);
-        chapterVerseCounts[key] = endVerse;
-
-        // Avoid tripping the ESV API's rate limit when a schedule has
-        // many whole-chapter readings to resolve in one import.
-        await Task.Delay(200);
-      }
-
-      reading.EndVerse = endVerse;
+      reading.EndVerse = chapterVerseCounts[(bookId, reading.Chapter)];
     }
   }
 }

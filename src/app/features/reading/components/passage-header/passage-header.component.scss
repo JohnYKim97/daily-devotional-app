@@ -6,6 +6,11 @@
   .passage-title {
     text-align: center;
   }
+
+  // On mobile the title and its action buttons stack, centered.
+  .passage-title-group {
+    width: 100%;
+  }
 }
 
 .passage-title {
